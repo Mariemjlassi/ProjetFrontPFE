@@ -29,6 +29,8 @@ import { PosteService } from '../../poste/service/poste.service';
 import { DirectionService } from '../../direction/service/direction.service';
 import { Direction } from '../../direction/model/Direction';
 import { CalendarModule } from 'primeng/calendar';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-experience',
@@ -44,6 +46,8 @@ import { CalendarModule } from 'primeng/calendar';
     InputTextModule,
     CalendarModule,
     DropdownModule,
+    ToastModule
+
   ],
   styleUrls: ['./experience.component.css'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -69,7 +73,8 @@ export class ExperienceComponent implements OnInit {
     private experienceService: ExperienceService,
     private fb: FormBuilder,
     private posteService: PosteService,
-    private DirectionService: DirectionService
+    private DirectionService: DirectionService,
+     private messageService: MessageService
   ) {
     this.experienceAssadForm = this.fb.group({
       debut: ['', Validators.required],
@@ -114,7 +119,33 @@ export class ExperienceComponent implements OnInit {
       this.directions = data; // Stockage des postes dans la variable 'postes'
     });
   }
+private checkDateOverlap(newStart: Date, newEnd: Date, excludeId?: number): boolean {
+  // Convertir en timestamp pour comparaison
+  const newStartTime = newStart.getTime();
+  const newEndTime = newEnd.getTime();
 
+  // Vérifier chaque expérience existante
+  for (const exp of this.experiencesAssad) {
+    // Exclure l'expérience en cours d'édition si nécessaire
+    if (excludeId && exp.id === excludeId) continue;
+
+    const expStart = new Date(exp.dateDebut).getTime();
+    const expEnd = new Date(exp.dateFin).getTime();
+
+    // Vérifier le chevauchement
+    if ((newStartTime >= expStart && newStartTime <= expEnd) ||
+        (newEndTime >= expStart && newEndTime <= expEnd) ||
+        (newStartTime <= expStart && newEndTime >= expEnd)) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erreur',
+        detail: 'Les dates chevauchent une autre expérience ASSAD existante'
+      });
+      return true;
+    }
+  }
+  return false;
+}
   visibleAssad = false;
   visibleAnterieure = false;
   selectedExperienceAssad: ExperienceAssad | null = null;
@@ -165,137 +196,241 @@ export class ExperienceComponent implements OnInit {
     this.editingAssad = false;
     this.editingAnterieure = false;
   }
-
-  updateExperienceAssad() {
-    if (!this.selectedExperienceAssad || this.experienceAssadForm.invalid) {
-      return;
-    }
-  
-    const formValue = this.experienceAssadForm.value;
-    
-    const updatedExperience: ExperienceAssad = {
-      id: this.selectedExperienceAssad.id,
-      poste: formValue.poste.titre, // Extract title from Poste object
-      dateDebut: formValue.debut,
-      dateFin: formValue.fin,
-      direction: formValue.direction.nom_direction, // Extract name from Direction object
-      modeAffectation: formValue.modeAffectation,
-    };
-  
-
-    this.experienceService
-      .modifyExperienceAssad(updatedExperience.id!, updatedExperience)
-      .subscribe(
-        (response) => {
-          const index = this.experiencesAssad.findIndex(
-            (e) => e.id === updatedExperience.id
-          );
-          if (index !== -1) {
-            this.experiencesAssad[index] = response;
-          }
-          this.editingAssad = false;
-          this.experienceUpdated.emit();
-        },
-        (error) => {
-          console.error('Erreur lors de la mise à jour:', error);
-        }
-      );
-  }
-  updateExperienceAnterieure() {
-    if (!this.selectedExperienceAnterieure || this.experienceAnterieureForm.invalid) {
-      return;
-    }
-  
-    const formValue = this.experienceAnterieureForm.value;
-    
-    const updatedExperience: ExperienceAnterieure = {
-      id: this.selectedExperienceAnterieure.id,
-      poste: formValue.poste, 
-      dateDebut: formValue.dateDebut,
-      dateFin: formValue.dateFin,
-      societe: formValue.societe,
-    };
-    this.experienceService
-      .modifyExperienceAnterieure(updatedExperience.id!, updatedExperience)
-      .subscribe(
-        (response) => {
-          const index = this.experiencesAnterieure.findIndex(
-            (e) => e.id === updatedExperience.id
-          );
-          if (index !== -1) {
-            this.experiencesAnterieure[index] = response;
-          }
-          this.editingAnterieure = false;
-          this.experienceUpdated.emit();
-        },
-        (error) => {
-          console.error('Erreur lors de la mise à jour:', error);
-        }
-      );
-  }
-  addExperienceAssad() {
-    if (this.experienceAssadForm.invalid) {
-      console.log("Tous les champs de l'expérience Assad sont requis !");
-      return;
-    }
-
-    const newExperienceAssad: ExperienceAssad = {
-      poste: this.experienceAssadForm.value.poste.titre, // Extraire uniquement le titre du poste
-      dateDebut: this.experienceAssadForm.value.debut!,
-      dateFin: this.experienceAssadForm.value.fin!,
-      direction: this.experienceAssadForm.value.direction.nom_direction, // Extraire uniquement le nom de la direction
-      modeAffectation: this.experienceAssadForm.value.modeAffectation!,
-    };
-
-    // Afficher l'objet newExperienceAssad dans la console avant de l'envoyer au backend
-    console.log('Nouvelle expérience Assad à envoyer:', newExperienceAssad);
-    this.visibleAddAssad = false;
-    this.experienceService
-      .addExperienceAssad(this.employeId, newExperienceAssad)
-      .subscribe(
-        (response) => {
-          console.log('Expérience Assad ajoutée avec succès:', response);
-          this.experiencesAssad.push(response);
-          this.experienceAssadForm.reset();
-          this.experienceAdded.emit();
-        },
-        (error) => {
-          console.error("Erreur lors de l'ajout de l'expérience Assad:", error);
-        }
-      );
+updateExperienceAssad() {
+  if (!this.selectedExperienceAssad || this.experienceAssadForm.invalid) {
+    return;
   }
 
-  addExperienceAnterieure() {
-    if (this.experienceAnterieureForm.invalid) {
-      console.log("Tous les champs de l'expérience Antérieure sont requis !");
-      return;
-    }
-
-    const newExperienceAnterieure: ExperienceAnterieure = {
-      poste: this.experienceAnterieureForm.value.poste,
-      dateDebut: this.experienceAnterieureForm.value.dateDebut!,
-      dateFin: this.experienceAnterieureForm.value.dateFin!,
-      societe: this.experienceAnterieureForm.value.societe!,
-    };
-
-    this.experienceService
-      .addExperienceAnterieure(this.employeId, newExperienceAnterieure)
-      .subscribe(
-        (response) => {
-          console.log('Expérience Antérieure ajoutée avec succès:', response);
-          this.experiencesAnterieure.push(response);
-          this.experienceAnterieureForm.reset();
-          this.experienceUpdated.emit();
-        },
-        (error) => {
-          console.error(
-            "Erreur lors de l'ajout de l'expérience Antérieure:",
-            error
-          );
-        }
-      );
-    this.visibleAddAnterieure = false;
+  const formValue = this.experienceAssadForm.value;
+  const debut = formValue.debut;
+  const fin = formValue.fin;
+if (!this.validateDateOrder(debut, fin)) {
+    return;
   }
+
+  // Vérifier le chevauchement en excluant l'expérience actuelle
+  if (this.checkDateOverlap(debut, fin, this.selectedExperienceAssad.id)) {
+    return;
+  }
+
+  const updatedExperience: ExperienceAssad = {
+    id: this.selectedExperienceAssad.id,
+    poste: formValue.poste.titre,
+    dateDebut: debut,
+    dateFin: fin,
+    direction: formValue.direction.nom_direction,
+    modeAffectation: formValue.modeAffectation,
+  };
+
+  this.experienceService
+    .modifyExperienceAssad(updatedExperience.id!, updatedExperience)
+    .subscribe(
+      (response) => {
+        const index = this.experiencesAssad.findIndex(
+          (e) => e.id === updatedExperience.id
+        );
+        if (index !== -1) {
+          this.experiencesAssad[index] = response;
+        }
+        this.editingAssad = false;
+        this.experienceUpdated.emit();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Succès',
+          detail: 'Expérience ASSAD mise à jour avec succès'
+        });
+      },
+      (error) => {
+        console.error('Erreur lors de la mise à jour:', error);
+      }
+    );
+}
+private validateDateOrder(startDate: Date, endDate: Date): boolean {
+  if (startDate && endDate && startDate > endDate) {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Erreur de date',
+      detail: 'La date de fin doit être postérieure à la date de début'
+    });
+    return false;
+  }
+  return true;
+}
+updateExperienceAnterieure() {
+  if (!this.selectedExperienceAnterieure || this.experienceAnterieureForm.invalid) {
+    return;
+  }
+
+  const formValue = this.experienceAnterieureForm.value;
+  const dateDebut = formValue.dateDebut;
+  const dateFin = formValue.dateFin;
+if (!this.validateDateOrder(dateDebut, dateFin)) {
+    return;
+  }
+  // Vérifier le chevauchement en excluant l'expérience actuelle
+  if (this.checkDateOverlapAnterieure(dateDebut, dateFin, this.selectedExperienceAnterieure.id)) {
+    return;
+  }
+
+  const updatedExperience: ExperienceAnterieure = {
+    id: this.selectedExperienceAnterieure.id,
+    poste: formValue.poste, 
+    dateDebut: dateDebut,
+    dateFin: dateFin,
+    societe: formValue.societe,
+  };
+
+  this.experienceService
+    .modifyExperienceAnterieure(updatedExperience.id!, updatedExperience)
+    .subscribe(
+      (response) => {
+        const index = this.experiencesAnterieure.findIndex(
+          (e) => e.id === updatedExperience.id
+        );
+        if (index !== -1) {
+          this.experiencesAnterieure[index] = response;
+        }
+        this.editingAnterieure = false;
+        this.experienceUpdated.emit();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Succès',
+          detail: 'Expérience antérieure mise à jour avec succès'
+        });
+      },
+      (error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erreur',
+          detail: 'Échec de la mise à jour de l\'expérience antérieure'
+        });
+        console.error('Erreur lors de la mise à jour:', error);
+      }
+    );
+}
+ addExperienceAssad() {
+  if (this.experienceAssadForm.invalid) {
+    console.log("Tous les champs de l'expérience Assad sont requis !");
+    return;
+  }
+
+  const debut = this.experienceAssadForm.value.debut;
+  const fin = this.experienceAssadForm.value.fin;
+ if (!this.validateDateOrder(debut, fin)) {
+    return;
+  }
+  // Vérifier le chevauchement
+  if (this.checkDateOverlap(debut, fin)) {
+    return;
+  }
+
+  const newExperienceAssad: ExperienceAssad = {
+    poste: this.experienceAssadForm.value.poste.titre,
+    dateDebut: debut,
+    dateFin: fin,
+    direction: this.experienceAssadForm.value.direction.nom_direction,
+    modeAffectation: this.experienceAssadForm.value.modeAffectation,
+  };
+
+  this.visibleAddAssad = false;
+  this.experienceService
+    .addExperienceAssad(this.employeId, newExperienceAssad)
+    .subscribe(
+      (response) => {
+        this.experiencesAssad.push(response);
+        this.experienceAssadForm.reset();
+        this.experienceAdded.emit();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Succès',
+          detail: 'Expérience ASSAD ajoutée avec succès'
+        });
+      },
+      (error) => {
+        console.error("Erreur lors de l'ajout de l'expérience Assad:", error);
+      }
+    );
+}
+private checkDateOverlapAnterieure(newStart: Date, newEnd: Date, excludeId?: number): boolean {
+  // Convertir en timestamp pour comparaison
+  const newStartTime = newStart.getTime();
+  const newEndTime = newEnd.getTime();
+
+  // Vérifier chaque expérience existante
+  for (const exp of this.experiencesAnterieure) {
+    // Exclure l'expérience en cours d'édition si nécessaire
+    if (excludeId && exp.id === excludeId) continue;
+
+    const expStart = new Date(exp.dateDebut).getTime();
+    const expEnd = new Date(exp.dateFin).getTime();
+
+    // Vérifier le chevauchement
+    if ((newStartTime >= expStart && newStartTime <= expEnd) ||
+        (newEndTime >= expStart && newEndTime <= expEnd) ||
+        (newStartTime <= expStart && newEndTime >= expEnd)) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erreur',
+        detail: 'Les dates chevauchent une autre expérience antérieure existante'
+      });
+      return true;
+    }
+  }
+  return false;
+}
+addExperienceAnterieure() {
+  if (this.experienceAnterieureForm.invalid) {
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Attention',
+      detail: 'Tous les champs sont requis'
+    });
+    return;
+  }
+
+  const dateDebut = this.experienceAnterieureForm.value.dateDebut;
+  const dateFin = this.experienceAnterieureForm.value.dateFin;
+ if (!this.validateDateOrder(dateDebut, dateFin)) {
+    return;
+  }
+
+  // Vérifier le chevauchement
+  if (this.checkDateOverlapAnterieure(dateDebut, dateFin)) {
+    return;
+  }
+
+  const newExperienceAnterieure: ExperienceAnterieure = {
+    poste: this.experienceAnterieureForm.value.poste,
+    dateDebut: dateDebut,
+    dateFin: dateFin,
+    societe: this.experienceAnterieureForm.value.societe,
+  };
+
+  this.experienceService
+    .addExperienceAnterieure(this.employeId, newExperienceAnterieure)
+    .subscribe(
+      (response) => {
+        this.experiencesAnterieure.push(response);
+        this.experienceAnterieureForm.reset();
+        this.experienceUpdated.emit();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Succès',
+          detail: 'Expérience antérieure ajoutée avec succès'
+        });
+      },
+      (error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erreur',
+          detail: "Échec de l'ajout de l'expérience antérieure"
+        });
+        console.error("Erreur lors de l'ajout de l'expérience Antérieure:", error);
+      }
+    );
+  this.visibleAddAnterieure = false;
+}
+
 
   deleteExperienceAssad(experienceId: number) {
     this.experienceService

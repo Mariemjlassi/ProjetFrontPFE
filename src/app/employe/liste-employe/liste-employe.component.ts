@@ -54,6 +54,7 @@ export class ListeEmployeComponent  implements OnInit{
     );
   }
   imprimerProfil() {
+    
     const content = this.contentToPrint.nativeElement;
 
     html2canvas(content).then(canvas => {

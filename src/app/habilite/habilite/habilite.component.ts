@@ -102,12 +102,14 @@ toggleShowAll(): void {
 }
 
 
+//Calcule la moyenne de ces pourcentages pour tous les employés.
+
   getAverageAccessPercentage(): number {
     if (this.employes.length === 0) return 0;
     const total = this.employes.reduce((sum, emp) => sum + this.getEmployeAccessPercentage(emp), 0);
     return Math.round(total / this.employes.length);
   }
-
+//(nombre de postes avec habilitation complète / nombre total de postes habilités) × 100
 getEmployeAccessPercentage(employe: EmployeHabilitationDto): number {
   const totalPostes = employe.postesHabilites.length;
   const fullAccessCount = employe.postesHabilites.filter(p => p.competencesManquantes.length === 0).length;

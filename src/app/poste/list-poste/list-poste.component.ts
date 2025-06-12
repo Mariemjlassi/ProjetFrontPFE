@@ -549,22 +549,31 @@ exportPostes(): void {
 
   
   
-  convertToCSV(data: any[]): string {
-    if (data.length === 0) return '';
+convertToCSV(data: any[]): string {
+  if (data.length === 0) return '';
+
+  const headers = ['Titre', "Niveau d'expérience", 'Diplôme requis', 'Compétences requises'];
+  const rows = data.map(poste => [
+    `"${poste.titre || ''}"`,
+    `"${poste.niveauExperience || ''}"`,
+    `"${poste.diplomeRequis || ''}"`,
+    `"${poste.competencesRequises || ''}"`
+  ].join(','));
+
+  return [headers.join(','), ...rows].join('\n');
+}
+
   
-    const headers = Object.keys(data[0]); 
-    const rows = data.map(row => headers.map(header => row[header]).join(','));
-  
-    return [headers.join(','), ...rows].join('\n');
-  }
-  
-  downloadCSV(csvData: string): void {
-    const blob = new Blob([csvData], { type: 'text/csv' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'Postes.csv';
-    link.click();
-  }
+downloadCSV(csvData: string): void {
+  const BOM = '\uFEFF'; // BOM UTF-8
+  const blob = new Blob([BOM + csvData], { type: 'text/csv;charset=utf-8;' });
+
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'Postes.csv';
+  link.click();
+}
+
 
   editPoste(poste: Poste): void {
     this.selectedPoste = { ...poste };

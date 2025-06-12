@@ -6,7 +6,7 @@ export class Poste {
   niveauExperience!: string;
   diplomeRequis!: string;
   competencesRequises!: string;
-  document?: any;
+  
   lesProgrammesDeFormation?: string[] = [];
   competencePostes?: CompetencePoste[] = []; 
 }

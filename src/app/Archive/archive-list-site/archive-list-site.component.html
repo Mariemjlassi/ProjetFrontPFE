@@ -35,7 +35,7 @@
 
                     <ng-template pTemplate="header">
                         <tr>
-                            <th style="width: 10%">Code</th>
+                           
                             <th style="width: 30%">Nom du Site</th>
                             <th style="width: 10%">Actions</th>
                         </tr>
@@ -43,9 +43,7 @@
 
                     <ng-template pTemplate="body" let-site>
                         <tr [pSelectableRow]="site">
-                            <td>
-                                <span class="id-badge">{{ site.id }}</span>
-                            </td>
+                           
                             <td>
                                 <span class="poste-title">{{ site.nom_site }}</span>
                             </td>

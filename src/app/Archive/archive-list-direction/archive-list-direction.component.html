@@ -33,7 +33,7 @@
 
                     <ng-template pTemplate="header">
                         <tr>
-                            <th style="width: 10%">ID</th>
+                            
                             <th style="width: 30%">Nom de la Direction</th>
                             <th style="width: 10%">Actions</th>
                         </tr>
@@ -41,9 +41,7 @@
 
                     <ng-template pTemplate="body" let-direction>
                         <tr [pSelectableRow]="direction">
-                            <td>
-                                <span class="id-badge">{{ direction.id }}</span>
-                            </td>
+                           
                             <td>
                                 <span class="poste-title">{{ direction.nom_direction }}</span>
                             </td>

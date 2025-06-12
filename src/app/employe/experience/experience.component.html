@@ -135,7 +135,7 @@
                     <div *ngIf="experiencesAnterieure.length > 5" class="see-more-container">
                         <p-button *ngIf="!showAllAnterieure" label="Voir plus d'expériences ({{experiencesAnterieure.length - 5}})" 
                                   icon="pi pi-chevron-down" class="see-more-btn" 
-                                  (click)="showAllAnterieure = true"></p-button>
+                                  (click)="showAllAnterieure = true" severity="help"></p-button>
                         <p-button *ngIf="showAllAnterieure" label="Voir moins" icon="pi pi-chevron-up" 
                                   class="see-more-btn" (click)="showAllAnterieure = false" ></p-button>
                     </div>
@@ -145,7 +145,7 @@
     </p-tabView>
 
     <!-- Dialogues (gardés de votre version originale) -->
-    <p-dialog [paginatorDropdownAppendTo]="'body'"
+    <p-dialog 
     header="Ajouter une Expérience ASSAD" 
     [(visible)]="visibleAddAssad" 
     [modal]="true" 
@@ -577,3 +577,4 @@ header="Ajouter une Expérience Antérieure"
             [disabled]="experienceAnterieureForm.invalid"></button>
     </ng-template>
 </p-dialog>
+<p-toast></p-toast>

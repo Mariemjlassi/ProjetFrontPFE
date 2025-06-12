@@ -42,7 +42,7 @@
             <i class="pi pi-users"></i> Liste des utilisateurs
           </a>
         </li>
-        <li>
+        <li *ngIf="isSuperAdmin()">
           <a href="/gestion-permissions">
             <i class="pi pi-check-circle"></i> Permissions
           </a>

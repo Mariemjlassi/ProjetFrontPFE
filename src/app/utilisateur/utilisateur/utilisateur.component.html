@@ -79,27 +79,32 @@
         </div>
 
         <div class="user-actions">
-          <button pButton icon="pi pi-eye" class="p-button-rounded p-button-text p-button-plain" pTooltip="Voir détails"
-            tooltipPosition="top" (click)="viewUserDetails(utilisateur)"></button>
-          <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-plain" pTooltip="Modifier"
-            tooltipPosition="top" (click)="openEditDialog(utilisateur)"></button>
-          <button pButton icon="pi pi-trash" class="p-button-rounded p-button-text p-button-plain" pTooltip="Supprimer"
-            tooltipPosition="top" (click)="deleteUtilisateur(utilisateur.id)"></button>
-          <button pButton icon="pi pi-key" class="p-button-rounded p-button-text p-button-plain"
-            pTooltip="Réinitialiser MDP" tooltipPosition="top"
-            (click)="resetPassword(utilisateur.id, utilisateur.nom)"></button>
+  <!-- Toujours visible -->
+  <button pButton icon="pi pi-eye" class="p-button-rounded p-button-text p-button-plain" 
+          pTooltip="Voir détails" (click)="viewUserDetails(utilisateur)"></button>
 
-            <button pButton 
-    [icon]="utilisateur.accountLocked ? 'pi pi-lock' : 'pi pi-lock-open'"
-    [severity]="utilisateur.accountLocked ? 'danger' : 'success'"
-    class="p-button-rounded p-button-text p-button-raised" 
-    pTooltip="{{ utilisateur.accountLocked ? 'Déverrouiller le compte' : 'Verrouiller le compte' }}"
-    tooltipPosition="top" 
-    (click)="toggleLockState(utilisateur)"
-    *ngIf="(userRole === 'SUPER_ADMIN' && utilisateur.role !== 'SUPER_ADMIN') || 
-               (userRole === 'ADMIN' && utilisateur.role !== 'ADMIN' && utilisateur.role !=='SUPER_ADMIN')">
+  <!-- Icônes conditionnelles -->
+  <button *ngIf="utilisateur.role !== 'SUPER_ADMIN'" 
+          pButton icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-plain" 
+          pTooltip="Modifier" (click)="openEditDialog(utilisateur)"></button>
+  
+  <button *ngIf="utilisateur.role !== 'SUPER_ADMIN'" 
+          pButton icon="pi pi-trash" class="p-button-rounded p-button-text p-button-plain" 
+          pTooltip="Supprimer" (click)="deleteUtilisateur(utilisateur.id)"></button>
+  
+  <button *ngIf="utilisateur.role !== 'SUPER_ADMIN'" 
+          pButton icon="pi pi-key" class="p-button-rounded p-button-text p-button-plain" 
+          pTooltip="Réinitialiser MDP" (click)="resetPassword(utilisateur.id, utilisateur.nom)"></button>
+
+  <button *ngIf="(userRole === 'SUPER_ADMIN' && utilisateur.role !== 'SUPER_ADMIN') || 
+                 (userRole === 'ADMIN' && utilisateur.role !== 'ADMIN' && utilisateur.role !== 'SUPER_ADMIN')"
+          [icon]="utilisateur.accountLocked ? 'pi pi-lock' : 'pi pi-lock-open'"
+          [severity]="utilisateur.accountLocked ? 'danger' : 'success'"
+          pButton class="p-button-rounded p-button-text p-button-raised" 
+          pTooltip="{{ utilisateur.accountLocked ? 'Déverrouiller le compte' : 'Verrouiller le compte' }}"
+          (click)="toggleLockState(utilisateur)">
   </button>
-        </div>
+</div>
       </div>
     </p-card>
   </div>
@@ -131,15 +136,21 @@
             <p-tag [severity]="getSeverity(utilisateur.role)" [value]="capitalizeFirstLetter(utilisateur.role)"></p-tag>
           </td>
           <td>
-            <div class="table-actions">
-              <button pButton icon="pi pi-eye" class="p-button-rounded p-button-text p-button-plain"
-                pTooltip="Voir détails" (click)="viewUserDetails(utilisateur)"></button>
-              <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-plain"
-                pTooltip="Modifier" (click)="openEditDialog(utilisateur)"></button>
-              <button pButton icon="pi pi-trash" class="p-button-rounded p-button-text p-button-plain"
-                pTooltip="Supprimer" (click)="deleteUtilisateur(utilisateur.id)"></button>
-            </div>
-          </td>
+  <div class="table-actions">
+    <!-- Toujours visible -->
+    <button pButton icon="pi pi-eye" class="p-button-rounded p-button-text p-button-plain"
+            pTooltip="Voir détails" (click)="viewUserDetails(utilisateur)"></button>
+
+    <!-- Icônes conditionnelles -->
+    <button *ngIf="utilisateur.role !== 'SUPER_ADMIN'"
+            pButton icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-plain"
+            pTooltip="Modifier" (click)="openEditDialog(utilisateur)"></button>
+    
+    <button *ngIf="utilisateur.role !== 'SUPER_ADMIN'"
+            pButton icon="pi pi-trash" class="p-button-rounded p-button-text p-button-plain"
+            pTooltip="Supprimer" (click)="deleteUtilisateur(utilisateur.id)"></button>
+  </div>
+</td>
         </tr>
       </ng-template>
     </p-table>

@@ -28,7 +28,7 @@
 
                     <ng-template pTemplate="header">
                         <tr>
-                            <th style="width: 10%"><i class="pi pi-id-card mr-2"></i> code du poste </th>
+                            
                             <th style="width: 20%"><i class="pi pi-tag mr-2"></i>   Titre</th>
                             <th style="width: 15%"><i class="pi pi-star mr-2"></i>   Niveau</th>
                             <th style="width: 20%"><i class="pi pi-certificate mr-2"></i>   Diplôme</th>
@@ -39,9 +39,7 @@
 
                     <ng-template pTemplate="body" let-poste>
                         <tr [pSelectableRow]="poste" class="hover:bg-blue-50 transition-colors">
-                            <td>
-                                <span class="id-badge bg-blue-100 text-blue-800">{{ poste.id }}</span>
-                            </td>
+                         
                             <td>
                                 <span class="poste-title font-medium">{{ poste.titre }}</span>
                             </td>

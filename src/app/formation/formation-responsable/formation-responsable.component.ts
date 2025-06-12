@@ -760,6 +760,7 @@ onPdfDialogHide() {
     this.selectedPdfUrl = null;
   }
 }
+//genere pdf specifique
 navigateToPdfReport(employe: any) {
   console.log('Selected Formation:', this.selectedFormation);
   console.log('Selected Employee:', employe);

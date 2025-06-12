@@ -489,7 +489,7 @@ showAnalysisDialog(): void {
   this.displayAnalysisDialog = true;
   console.log('Dialogue devrait être visible maintenant', this.displayAnalysisDialog);
 }
-
+//habilites de l'employé
 prepareAnalysisData(): void {
   const filteredFormations = this.formations.filter(f => 
     f.resultat === 'REUSSI' &&
@@ -854,7 +854,7 @@ printDialog() {
     }
   }
 }
-
+//la bibliothèque jsPDF pour générer une attestation de réussite au format PDF.
 generateSuccessCertificate(formation: ApiResponse): void {
   const doc = new jsPDF({
     orientation: 'portrait',

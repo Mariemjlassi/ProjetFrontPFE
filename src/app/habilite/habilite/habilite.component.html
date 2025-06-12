@@ -11,7 +11,7 @@
       <div class="title-wrapper">
         <h1 class="gradient-text">
 
-          <span class="highlight">Tableau de bord des habilitations</span>
+          <span class="highlight">Matrice d'habilitations</span>
         </h1>
 
         <div class="animated-underline"></div>
@@ -204,7 +204,7 @@
             <div >
               <h4>Top 5 des employés pour "{{posteSelectionne}}"</h4>
               <div class="chart-wrapper">
-                <p-chart type="bar" [data]="topEmployesData" [options]="topEmployesOptions"></p-chart>
+                <p-chart type="bar" [data]="topEmployesData" [options]="topEmployesOptions" ></p-chart>
               </div>
             </div>
 
@@ -357,7 +357,7 @@
                               <i
                                 [class]="selectedEmploye.competences.includes(competence) ? 'pi pi-check-circle' : 'pi pi-times-circle'"></i>
                             </div>
-                            <span class="competence-label">{{ competence }}</span>
+                            <span class="competence-label"  pTooltip="{{ competence }}" tooltipPosition="top">{{ competence }}</span>
                             <p-tag severity="info" *ngIf="!selectedEmploye.competences.includes(competence)"
                               value="À acquérir" icon="pi pi-exclamation-triangle">
                             </p-tag>
@@ -372,7 +372,7 @@
                             <div class="competence-icon">
                               <i class="pi pi-exclamation-circle"></i>
                             </div>
-                            <span class="competence-label">{{ competence }}</span>
+                            <span class="competence-label" pTooltip="{{ competence }}" tooltipPosition="top">{{ competence }}</span>
                             <p-tag severity="danger" value="Prioritaire" icon="pi pi-flag"></p-tag>
                           </div>
                         </div>
@@ -387,7 +387,7 @@
                             <div class="competence-icon">
                               <i class="pi pi-plus-circle"></i>
                             </div>
-                            <span class="competence-label">{{ competence }}</span>
+                            <span class="competence-label" pTooltip="{{ competence }}" tooltipPosition="top">{{ competence }}</span>
                             <p-tag severity="success" value="Bonus" icon="pi pi-star"></p-tag>
                           </div>
                         </div>

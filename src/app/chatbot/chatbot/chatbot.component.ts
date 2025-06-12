@@ -29,6 +29,7 @@ conversations: { sessionId: string, title: string }[] = [];
   }
 
   generateSessionId(): string {
+    //identifiant unique universel aléatoire
     return crypto.randomUUID(); 
   }
 

@@ -10,7 +10,7 @@ export interface RasaResponse {
 })
 
 export class ChatbotService {
- private rasaUrl = 'http://localhost:5005/webhooks/rest/webhook'; // Change si besoin
+ private rasaUrl = 'http://localhost:5005/webhooks/rest/webhook'; 
 
   constructor(private http: HttpClient) {}
 
