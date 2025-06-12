@@ -1,0 +1,145 @@
+<div class="employee-management-container">
+  <!-- Card with enhanced blue accents -->
+  <div class="marine-card">
+    <!-- Card Header with blue gradient -->
+    <div class="marine-card-header">
+      <div class="header-content">
+        <div class="title-container">
+          
+          <h2 class="marine-title">Liste des employés importés</h2>
+        </div>
+        <div class="marine-decoration">
+          <div class="marine-line"></div>
+          <span class="employee-count-badge">
+            <i class="pi pi-users"></i>
+            <span class="count-number">{{ employes ? employes.length : 0 }}</span>
+            employé(s)
+          </span>
+        </div>
+      </div>
+    </div>
+<div class="marine-description">
+  <i class="pi pi-info-circle info-icon"></i>
+  <span class="description-text">
+    Ces employés ont été importés depuis le SAGE (dernière importation) 
+    mais n'ont jamais accédé à cette application et ne sont pas encore 
+    intégrés dans RH Assad.
+  </span>
+</div>
+    <div class="marine-card-content">
+      <!-- Enhanced Search with blue border -->
+     <div class="marine-search-container">
+  <form class="form">
+    <button type="button">
+      <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="search">
+        <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9" stroke="#394896" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+    </button>
+    <input 
+      class="input" 
+      [(ngModel)]="globalFilter"
+      (input)="applyFilter()"
+      placeholder="Rechercher un employé..." 
+      required 
+      type="text"
+      name="search"
+    >
+    <button 
+      *ngIf="globalFilter" 
+      class="reset" 
+      type="reset"
+      (click)="clearFilter()">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#394896" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+  </form>
+</div>
+
+      <!-- Table with blue accents -->
+      <p-table
+        #dt
+        [value]="employes"
+        [rows]="10"
+        [paginator]="true"
+        [globalFilterFields]="['nom', 'prenom', 'matricule']"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [(selection)]="selectedEmployees"
+        [rowHover]="true"
+        dataKey="matricule"
+        currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} entrées"
+        [showCurrentPageReport]="true"
+        styleClass="marine-table"
+      >
+        <!-- Table Headers with blue background -->
+        <ng-template #header>
+          <tr class="marine-table-header">
+            <th pSortableColumn="matricule" class="marine-header-cell">
+              <div class="marine-header-content">
+                <span>Matricule</span>
+                <p-sortIcon field="matricule"></p-sortIcon>
+              </div>
+            </th>
+            <th pSortableColumn="nom" class="marine-header-cell">
+              <div class="marine-header-content">
+                <span>Nom</span>
+                <p-sortIcon field="nom"></p-sortIcon>
+              </div>
+            </th>
+            <th pSortableColumn="prenom" class="marine-header-cell">
+              <div class="marine-header-content">
+                <span>Prénom</span>
+                <p-sortIcon field="prenom"></p-sortIcon>
+              </div>
+            </th>
+            <th pSortableColumn="lieuDeNaissance" class="marine-header-cell">
+              <div class="marine-header-content">
+                <span>date de naissance</span>
+                <p-sortIcon field="lieuDeNaissance"></p-sortIcon>
+              </div>
+            </th>
+
+
+              <th pSortableColumn="lieuDeNaissance" class="marine-header-cell">
+              <div class="marine-header-content">
+                <span>date de dateRecrutement</span>
+                <p-sortIcon field="lieuDeNaissance"></p-sortIcon>
+              </div>
+            </th>
+          </tr>
+        </ng-template>
+
+        <!-- Table Body with blue hover effects -->
+        <ng-template #body let-employe>
+          <tr class="marine-table-row" (click)="goToEditEmployee(employe)">
+            <td class="marine-data-cell">
+              <span class="marine-matricule">{{ employe.matricule }}</span>
+            </td>
+            <td class="marine-data-cell">{{ employe.nom }}</td>
+            <td class="marine-data-cell">{{ employe.prenom }}</td>
+            <td class="marine-data-cell">{{ employe.dateNaissance }}</td>
+             <td class="marine-data-cell">{{ employe.dateRecrutement }}</td>
+          </tr>
+        </ng-template>
+
+        <!-- Empty Message with blue icon -->
+        <ng-template #emptymessage>
+          <tr>
+            <td colspan="4" class="marine-empty-message">
+              <div class="marine-empty-content">
+                <i class="pi pi-info-circle blue-icon"></i>
+                <span>Aucun employé trouvé</span>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <!-- Card Footer with blue accent line -->
+    <div class="marine-card-footer">
+      <div class="marine-footer-line"></div>
+      <div class="blue-dots"></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,538 @@
+/* Ces styles sont cohérents avec ceux de l'interface des stages */
+.card {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+  }
+  
+  .card-content {
+    padding: 2rem;
+  }
+  
+  .divider {
+    height: 1px;
+    background-color: #e5e7eb;
+    margin: 1.5rem 0;
+  }
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .list-container h3 {
+    margin-bottom: 1rem;
+    color: #374151;
+    font-size: 1.25rem;
+  }
+  
+  .has-error input {
+    border-color: #dc3545;
+  }
+  
+  .text-danger {
+    color: #dc3545;
+  }
+  
+  .alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    border-radius: 4px;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #4b5563;
+    font-weight: 500;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    transition: border-color 0.2s;
+  }
+  
+  .form-control:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  
+  .id-badge {
+    background-color: rgba(235, 69, 95, 0.1);
+    color: #EB455F;
+    padding: 0.25rem 0.5rem;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 0.85rem;
+  }
+  
+  
+  /* Styles pour les tags de type de diplôme */
+  .p-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .card-content {
+      padding: 1rem;
+    }
+    
+    .p-dialog {
+      width: 90% !important;
+    }
+  }
+  
+  /* From Uiverse.io by satyamchaudharydev */ 
+  /* From uiverse.io by @satyamchaudharydev */
+  /* this button is inspired by -- whatsapp input */
+  /* == type to see fully interactive and click the close buttom to remove the text  == */
+  
+  /* From Uiverse.io by satyamchaudharydev */ 
+  /* From uiverse.io by @satyamchaudharydev */
+  /* removing default style of button */
+  
+  .form button {
+    border: none;
+    background: none;
+    color: #8b8ba7;
+  }
+  /* styling of whole input container */
+  .form {
+    --timing: 0.3s;
+    --width-of-input: 300px;
+    --height-of-input: 40px;
+    --border-height: 2px;
+    --input-bg: #faf8f8;
+    --border-color: #2196f3;
+    --border-radius: 30px;
+    --after-border-radius: 1px;
+    position: relative;
+    width: var(--width-of-input);
+    height: var(--height-of-input);
+    display: flex;
+    align-items: center;
+    padding-inline: 0.8em;
+    border-radius: var(--border-radius);
+    transition: border-radius 0.5s ease;
+    background: var(--input-bg,#fff);
+  }
+  /* styling of Input */
+  .input {
+    font-size: 0.9rem;
+    background-color: transparent;
+    width: 100%;
+    height: 100%;
+    padding-inline: 0.5em;
+    padding-block: 0.7em;
+    border: none;
+  }
+  /* styling of animated border */
+  .form:before {
+    content: "";
+    position: absolute;
+    background: var(--border-color);
+    transform: scaleX(0);
+    transform-origin: center;
+    width: 100%;
+    height: var(--border-height);
+    left: 0;
+    bottom: 0;
+    border-radius: 1px;
+    transition: transform var(--timing) ease;
+  }
+  /* Hover on Input */
+  .form:focus-within {
+    border-radius: var(--after-border-radius);
+  }
+  
+  input:focus {
+    outline: none;
+  }
+  /* here is code of animated border */
+  .form:focus-within:before {
+    transform: scale(1);
+  }
+  /* styling of close button */
+  /* == you can click the close button to remove text == */
+  .reset {
+    border: none;
+    background: none;
+    opacity: 0;
+    visibility: hidden;
+  }
+  /* close button shown when typing */
+  input:not(:placeholder-shown) ~ .reset {
+    opacity: 1;
+    visibility: visible;
+  }
+  /* sizing svg icons */
+  .form svg {
+    width: 17px;
+    margin-top: 3px;
+  }
+  
+  .card-content h1 {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  /* Style général des dialogues */
+.p-dialog {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 51, 102, 0.2);
+}
+
+.p-dialog .p-dialog-header {
+    background: linear-gradient(135deg, #003366 0%, #004080 100%);
+    color: white;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    padding: 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.p-dialog .p-dialog-header .p-dialog-title {
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.p-dialog .p-dialog-content {
+    padding: 1.5rem;
+    background-color: #f8fafc;
+}
+
+/* Style des champs de formulaire */
+.date-container {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    background: white;
+    padding: 1.25rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s ease;
+}
+
+.date-container:hover {
+    box-shadow: 0 4px 12px rgba(0, 51, 102, 0.1);
+}
+
+.flex.items-center.gap-6 {
+    flex: 1;
+}
+
+label.font-semibold {
+    color: #003366;
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.p-inputtext {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    background-color: #f8fafc;
+}
+
+.p-inputtext:focus {
+    border-color: #003366;
+    box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
+    outline: none;
+}
+
+/* Style des multiselect */
+.p-multiselect {
+    width: 100%;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.p-multiselect:not(.p-disabled):hover {
+    border-color: #cbd5e0;
+}
+
+.p-multiselect:not(.p-disabled).p-focus {
+    border-color: #003366;
+    box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
+}
+
+.p-multiselect-panel {
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+}
+
+/* Style des programmes de formation */
+.flex.flex-col.gap-3.mb-4 {
+    background: white;
+    padding: 1.25rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+label.font-semibold.text-gray-700 {
+    color: #003366;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.p-inputtextarea {
+    width: 100%;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 1rem;
+    transition: all 0.3s ease;
+    resize: vertical;
+    min-height: 120px;
+    background-color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: #334155;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    margin-bottom: 0.5rem;
+}
+
+.p-inputtextarea::placeholder {
+    color: #94a3b8;
+    opacity: 1;
+}
+.p-inputtextarea:focus {
+    border-color: #003366;
+    box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1), 
+                inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    outline: none;
+    background-color: #f8fafc;
+}
+.programme-container {
+    position: relative;
+    margin-bottom: 1.5rem;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.programme-card {
+    background: white;
+    border-radius: 8px;
+    padding: 1.25rem;
+    box-shadow: 0 2px 10px rgba(0, 51, 102, 0.08);
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.programme-card:hover {
+    box-shadow: 0 4px 15px rgba(0, 51, 102, 0.12);
+    border-color: #cbd5e0;
+}
+
+.programme-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.programme-index {
+    background-color: #003366;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+/* Bouton de suppression amélioré */
+.delete-programme-btn {
+    background-color: #fee2e2 !important;
+    color: #dc2626 !important;
+    border: none !important;
+    width: 32px;
+    height: 32px;
+    transition: all 0.2s ease;
+}
+
+.delete-programme-btn:hover {
+    background-color: #fecaca !important;
+    transform: scale(1.1);
+}
+
+/* Bouton "Ajouter un programme" amélioré */
+.add-programme-btn {
+    background-color: white !important;
+    color: #003366 !important;
+    border: 1px dashed #003366 !important;
+    transition: all 0.3s ease;
+    padding: 0.75rem !important;
+}
+
+.add-programme-btn:hover {
+    background-color: #f0f7ff !important;
+    border: 1px solid #003366 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 51, 102, 0.1);
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Label amélioré */
+.programme-label {
+    font-weight: 600;
+    color: #003366;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+}
+
+.programme-label-icon {
+    margin-right: 0.5rem;
+    color: #004080;
+}
+
+/* Style des boutons */
+.p-button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.p-button.p-button-secondary {
+    color: #003366;
+    background-color: white;
+    border: 1px solid #e2e8f0;
+}
+
+.p-button.p-button-secondary:hover {
+    background-color: #f1f5f9;
+    border-color: #cbd5e0;
+}
+
+.p-button[style*="background-color: #003366"] {
+    background-color: #003366 !important;
+    border-color: #003366 !important;
+}
+
+.p-button[style*="background-color: #003366"]:hover {
+    background-color: #004080 !important;
+    border-color: #004080 !important;
+    transform: translateY(-1px);
+}
+
+/* Boutons d'action */
+.flex.justify-end.gap-4.mt-4 {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+/* Animation pour les nouveaux éléments */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.flex.flex-col.gap-2.p-3.bg-gray-50.rounded-lg {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Effet de hover sur les cartes */
+.flex.flex-col.gap-2.p-3.bg-gray-50.rounded-lg:hover {
+    box-shadow: 0 4px 6px rgba(0, 51, 102, 0.1);
+}
+
+/* Style pour les boutons d'icône */
+.p-button.p-button-text.p-button-rounded {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .date-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .p-dialog {
+        width: 90% !important;
+        min-width: 90% !important;
+    }
+}
+.confirmation-content {
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+/* Pour cibler tous les textarea dans votre composant */
+textarea {
+  min-height: 150px;
+  height: auto;
+   min-width:   550px;
+  width: auto;
+  resize: vertical; /* Permet à l'utilisateur de redimensionner verticalement */
+}
+
+/* Ou pour cibler spécifiquement ceux avec la classe pInputTextarea */
+.p-inputtextarea {
+  min-height: 150px;
+    min-width: 550px;
+  height: auto;
+}

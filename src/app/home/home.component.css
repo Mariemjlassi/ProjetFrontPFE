@@ -1,0 +1,313 @@
+/* Styles généraux */
+.home-page {
+  padding: 20px;
+}
+
+/* Styles par rôle */
+.hero-section.RH {
+  background: linear-gradient(135deg, #3a7bd5 0%, #00d2ff 100%);
+}
+
+.hero-section.ADMIN {
+  background: linear-gradient(135deg, #8E2DE2 0%, #4A00E0 100%);
+}
+
+.hero-section.DIRECTEUR {
+  background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+}
+
+.hero-section.RESPONSABLE {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.role-specific {
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+}
+
+.rh-section {
+  background-color: #e3f2fd;
+  border-left: 4px solid #2196f3;
+}
+
+.admin-section {
+  background-color: #f3e5f5;
+  border-left: 4px solid #9c27b0;
+}
+
+.directeur-section {
+  background-color: #e8eaf6;
+  border-left: 4px solid #3f51b5;
+}
+
+.responsable-section {
+  background-color: #e8f5e9;
+  border-left: 4px solid #4caf50;
+}
+
+/* Reste de votre CSS existant... */
+  
+  .sidebar:hover ~ .home-page {
+    margin-left: 260px;
+  }
+  
+  /* Hero Section */
+  .hero-section {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    margin-bottom: 4rem;
+    padding: 2rem 0;
+  }
+  
+  .hero-content {
+    flex: 1;
+  }
+  
+  .hero-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #2c3e50;
+  }
+  
+  .hero-content h1 span {
+    color: #EB455F;
+  }
+  
+  .hero-content p {
+    font-size: 1.2rem;
+    color: #7f8c8d;
+    margin-bottom: 2rem;
+  }
+  
+  .search-bar {
+    display: flex;
+    max-width: 500px;
+  }
+  
+  .search-bar input {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px 0 0 8px;
+    font-size: 1rem;
+    outline: none;
+  }
+  
+  .search-bar button {
+    background: #EB455F;
+    color: white;
+    border: none;
+    padding: 0 1.2rem;
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .search-bar button:hover {
+    background: #d63a51;
+  }
+  
+  .hero-image {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .hero-image img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Features Section */
+  .features-section {
+    margin-bottom: 4rem;
+  }
+  
+  .features-section h2 {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .feature-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .feature-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(235, 69, 95, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    color: #EB455F;
+    font-size: 1.2rem;
+  }
+  
+  .feature-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #2c3e50;
+  }
+  
+  .feature-card p {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+  }
+  
+  /* Updates Section */
+  .updates-section {
+    margin-bottom: 4rem;
+  }
+  
+  .updates-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .updates-header h2 {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .see-all {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .updates-list {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+  }
+  
+  .update-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid #f1f1f1;
+  }
+  
+  .update-item:last-child {
+    border-bottom: none;
+  }
+  
+  .update-badge {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: rgb(0, 0, 0);
+  }
+  
+  .update-badge.formation {
+    background: #ddf3fe;
+  }
+  
+  .update-badge.recrutement {
+    background: #3498db;
+  }
+  
+  .update-badge.diplome {
+    background: #ffd9e2;
+  }
+  
+  .update-badge.message {
+    background: #feefd7;
+  }
+  
+  .update-content p {
+    margin-bottom: 0.3rem;
+    color: #2c3e50;
+  }
+  
+  .update-content small {
+    color: #7f8c8d;
+    font-size: 0.8rem;
+  }
+  
+  /* Quick Links */
+  .quick-links h2 {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .links-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+  
+  .quick-link {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.8rem 1rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+    color: #2c3e50;
+    transition: all 0.3s ease;
+  }
+  
+  .quick-link:hover {
+    background: #f8f9fa;
+    transform: translateX(5px);
+  }
+  
+  .quick-link i {
+    color: #EB455F;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero-section {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .search-bar {
+      margin: 0 auto;
+    }
+  
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+  }

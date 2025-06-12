@@ -1,0 +1,157 @@
+<div class="card">
+    <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
+    
+    <div class="professional-container">
+      <!-- Header Section -->
+      
+      <div class="card-content">
+        <h1>Gestion des Diplômes</h1>
+      <!-- Table Container -->
+      <div class="table-container">
+          <!-- Toolbar with modern design -->
+          <div class="toolbar">
+              <!-- New Search Box -->
+              <form class="form">
+                  <button>
+                      <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="search">
+                          <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"></path>
+                      </svg>
+                  </button>
+                  <input class="input" 
+                         placeholder="Rechercher un diplôme..." 
+                         required 
+                         type="text"
+                         [(ngModel)]="globalFilter"
+                         (input)="applyFilter($event)"
+                         name="search">
+                  <button *ngIf="globalFilter" class="reset" type="reset" (click)="globalFilter = ''; dt?.filterGlobal('', 'contains')">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                      </svg>
+                  </button>
+              </form>
+              
+              <div class="action-buttons">
+                <button pButton icon="pi pi-plus" label="Nouveau Diplôme" 
+                        class="p-button-secondary add-button" 
+                        (click)="visible = true"></button>
+                <button pButton icon="pi pi-file-excel" label="Exporter" 
+                        class="p-button-contrast export-button" 
+                        (click)="exportDiplomes()"><span *ngIf="selectedDiplomes.length > 0" class="selection-count">
+                            ({{selectedDiplomes.length}})
+                        </span></button>
+            </div>
+              
+          </div>
+          <div class="divider"></div>
+          <div class="list-container">
+          
+          <!-- Enhanced Table -->
+          <p-table #dt [value]="diplomes" selectionMode="multiple" [(selection)]="selectedDiplomes"  [paginator]="true" [rows]="7" [rowsPerPageOptions]="[7, 10, 20]"
+    [globalFilterFields]="['libelle', 'typeDiplome.libelleTypeDiplome']"
+    styleClass="modern-table" [tableStyle]="{'min-width': '75rem'}">
+    
+              <ng-template pTemplate="header">
+                  <tr>
+                    <th >Référence</th>
+                      <th style="width: 60%">Intitulé du Diplôme</th>
+                      <th style="width: 30%">Catégorie</th>
+                      <th style="width: 10%">Opérations</th>
+                  </tr>
+              </ng-template>
+    
+              <ng-template pTemplate="body" let-diplome>
+                  <tr  [pSelectableRow]="diplome">
+                    <td>
+                        <span class="id-badge">DIP-{{ diplome.id }}</span>
+                    </td>
+                      <td>
+                          <span class="poste-title">{{ diplome.libelle }}</span>
+                      </td>
+                      <td>
+                          <span class="type-diplome">{{ diplome.typeDiplome?.libelleTypeDiplome || 'Non spécifié' }}</span>
+                      </td>
+                      <td>
+                          <div class="action-icons">
+                              <button pButton icon="pi pi-pencil" 
+                                      class="p-button-rounded p-button-text p-button-primary edit-button" 
+                                      (click)="showEditDialog(diplome)" pTooltip="Modifier">
+                              </button>
+                              <button pButton icon="pi pi-trash" 
+                                      class="p-button-rounded p-button-text p-button-danger delete-button" 
+                                      (click)="confirmDelete(diplome.id)" pTooltip="Supprimer">
+                              </button>
+                          </div>
+                      </td>
+                  </tr>
+              </ng-template>
+    
+              <ng-template pTemplate="emptymessage">
+                  <tr>
+                      <td colspan="3">
+                          <div class="empty-message">
+                              <i class="pi pi-info-circle"></i>
+                              Aucun diplôme trouvé
+                          </div>
+                      </td>
+                  </tr>
+              </ng-template>
+          </p-table>
+      </div>
+    </div>
+    </div>
+    <!-- Formulaire d'ajout -->
+    <p-dialog header="Ajouter un Diplôme" [(visible)]="visible" [modal]="true" [style]="{ width: '30rem', height: '25rem', maxWidth: '50vw', maxHeight: '90vh' }">
+      <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+          <div class="p-field">
+              <label for="libelle">Libellé du Diplôme </label>
+              <input pInputText id="libelle" name="libelle" [(ngModel)]="libelleDiplome" required #libelle="ngModel" />
+              <div *ngIf="libelle.invalid && libelle.touched" class="p-error">Libellé est requis</div>
+          </div>
+    
+          <div class="p-field">
+              <label for="typeDiplome">Type de Diplôme </label>
+              <p-dropdown id="typeDiplome" [(ngModel)]="selectedTypeId" name="typeDiplome"
+                  [options]="typeDiplomes" optionLabel="libelleTypeDiplome" optionValue="id"
+                  placeholder="Sélectionnez un type" [showClear]="true" [style]="{'margin-top':'20px'}">
+              </p-dropdown>
+              <div *ngIf="selectedTypeId == null" class="p-error" style="color: red;">*Type de diplôme est requis</div>
+          </div>
+    
+          <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 150px;">
+              <button pButton label="Annuler" icon="pi pi-times" class="p-button-text" (click)="visible = false" severity="danger"></button>
+              <button pButton label="Ajouter" icon="pi pi-check" class="p-button-success" [disabled]="form.invalid" type="submit"></button>
+          </div>
+      </form>
+    </p-dialog>
+    
+    <!-- Formulaire de mise à jour -->
+    <p-dialog header="Modifier un Diplôme" [(visible)]="editVisible" [modal]="true" [style]="{ width: '30rem', height: '25rem', maxWidth: '50vw', maxHeight: '90vh' }">
+      <form *ngIf="editingDiplome" #editForm="ngForm" (ngSubmit)="onUpdateSubmit(editForm)">
+          <div class="p-field">
+              <label for="editLibelle">Libellé </label>
+              <input pInputText id="editLibelle" name="libelle" [(ngModel)]="editingDiplome.libelle" required #editLibelle="ngModel" />
+              <div *ngIf="editLibelle.invalid && editLibelle.touched" class="p-error">Libellé est requis</div>
+          </div>
+    
+          <div class="p-field">
+              <label for="editTypeDiplome">Type de Diplôme </label>
+              <p-dropdown id="editTypeDiplome" [(ngModel)]="selectedTypeId" name="typeDiplome"
+                  [options]="typeDiplomes" optionLabel="libelleTypeDiplome" optionValue="id"
+                  placeholder="Sélectionnez un type" [showClear]="true" [style]="{'margin-top':'20px'}">
+              </p-dropdown>
+              <div *ngIf="selectedTypeId == null" class="p-error">Type de diplôme est requis</div>
+          </div>
+    
+          <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 150px;">
+              <button pButton label="Annuler" icon="pi pi-times" class="p-button-text" (click)="editVisible = false" severity="danger"></button>
+              <button pButton label="Modifier" icon="pi pi-check" class="p-button-text" severity="contrast" [disabled]="editForm.invalid" type="submit"></button>
+          </div>
+      </form>
+    </p-dialog>
+    </div>
+
+    
+    
+    </div>

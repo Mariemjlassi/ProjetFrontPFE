@@ -1,0 +1,623 @@
+/* Variables CSS */
+:host {
+  --primary-color: #2B3467;
+  --secondary-color: #BAD7E9;
+  --success-color: #4CAF50;
+  --warning-color: #FFC107;
+  --danger-color: #EB455F;
+  --light-bg: #f8f9fa;
+  --dark-text: #2c3e50;
+  --light-text: #7f8c8d;
+}
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
+
+
+
+/* Dans votre fichier dashboard.component.css */
+.header-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.activities-table-container {
+  margin-top: 2rem;
+}
+
+.filter-section {
+  margin-bottom: 1rem;
+}
+
+.p-calendar, .p-dropdown {
+  width: 100%;
+}
+
+.activity-card {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: none;
+  border-top: 20px;
+  background-color: white;
+}
+
+.activity-list {
+  padding: 0;
+}
+/* dashboard.component.css */
+.ai-analysis-section {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+
+.ai-analysis-section h4 {
+  color: #2B3467;
+  margin-bottom: 1rem;
+}
+
+.ai-results {
+  white-space: pre-wrap;
+  background: white;
+  padding: 1rem;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+  font-family: monospace;
+}
+
+.analyzing {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #2B3467;
+}
+
+.analysis-error {
+  color: #dc3545;
+  padding: 0.5rem;
+  background: #fff5f5;
+  border-radius: 4px;
+}
+
+.activity-item {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s ease;
+}
+.activity-item:last-child {
+  border-bottom: none;
+}
+
+.activity-item:hover {
+  background-color: #f9f9f9;
+}
+
+.activity-item mat-icon {
+  margin-right: 16px;
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+}
+
+.activity-details {
+  flex: 1;
+}
+
+.activity-details h4 {
+  margin: 0 0 4px;
+  font-size: 15px;
+  color: #2B3467;
+}
+
+.activity-details p {
+  margin: 0 0 4px;
+  font-size: 14px;
+  color: #666;
+}
+
+.activity-time {
+  font-size: 12px;
+  color: #888;
+}
+
+/* Activity Icons */
+.login-activity {
+  color: #2B3467;
+}
+
+/* Styles pour PrimeNG */
+.activities-table-container {
+  margin-top: 2rem;
+}
+
+.filter-section {
+  margin-bottom: 1rem;
+}
+
+.p-calendar, .p-dropdown {
+  width: 100%;
+}
+
+/* Style personnalisé pour le tableau */
+.p-datatable .p-datatable-thead > tr > th {
+  background-color: #2B3467;
+  color: white;
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+  padding: 1rem;
+}
+
+/* Bouton */
+.p-button {
+  transition: all 0.3s ease;
+}
+
+.p-button.p-button-text {
+  color: #2B3467;
+}
+
+.p-button.p-button-text:hover {
+  background: rgba(43, 52, 103, 0.04);
+}
+.activities-table-container {
+  margin-top: 2rem;
+}
+
+.filter-section {
+  margin-bottom: 1rem;
+}
+
+.p-calendar, .p-dropdown {
+  width: 100%;
+}
+/* Icônes dans le tableau */
+.pi {
+  margin-right: 0.5rem;
+  font-size: 1rem;
+}
+
+.card-ev{
+  margin-top: 10px;
+}
+/* Structure générale */
+.dashboard-container {
+  padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    min-height: 100vh;
+    margin-left: 30px;
+    font-family: 'Poppins', sans-serif;
+  
+  min-height: 100vh;
+  margin-left: 30px;
+}
+
+/* Styles pour la section IA */
+.ai-card {
+  margin-top: 20px;
+  min-height: 300px;
+}
+
+.empty-analysis {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  min-height: 200px;
+}
+
+.empty-analysis i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+}
+
+.training-progress {
+  padding: 1rem;
+  text-align: center;
+}
+
+.training-progress p {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.analysis-results {
+  padding: 1rem;
+}
+
+.result-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 4px;
+  background-color: #f8f9fa;
+  border-left: 4px solid #42A5F5;
+}
+
+.result-item.warning {
+  border-left-color: #FFA726;
+  background-color: #FFF3E0;
+}
+
+.result-item.danger {
+  border-left-color: #EF5350;
+  background-color: #FFEBEE;
+}
+
+.result-item i {
+  font-size: 1.5rem;
+  margin-right: 1rem;
+  color: #42A5F5;
+}
+
+.result-item.warning i {
+  color: #FFA726;
+}
+
+.result-item.danger i {
+  color: #EF5350;
+}
+
+.result-item h4 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1rem;
+}
+
+.result-item p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.analysis-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.dashboard-title {
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Indicateurs clés */
+.key-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.metric-card {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.metric-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.metric-content {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+}
+
+.metric-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1.5rem;
+  font-size: 1.8rem;
+  color: white;
+}
+
+.metric-icon.user { background-color: var(--primary-color); }
+.metric-icon.locked { background-color: var(--danger-color); }
+.metric-icon.activity { background-color: #6c5ce7; }
+.metric-icon.recent { background-color: #00b894; }
+
+.metric-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-label {
+  font-size: 0.9rem;
+  color: var(--light-text);
+  margin-bottom: 0.25rem;
+}
+
+.metric-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--dark-text);
+  line-height: 1;
+}
+
+.metric-description {
+  font-size: 0.8rem;
+  color: var(--light-text);
+}
+
+/* Contenu principal */
+.main-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 1200px) {
+  .main-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Graphiques */
+.chart-container {
+  height: 300px;
+  position: relative;
+}
+
+.chart-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* Alertes */
+.alert-card {
+  margin-bottom: 2rem;
+}
+
+.alert-item {
+  display: flex;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.alert-item:hover {
+  transform: translateX(5px);
+}
+
+.alert-item.warning {
+  background-color: rgba(255, 193, 7, 0.1);
+  border-left: 4px solid var(--warning-color);
+}
+
+.alert-item.danger {
+  background-color: rgba(235, 69, 95, 0.1);
+  border-left: 4px solid var(--danger-color);
+}
+
+.alert-icon-container {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  font-size: 1.2rem;
+}
+
+.alert-item.warning .alert-icon-container {
+  background-color: rgba(255, 193, 7, 0.2);
+  color: var(--warning-color);
+}
+
+.alert-item.danger .alert-icon-container {
+  background-color: rgba(235, 69, 95, 0.2);
+  color: var(--danger-color);
+}
+
+.alert-content {
+  flex: 1;
+}
+
+.alert-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.username {
+  font-weight: 600;
+  color: var(--dark-text);
+}
+
+.alert-status {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.alert-item.warning .alert-status {
+  background-color: var(--warning-color);
+  color: white;
+}
+
+.alert-item.danger .alert-status {
+  background-color: var(--danger-color);
+  color: white;
+}
+
+.alert-message {
+  margin: 0;
+  color: var(--light-text);
+  font-size: 0.9rem;
+}
+
+.alert-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.timestamp {
+  color: var(--light-text);
+}
+
+.attempt-count {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.no-alerts {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  color: var(--success-color);
+  font-weight: 500;
+}
+
+.no-alerts i {
+  margin-right: 0.5rem;
+  font-size: 1.2rem;
+}
+
+/* Timeline des activités */
+.activity-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 1rem;
+}
+
+.activity-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  color: white;
+  font-size: 1.2rem;
+}
+
+.activity-icon.login-activity { background-color: var(--primary-color); }
+.activity-icon.create-activity { background-color: var(--success-color); }
+.activity-icon.update-activity { background-color: var(--warning-color); }
+.activity-icon.delete-activity { background-color: var(--danger-color); }
+.activity-icon.other-activity { background-color: #95a5a6; }
+
+.activity-content {
+  flex: 1;
+}
+
+.activity-content h5 {
+  margin: 0 0 0.25rem;
+  color: var(--dark-text);
+}
+
+.activity-content p {
+  margin: 0 0 0.25rem;
+  color: var(--light-text);
+  font-size: 0.9rem;
+}
+
+.activity-content small {
+  color: var(--light-text);
+  font-size: 0.8rem;
+}
+
+.view-all-btn {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+/* Graphique pleine largeur */
+.full-width-chart {
+  margin-top: 2rem;
+}
+
+/* Nouveaux styles pour les filtres */
+.filter-container {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.filter-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filter-item {
+  flex: 1;
+  min-width: 200px;
+  max-width: 300px;
+}
+
+/* Ajustements pour le calendrier et dropdown */
+.p-calendar, .p-dropdown {
+  width: 100%;
+}
+
+/* Style pour le bouton réinitialiser */
+.p-button-outlined {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .filter-row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .filter-item {
+    min-width: 100%;
+    max-width: 100%;
+  }
+  
+  .p-button-outlined {
+    width: 100%;
+  }
+}

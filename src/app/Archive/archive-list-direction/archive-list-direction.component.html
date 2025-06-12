@@ -1,0 +1,109 @@
+<div class="professional-container">
+    <!-- Card Container -->
+    <div class="p-card shadow-2">
+        <div class="p-card-body">
+    <!-- Header Section -->
+    <div class="header-section text-center mb-6">
+        <h2 style="font-size: 40px;" class="text-blue-600 font-bold text-2xl">   <i class="pi pi-folder mr-3" style="font-size: 1.5rem;"></i> Archives des Directions</h2>
+        <p>   <i class="pi pi-cog mr-2"></i>  Consultez et gérez les directions archivées dans votre organisation</p>
+    </div>
+
+    <!-- Card Container -->
+    <div class="p-card">
+        <div class="p-card-body">
+            <!-- Toolbar with modern design -->
+            <div class="toolbar">
+                <span class="p-input-icon-left search-box">
+                  
+                    <input pInputText type="text" [(ngModel)]="searchText" 
+                           (input)="dt.filterGlobal(searchText, 'contains')" 
+                           placeholder="Rechercher une direction..." 
+                           class="custom-search" />
+                </span>
+                
+             
+            </div>
+
+            <!-- Enhanced Table inside Card -->
+            <div class="table-container mt-4">
+                <p-table #dt [value]="directions" selectionMode="multiple" [(selection)]="selectedDirections"
+                    [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20, 50]"
+                    [globalFilterFields]="['id', 'nom_direction']"
+                    styleClass="modern-table p-datatable-gridlines" [tableStyle]="{ 'min-width': '100%' }">
+
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width: 10%">ID</th>
+                            <th style="width: 30%">Nom de la Direction</th>
+                            <th style="width: 10%">Actions</th>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-direction>
+                        <tr [pSelectableRow]="direction">
+                            <td>
+                                <span class="id-badge">{{ direction.id }}</span>
+                            </td>
+                            <td>
+                                <span class="poste-title">{{ direction.nom_direction }}</span>
+                            </td>
+                            <td>
+
+                                 <button pButton icon="pi pi-undo" 
+                                        class="p-button-rounded p-button-outlined p-button-info restore-button" 
+                                       (click)="desarchiverDirection(direction)" pTooltip="Désarchiver">Désarchiver
+                                </button>
+                               
+                            </td>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="3">
+                                <div class="empty-message">
+                                    <i class="pi pi-info-circle"></i>
+                                    Aucune direction archivée trouvée
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+</div>
+<p-confirmDialog></p-confirmDialog>
+
+<!-- Dialog pour modifier une direction -->
+<p-dialog header="Modifier la Direction" [(visible)]="visible" [modal]="true" [style]="{ width: '500px' }">
+    <div class="flex items-center gap-6 mb-6">
+        <label for="directionName" class="font-semibold w-24">Nom</label>
+        <input pInputText id="directionName" class="flex-auto" [(ngModel)]="selectedDirection.nom_direction" autocomplete="off" />
+    </div>
+
+    <div class="flex justify-end gap-4">
+        <p-button label="Annuler" severity="secondary" (click)="visible = false" />
+        <p-button label="Enregistrer" (click)="saveDirection()" 
+                 [style]="{ 'background-color': '#003366', 'border-color': '#003366' }"/>
+    </div>
+</p-dialog>
+
+
+
+<!-- Dialog pour ajouter une nouvelle direction -->
+<p-dialog header="Ajouter une Direction" [(visible)]="showDialog" [modal]="true" [style]="{ width: '500px' }">
+    <div class="flex items-center gap-6 mb-6">
+        <label for="newDirectionName" class="font-semibold w-24">Nom</label>
+        <input pInputText id="newDirectionName" class="flex-auto" [(ngModel)]="newDirection.nom_direction" autocomplete="off" />
+    </div>
+
+    <div class="flex justify-end gap-4">
+        <p-button label="Annuler" severity="secondary" (click)="showDialog = false" />
+        <p-button label="Enregistrer" (click)="addDirection()"
+                 [style]="{ 'background-color': '#003366', 'border-color': '#003366' }"/>
+    </div>
+</p-dialog>

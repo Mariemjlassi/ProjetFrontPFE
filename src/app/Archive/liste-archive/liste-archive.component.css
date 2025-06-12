@@ -1,0 +1,99 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #ffffff;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 0; /* Modifie padding à 0 pour voir si cela aide */
+  }
+  
+h1 {
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+    margin-top: -20px; /* Utilise margin-top pour déplacer le titre vers le haut */
+  }
+  
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 2rem;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+}
+
+.icon {
+  font-size: 3rem;
+  color: #213555;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.descr {
+  font-size: 1rem;
+  color: #777;
+  line-height: 1.5;
+}
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 2rem;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: block;  /* Assure que l'élément est un bloc cliquable */
+    text-decoration: none;  /* Supprime le soulignement */
+    color: inherit;  /* Hérite des couleurs du texte */
+  }
+  
+  .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card .icon {
+    font-size: 2rem;
+  }
+  
+  .card .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .card .descr {
+    font-size: 1rem;
+  }
+  

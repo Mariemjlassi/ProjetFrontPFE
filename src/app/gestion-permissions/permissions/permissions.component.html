@@ -1,0 +1,151 @@
+<div class="permissions-dashboard">
+  <!-- Header innovant avec bouton flottant -->
+  <div class="dashboard-header">
+    <div class="header-content">
+      <h1>
+        <i class="bi bi-shield-lock-fill"></i>
+        <span class="gradient-text">Contrôle d'Accès</span>
+      </h1>
+      <p>Gérez les droits utilisateurs en temps réel</p>
+    </div>
+    
+  </div>
+
+  <!-- Nouvelle section de recherche -->
+  <div class="search-section">
+    <form class="search-form">
+      <button type="button">
+        <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="search">
+          <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </button>
+      <input 
+        class="search-input" 
+        [(ngModel)]="searchTerm"
+        placeholder="Rechercher un utilisateur..." 
+        name="searchTerm"
+        type="text"
+      >
+      <button class="reset-btn" type="reset" (click)="searchTerm = ''" *ngIf="searchTerm">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </form>
+  </div>
+
+
+  <!-- Carte de statistiques -->
+<div class="stats-cards">
+  <div class="stat-card">
+    <div class="stat-icon">
+      <img src="/assets/images/utilis-removebg-preview.png" alt="Permissions" class="icon-image">
+    </div>
+    <div class="stat-info">
+      <h3>{{utilisateurs.length}}</h3>
+      <p>Utilisateurs</p>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon">
+      <img src="/assets/images/permissions-removebg-preview.png" alt="Permissions" class="icon-image">
+    </div>
+    <div class="stat-info">
+      <h3>{{permissions.length}}</h3>
+      <p>Permissions</p>
+    </div>
+  </div>
+</div>
+
+  <!-- Tableau repensé -->
+  <div class="permissions-table-container">
+    <div class="table-responsive">
+      <table class="modern-table">
+        <thead>
+          <tr>
+            <th class="user-column">Utilisateur</th>
+            <th class="action-column">
+              <button class="select-all-btn" (click)="toggleAllForAllUsers()">
+                Tout sélectionner
+              </button>
+            </th>
+            <th *ngFor="let permission of permissions" class="permission-column">
+              <div class="permission-header">
+                <i class="bi bi-shield-shaded"></i>
+                <span>{{ permission.name }}</span>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let utilisateur of paginatedUtilisateurs">
+            <td class="user-cell">
+              <div class="user-info">
+                <div class="user-avatar">
+                  {{ utilisateur.username.charAt(0).toUpperCase() }}
+                </div>
+                <div class="user-details">
+                  <strong>{{ utilisateur.username }}</strong>
+                  <small>{{ utilisateur.email || 'Aucun email' }}</small>
+                </div>
+              </div>
+            </td>
+            <td class="action-cell">
+              <div class="checkbox-wrapper-26">
+                <input 
+                  type="checkbox" 
+                  id="cbx-all-{{utilisateur.id}}"
+                  [checked]="utilisateur.permissions.length === permissions.length"
+                  (change)="toggleAllPermissions(utilisateur)"
+                >
+                <label for="cbx-all-{{utilisateur.id}}">
+                  <div class="tick_mark"></div>
+                </label>
+              </div>
+            </td>
+            <td *ngFor="let permission of permissions" class="permission-cell">
+              <div class="checkbox-wrapper-26">
+                <input 
+                  type="checkbox" 
+                  id="cbx-{{utilisateur.id}}-{{permission.id}}"
+                  [checked]="hasPermission(utilisateur, permission)"
+                  (change)="togglePermission(utilisateur, permission)"
+                >
+                <label for="cbx-{{utilisateur.id}}-{{permission.id}}">
+                  <div class="tick_mark"></div>
+                </label>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p-paginator 
+      [first]="first" 
+      [rows]="rows" 
+      [totalRecords]="filteredUtilisateurs.length" 
+      [rowsPerPageOptions]="[5, 10, 20]" 
+      (onPageChange)="onPageChange($event)">
+    </p-paginator>
+    
+    </div>
+  </div>
+
+  <!-- Modal d'ajout de permission (conservé) -->
+  <p-dialog [(visible)]="displayModal" modal="true" header="Nouvelle Permission">
+    <form (ngSubmit)="addPermission()">
+      <div class="form-group">
+        <label for="permissionName">Nom de la permission</label>
+        <input
+          type="text"
+          id="permissionName"
+          [(ngModel)]="newPermissionName"
+          name="permissionName"
+          required
+          class="modern-input"
+          placeholder="Ex: admin.dashboard"
+        >
+      </div>
+      <button type="submit" class="modern-button primary">Créer</button>
+    </form>
+  </p-dialog>
+</div>

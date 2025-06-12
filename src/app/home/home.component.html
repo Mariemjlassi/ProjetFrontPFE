@@ -1,0 +1,101 @@
+<div class="home-page">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-content">
+        <h1>Bienvenue sur <span>RH ASSAD</span></h1>
+      <p>{{ getWelcomeMessage() }}</p>
+      <div *ngIf="userId" class="user-info">
+        <p>Connecté en tant que <strong>{{ userRole }}</strong></p>
+      </div>
+      </div>
+     
+    </section>
+  
+    <!-- Features Grid -->
+    <section class="features-section">
+      <h2><i class="pi pi-star"></i> Fonctionnalités clés</h2>
+      <div class="features-grid">
+        <div class="feature-card" routerLink="/list-employe-existants" *ngIf="isRH()">
+          <div class="feature-icon">
+            <i class="pi pi-users"></i>
+          </div>
+          <h3>Gestion des employés</h3>
+          <p>Consultez et gérez les profils de tous vos collaborateurs</p>
+        </div>
+
+        <div class="feature-card admin-feature" routerLink="/list-utilisateurs" *ngIf="isAdmin()">
+          <div class="feature-icon">
+            <i class="pi pi-user-edit"></i> <!-- Icône plus appropriée pour la gestion des utilisateurs -->
+          </div>
+          <div class="feature-content">
+            <h3>Gestion des utilisateurs</h3>
+            <p class="feature-description">
+              Administration complète des comptes utilisateurs du système
+            </p>
+          </div>
+        </div>
+
+        <div class="feature-card" routerLink="/gestion-permissions" *ngIf="isAdmin()">
+          <div class="feature-icon">
+            <i class="pi pi-lock"></i> <!-- Icône plus appropriée pour les permissions -->
+          </div>
+          <h3>Gestion des permissions</h3>
+          <p>Configurez les droits d'accès et les rôles des utilisateurs</p>
+        </div>
+  
+        <div class="feature-card" routerLink="/formations" *ngIf="isRH()">
+          <div class="feature-icon">
+            <i class="pi pi-book"></i>
+          </div>
+          <h3>Formations</h3>
+          <p>Planifiez et suivez les formations de vos équipes</p>
+        </div>
+  
+        <div class="feature-card" routerLink="/list-Poste" *ngIf="isRH()">
+          <div class="feature-icon">
+            <i class="pi pi-briefcase"></i>
+          </div>
+          <h3>Postes</h3>
+          <p>Gérez l'organigramme et les fiches de poste</p>
+        </div>
+  
+        <div class="feature-card" routerLink="/messages">
+          <div class="feature-icon">
+            <i class="pi pi-envelope"></i>
+          </div>
+          <h3>Messagerie</h3>
+          <p>Communiquez avec vos collaborateurs</p>
+        </div>
+      </div>
+    </section>
+  
+    <!-- Recent Updates -->
+    <section class="updates-section">
+      <div class="updates-header">
+        <h2><i class="pi pi-clock"></i> Dernières activités</h2>
+        <a routerLink="/notifications" class="see-all">Voir tout</a>
+      </div>
+      <div class="updates-list">
+        <div class="update-item" *ngFor="let update of recentUpdates">
+          <div class="update-badge" [ngClass]="update.type">
+            <i [class]="update.icon"></i>
+          </div>
+          <div class="update-content">
+            <p>{{update.message}}</p>
+            <small>{{update.time }}</small>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <!-- Quick Links -->
+    <section class="quick-links">
+      <h2><i class="pi pi-link"></i> Accès rapide</h2>
+      <div class="links-container">
+        <a *ngFor="let link of quickLinks" [routerLink]="link.path" class="quick-link">
+          <i [class]="link.icon"></i>
+          <span>{{link.label}}</span>
+        </a>
+      </div>
+    </section>
+  </div>

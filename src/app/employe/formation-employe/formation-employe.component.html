@@ -1,0 +1,378 @@
+<div class="formation-dashboard modern-ui">
+  <!-- Header redesign -->
+  <div class="dashboard-header glassmorphism">
+    <div class="header-content">
+      <div class="title-section">
+        <h1 class="gradient-title">
+          <i class="pi pi-bookmark"></i>
+          Parcours de Formation
+        </h1>
+        <p class="subtitle">Historique complet des compétences acquises</p>
+      </div>
+      <button pButton 
+      label="Afficher l'Analyse des Compétences" 
+      icon="pi pi-search" 
+      (click)="showAnalysisDialog()" 
+      class="p-button-outlined"></button>
+      <div class="header-actions">
+        
+        <button pButton 
+                icon="pi pi-sync" 
+                class="p-button-rounded p-button-outlined refresh-btn"
+                [class.rotate]="loading"
+                (click)="refreshFormations()"
+                pTooltip="Actualiser" 
+                tooltipPosition="bottom"></button>
+      </div>
+    </div>
+    
+    <!-- Statistiques en grille responsive -->
+  <!-- Statistiques en grille responsive -->
+<div class="stats-grid">
+  <div *ngFor="let stat of stats"
+       class="stat-card"
+       [class.active]="activeFilter === stat.type"
+       [class.stat-total]="stat.type === 'total'"
+       [class.stat-success]="stat.type === 'success'"
+       [class.stat-danger]="stat.type === 'danger'"
+       [class.stat-warning]="stat.type === 'warning'"
+       [class.stat-info]="stat.type === 'info'"
+       (click)="filterByStat(stat.type)"> 
+    <div class="stat-content">
+      <div class="stat-icon">
+        <i [class]="stat.icon"></i>
+      </div>
+      <div class="stat-text">
+        <div class="stat-value">{{ stat.value }}</div>
+        <div class="stat-label">{{ stat.label }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <div *ngIf="activeFilter" class="clear-filter">
+      <button pButton 
+              label="Effacer le filtre" 
+              icon="pi pi-times"
+              class="p-button-text p-button-sm"
+              (click)="activeFilter = null"></button>
+    </div>
+  <!-- Contenu principal -->
+  <div class="dashboard-content">
+    <!-- États améliorés -->
+    <div *ngIf="loading" class="loading-state animated-fade">
+      <div class="loading-content">
+        <div class="loading-animation">
+          <div class="loading-dot"></div>
+          <div class="loading-dot"></div>
+          <div class="loading-dot"></div>
+        </div>
+        <h3>Chargement en cours</h3>
+        <p>Optimisation de vos données de formation...</p>
+      </div>
+    </div>
+
+    <div *ngIf="error" class="error-state animated-fade">
+      <div class="error-content">
+        <div class="error-icon">
+          <i class="pi pi-exclamation-triangle"></i>
+        </div>
+        <div class="error-details">
+          <h3>Requête interrompue</h3>
+          <p>{{ error }}</p>
+          <button pButton 
+                  label="Réessayer" 
+                  icon="pi pi-refresh"
+                  class="p-button-rounded p-button-outlined"
+                  (click)="loadFormations()"></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Liste vide plus engageante -->
+    <div *ngIf="!loading && !error && formations.length === 0" class="empty-state animated-fade">
+      <div class="empty-illustration">
+        <img src="assets/images/no-data.svg" alt="Aucune donnée">
+      </div>
+      <div class="empty-content">
+        <h3>Portfolio de compétences vide</h3>
+        <p>Commencez votre parcours de développement professionnel dès maintenant.</p>
+       
+      </div>
+    </div>
+
+    <!-- Contenu des formations -->
+    <div *ngIf="!loading && !error && formations.length > 0" class="formations-container">
+      <!-- Barre de recherche améliorée -->
+      <div class="search-toolbar">
+        <span class="p-input-icon-left search-container">
+          
+          <input pInputText 
+                type="text" 
+                [(ngModel)]="searchTerm"
+                placeholder="Rechercher par mot-clé, compétence ou formateur..."
+                class="modern-search" />
+        </span>
+      </div>
+<!-- Ajoutez cette section après la timeline des formations -->
+<div *ngIf="!loading && !error && formations.length > 0" class="analysis-section">
+ 
+ 
+
+      <!-- Timeline verticale moderne -->
+      <div class="vertical-timeline">
+        <div *ngFor="let item of filteredFormations; let i = index" class="timeline-item">
+          <div class="timeline-connector"></div>
+          <div class="timeline-badge">
+            <i [class]="getStatusIcon(item)" [style.color]="getStatusIconColor(item)"></i>
+
+          </div>
+          <!-- Bouton Analyser -->
+
+
+          <!-- Carte de formation redesign -->
+          <div class="formation-card" [ngClass]="getStatusClass(item)">
+            <div class="card-header">
+              <div class="formation-title">
+                <h3>{{ item.formation.titre }}</h3>
+                <div class="formation-meta">
+                  <span class="formation-period">
+                    <i class="pi pi-calendar"></i>
+                    {{ item.formation.dateDebutPrevue | date:'dd MMM yyyy' }} - 
+                    {{ item.formation.dateFinPrevue | date:'dd MMM yyyy' }}
+                  </span>
+                  <p-tag [value]="getStatusText(item)" 
+                        [severity]="getStatusSeverity(item)"
+                        styleClass="status-tag"></p-tag>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div class="formation-details-grid">
+                <div class="detail-item">
+                  <i class="pi pi-tag"></i>
+                  <span>{{ item.formation.typeFormation || 'Type non spécifié' }}</span>
+                </div>
+                <div class="detail-item">
+                  <i class="pi pi-user"></i>
+                  <span>
+                    {{ item.formation.responsableEvaluation?.prenom }} 
+                    {{ item.formation.responsableEvaluation?.nom || 'Formateur non spécifié' }}
+                  </span>
+                </div>
+                <div class="detail-item">
+                  <i class="pi pi-briefcase"></i>
+                  <span>{{ item.formation.titrePoste || 'Poste non spécifié' }}</span>
+                </div>
+                <div class="detail-item">
+                  <i class="pi pi-comment"></i>
+                  <span>{{ item.resultat || 'Aucun feedback' }}</span>
+                </div>
+              </div>
+
+            
+            </div>
+
+            <div class="card-footer">
+              <div class="employee-info">
+                <p-avatar [label]="getAvatarLabel(item)" 
+                          size="normal"
+                          shape="circle"
+                          styleClass="employee-avatar"></p-avatar>
+                <div class="employee-details">
+                  <span class="employee-name">{{ item.employe.prenom }} {{ item.employe.nom }}</span>
+                  <span class="employee-id">#{{ item.employe.matricule }}</span>
+                </div>
+              </div>
+              
+              <div class="card-actions">
+                <button pButton 
+        icon="pi pi-chart-bar" 
+        class="p-button-rounded p-button-outlined action-btn analyze-btn"
+        (click)="showAnalysisDialog()"
+        pTooltip="Analyse des compétences"
+        tooltipPosition="top"></button>
+             
+                        <button *ngIf="item.resultat === 'REUSSI'"
+                        pButton 
+                        icon="pi pi-file-pdf" 
+                        class="p-button-rounded p-button-outlined action-btn"
+                        (click)="generateSuccessCertificate(item)"
+                        pTooltip="Générer attestation"
+                        tooltipPosition="top"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<p-dialog header="Analyse des Compétences Professionnelles" 
+          [(visible)]="displayAnalysisDialog" 
+          [style]="{ 
+            width: '60vw', 
+            maxWidth: '900px', 
+            height: '78vh',
+            top: '20px',
+            left: '50%', 
+            transform: 'translateX(-50%)',
+            position: 'fixed'
+          }"
+          [modal]="true"
+          [draggable]="false"
+          [resizable]="false"
+          styleClass="professional-analysis-dialog">
+          <div id="analysisDialogContent"> 
+  <!-- En-tête profil amélioré -->
+  <div *ngIf="analysisData" class="analysis-content">
+    <div class="employee-profile-header">
+      <div class="avatar-container">
+        <p-avatar [label]="getInitials(employe.nom, employe.prenom)" 
+                  size="xlarge" 
+                  shape="circle"
+                  styleClass="profile-avatar"></p-avatar>
+        <div class="employee-status-indicator" [ngClass]="{'has-potential': analysisData.capableFormations.length > 0}"></div>
+      </div>
+      
+      <div class="employee-profile-info">
+        <h2>{{ employe.prenom }} {{ employe.nom }}</h2>
+      
+        
+        <div class="competency-summary">
+          <div class="summary-item mastered">
+            <div class="summary-value">{{ analysisData.experiencedFormations.length }}</div>
+            <div class="summary-label">Compétences maîtrisées</div>
+          </div>
+          <div class="summary-item potential">
+            <div class="summary-value">{{ analysisData.capableFormations.length }}</div>
+            <div class="summary-label">Potentiels identifiés</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sections d'analyse -->
+    <div class="analysis-sections-container">
+      <!-- Section Potentiel -->
+      <div class="analysis-section potential-section">
+        <div class="section-header">
+          <i class="pi pi-star-fill section-icon"></i>
+          <div>
+            <h3>Potentiel à Développer</h3>
+            <p class="section-subtitle">Compétences validées mais non encore exploitées</p>
+          </div>
+          <span class="section-badge">{{ analysisData.capableFormations.length }}</span>
+        </div>
+
+        <div *ngIf="analysisData.capableFormations.length > 0; else noPotential" class="competency-list">
+          <div *ngFor="let formation of analysisData.capableFormations" class="competency-card potential-card">
+            <div class="competency-icon">
+              <i class="pi pi-arrow-up-right"></i>
+            </div>
+            <div class="competency-details">
+              <h4>{{ formation.formation.titre }}</h4>
+              <div class="competency-meta">
+                <span *ngIf="formation.formation.typeFormation">
+                  <i class="pi pi-tag"></i> {{ formation.formation.typeFormation }}
+                </span>
+                <span *ngIf="formation.formation.dateFinPrevue">
+                  <i class="pi pi-calendar"></i> {{ formation.formation.dateFinPrevue | date:'MMM yyyy' }}
+                </span>
+              </div>
+              <div class="competency-application" *ngIf="formation.formation.titrePoste">
+                <i class="pi pi-briefcase"></i> Poste compatible : {{ formation.formation.titrePoste }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #noPotential>
+          <div class="empty-state">
+            <i class="pi pi-search"></i>
+            <p>Aucun potentiel identifié pour le moment</p>
+          </div>
+        </ng-template>
+      </div>
+
+      <!-- Section Expérience -->
+      <div class="analysis-section experience-section">
+        <div class="section-header">
+          <i class="pi pi-verified section-icon"></i>
+          <div>
+            <h3>Expérience Validée</h3>
+            <p class="section-subtitle">Compétences maîtrisées en situation professionnelle</p>
+          </div>
+          <span class="section-badge">{{ analysisData.experiencedFormations.length }}</span>
+        </div>
+
+        <div *ngIf="analysisData.experiencedFormations.length > 0; else noExperience" class="competency-list">
+          <div *ngFor="let formation of analysisData.experiencedFormations" class="competency-card experience-card">
+            <div class="competency-icon">
+              <i class="pi pi-check-circle"></i>
+            </div>
+            <div class="competency-details">
+              <h4>{{ formation.formation.titre }}</h4>
+              <div class="competency-meta">
+                <span *ngIf="formation.formation.typeFormation">
+                  <i class="pi pi-tag"></i> {{ formation.formation.typeFormation }}
+                </span>
+                <span *ngIf="formation.formation.dateFinPrevue">
+                  <i class="pi pi-calendar"></i> {{ formation.formation.dateFinPrevue | date:'MMM yyyy' }}
+                </span>
+              </div>
+              <div class="competency-application" *ngIf="formation.formation.titrePoste">
+                <i class="pi pi-sitemap"></i> Poste exercé : {{ formation.formation.titrePoste }}
+              </div>
+              <div class="mastery-indicator">
+                <span>Maîtrise confirmée</span>
+                <p-progressBar [value]="100" [showValue]="false" mode="indeterminate"></p-progressBar>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #noExperience>
+          <div class="empty-state">
+            <i class="pi pi-info-circle"></i>
+            <p>Aucune expérience validée pour le moment</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    <!-- Synthèse compacte -->
+    <div class="analysis-synthesis">
+      <h3><i class="pi pi-comment"></i> Synthèse</h3>
+      <div class="synthesis-content">
+        <p *ngIf="analysisData.capableFormations.length > 0">
+          <strong>{{ analysisData.capableFormations.length }} compétence(s)</strong> démontrée(s) pouvant être transférée(s) à de nouveaux postes.
+        </p>
+        <p *ngIf="analysisData.experiencedFormations.length > 0">
+          <strong>{{ analysisData.experiencedFormations.length }} compétence(s)</strong> déjà mise(s) en œuvre avec succès en situation professionnelle.
+        </p>
+        <p *ngIf="analysisData.capableFormations.length === 0 && analysisData.experiencedFormations.length === 0">
+          Aucune analyse disponible pour le moment.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+  <ng-template pTemplate="footer">
+    <div class="dialog-footer-actions">
+      <button pButton 
+              label="Fermer" 
+              icon="pi pi-times"
+              (click)="displayAnalysisDialog = false"
+              class="p-button-text"></button>
+      <button pButton 
+              label="Exporter en PDF" 
+              icon="pi pi-file-pdf"
+              (click)="printDialog()"
+              class="export-button"></button>
+    </div>
+  </ng-template>
+</p-dialog>

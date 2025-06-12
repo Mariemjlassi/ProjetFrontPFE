@@ -1,0 +1,152 @@
+/* Styles globaux */
+.poste-management-container {
+  padding: 1.5rem;
+}
+
+/* Toolbar */
+
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Table */
+.table-card {
+  margin-top: 20px;
+  border-radius: 6px;
+  padding: 3rem;;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.search-container {
+  width: 300px;
+}
+
+.search-input {
+  width: 100%;
+}
+
+/* Cellules du tableau */
+.poste-title, .poste-info, .date-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.poste-title i {
+  color: #4b6bfb;
+}
+
+.poste-info i {
+  color: #6c757d;
+}
+
+.date-cell i {
+  color: #495057;
+}
+
+/* Status */
+.status-tag {
+  min-width: 100px;
+  text-align: center;
+}
+
+.p-tag-success {
+  background: #e6f7e6;
+  color: #28a745;
+  border: 1px solid #28a745;
+}
+
+.p-tag-info {
+  background: #e6f2ff;
+  color: #1976d2;
+}
+
+.p-tag-warning {
+  background: #fff8e6;
+  color: #ffc107;
+  border: 1px solid #ffc107;
+}
+
+.p-tag-danger {
+  background: #ffe6e6;
+  color: #dc3545;
+}
+
+/* Boutons d'action */
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Messages d'erreur */
+.error-message {
+  margin-top: 1rem;
+}
+
+/* Options des dropdowns */
+.poste-option, .direction-option, .site-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.poste-option i {
+  color: #4b6bfb;
+}
+
+.direction-option i {
+  color: #6c757d;
+}
+
+.site-option i {
+  color: #495057;
+}
+
+/* Message tableau vide */
+.empty-message {
+  text-align: center;
+  padding: 2rem;
+}
+
+.empty-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6c757d;
+}
+
+/* Dialog */
+.dialog-content {
+  padding: 1rem 0;
+}
+
+.field {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #495057;
+}
+.p-confirm-dialog .p-dialog-title {
+    color: #d32f2f;
+    font-weight: 600;
+}
+
+.p-confirm-dialog .pi-exclamation-triangle {
+    color: #d32f2f;
+    margin-right: 0.5rem;
+}

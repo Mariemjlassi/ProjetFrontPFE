@@ -1,0 +1,331 @@
+/* Style général */
+.experience-management-container {
+  padding: 2rem;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  margin-left: 30px;
+}
+
+.header-section {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.header-section h2 {
+  color: #2c3e50;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.header-section .subtitle {
+  color: #7f8c8d;
+  font-size: 1.1rem;
+}
+
+/* Onglets */
+::ng-deep .p-tabview .p-tabview-nav {
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+::ng-deep .p-tabview .p-tabview-nav li .p-tabview-nav-link {
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Carte d'actions */
+.action-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.stat-badge {
+  background: #f0f3f5;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: #5a6a7a;
+  display: flex;
+  align-items: center;
+}
+
+.stat-badge i {
+  margin-right: 0.5rem;
+}
+
+/* État vide */
+.empty-state {
+  text-align: center;
+  padding: 3rem 0;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  margin-bottom: 2rem;
+}
+
+.empty-illustration {
+  margin: 0 auto 1.5rem;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f3f5;
+  border-radius: 50%;
+}
+
+.empty-state h3 {
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+  color: #7f8c8d;
+  margin-bottom: 1.5rem;
+}
+
+/* Grille unifiée */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.experience-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.experience-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Badge pour identifier le type d'expérience */
+.card-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.3rem 1rem;
+  border-bottom-left-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.assad-badge {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.previous-badge {
+  background: #e8f5e9;
+  color: #388e3c;
+}
+
+.card-header {
+  margin-bottom: 1rem;
+  padding-right: 2rem;
+}
+
+.card-header h4 {
+  margin: 0 0 0.5rem;
+  color: #2c3e50;
+  font-size: 1.1rem;
+}
+
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.card-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #5a6a7a;
+}
+
+.card-meta i {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+}
+
+.company {
+  color: #3498db;
+  font-weight: 500;
+}
+
+.direction {
+  color: #5c6bc0;
+}
+
+.contract {
+  color: #ff7043;
+}
+
+.card-dates {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card-dates i {
+  margin-right: 0.3rem;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.dialog-content {
+  padding: 1rem 0;
+}
+
+.field {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #495057;
+}
+/* Bordures colorées pour différencier les types */
+.assad-card {
+  border-left: 4px solid #1976d2;
+}
+
+.previous-card {
+  border-left: 4px solid #388e3c;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .grid {
+      grid-template-columns: 1fr;
+  }
+  
+  .action-card {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-start;
+  }
+}
+
+/* Style pour le bouton "Voir plus" */
+.see-more-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.see-more-btn {
+  background: transparent;
+  color: #3498db;
+  margin-bottom: 10px;
+}
+
+.see-more-btn:hover {
+  background: #f8f9fa;
+}
+
+.see-more-btn .pi {
+  margin-left: 0.5rem;
+  transition: transform 0.3s;
+}
+
+.see-more-btn:hover .pi {
+  transform: translateY(2px);
+}
+
+
+.edit-experience-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.edit-experience-card {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.edit-experience-card h3 {
+  margin-top: 0;
+  color: #2c3e50;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #4a5568;
+}
+
+.form-g{
+  width: 100%;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}

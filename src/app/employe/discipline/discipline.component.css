@@ -1,0 +1,73 @@
+/* Ces styles sont cohérents avec ceux de l'interface des stages */
+.card {
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  margin-left: 30px;
+}
+
+.card-content {
+  padding: 2rem;
+}
+
+.divider {
+  height: 1px;
+  background-color: #e5e7eb;
+  margin: 1.5rem 0;
+}
+
+.list-container h3 {
+  margin-bottom: 1rem;
+  color: #374151;
+  font-size: 1.25rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #4b5563;
+  font-weight: 500;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  transition: border-color 0.2s;
+}
+
+
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.action-button {
+  margin: 0 0.25rem;
+}
+
+/* Styles pour les tags de type de diplôme */
+.p-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card-content {
+    padding: 1rem;
+  }
+  
+  .p-dialog {
+    width: 90% !important;
+  }
+}

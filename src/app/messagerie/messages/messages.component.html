@@ -1,0 +1,127 @@
+<div class="messaging-app">
+    <!-- Sidebar améliorée -->
+    <div class="app-sidebar">
+        <div class="sidebar-header">
+            <h2>
+                <i class="pi pi-inbox"></i>
+                <span>Messagerie</span>
+            </h2>
+
+        </div>
+
+        <!-- Recherche avancée -->
+        <div class="search-container">
+            <div class="search">
+                <input type="text" class="search__input" [(ngModel)]="searchTerm" (input)="onSearch()"
+                    placeholder="Rechercher messages...">
+                <button class="search__button">
+                    <svg class="search__icon" aria-hidden="true" viewBox="0 0 24 24">
+                        <g>
+                            <path
+                                d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z">
+                            </path>
+                        </g>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Catégories -->
+        <div class="categories">
+            <!-- Dans la catégorie "Boîte de réception" -->
+            <div class="category" [class.active]="activeCategory === 'recus'"
+                (click)="activeCategory = 'recus'; loadMessages()">
+                <i class="pi pi-inbox"></i>
+                <span>Boîte de réception</span>
+                <span class="unread-badge" *ngIf="unreadCount > 0">{{unreadCount}}</span>
+            </div>
+            <div class="category" [class.active]="activeCategory === 'envoyes'"
+                (click)="activeCategory = 'envoyes'; loadMessages()">
+                <i class="pi pi-send"></i>
+                <span>Envoyés</span>
+            </div>
+
+
+
+        </div>
+    </div>
+
+    <!-- Liste des messages -->
+    <div class="message-list-container">
+        <div class="list-header">
+            <h3>
+                <i class="pi" [ngClass]="{
+                  'pi-inbox': activeCategory === 'recus',
+                  'pi-send': activeCategory === 'envoyes'
+                }"></i>
+                {{ getCategoryTitle() }}
+              </h3>
+              
+            <div class="actions">
+
+                <button class="action-btn">
+                    <i class="pi pi-ellipsis-v"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="message-list">
+            <ng-container *ngFor="let group of groupMessagesByDate(filteredMessages)">
+
+                <div class="date-separator" [class.today]="isToday(group.label)">
+                    <span class="date-label">{{ group.label }}</span>
+                    <span class="date-line"></span>
+                </div>
+
+
+                <div class="message-item" *ngFor="let msg of group.messages" [routerLink]="['/messages/thread', msg.id]"
+                    [class.unread]="!msg.lu">
+
+                    <div class="avatar-container">
+                        <div class="custom-avatar" [ngClass]="getAvatarClass(getDisplayedUserId(msg))"
+                            [style.backgroundColor]="getAvatarColor(getDisplayedUserName(msg))">
+                            {{ getInitialsFromMessage(msg) }}
+                        </div>
+
+                    </div>
+
+                    <div class="message-content">
+                        <div class="message-header">
+                            <span class="sender">{{ getDisplayedUserName(msg) }}</span>
+                            <span class="time">{{ msg.dateEnvoi | date:'shortTime' }}</span>
+                        </div>
+                        <div class="message-subject">
+                            <span>{{ msg.sujet }}</span>
+                        </div>
+                        <div class="message-preview">
+                            {{ msg.contenu }}
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+
+
+        <!-- État vide -->
+        <div class="empty-state" *ngIf="filteredMessages.length === 0">
+            <div class="illustration">
+                <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="1">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <path d="M22 6l-10 7L2 6"></path>
+                </svg>
+            </div>
+            <h4>Aucun message trouvé</h4>
+            <p *ngIf="searchTerm">Aucun message ne correspond à "{{searchTerm}}"</p>
+            <p *ngIf="!searchTerm">Votre boîte {{activeCategory === 'recus' ? 'de réception' : 'd\'envoi'}} est vide</p>
+            <button class="primary-btn" routerLink="/messages/nouveau">
+                <i class="pi pi-pencil"></i>
+                Écrire un message
+            </button>
+        </div>
+    </div>
+
+    <!-- Quick compose (floating button mobile) -->
+    <button class="floating-compose" routerLink="/messages/nouveau">
+        <i class="pi pi-pencil"></i>
+    </button>
+</div>

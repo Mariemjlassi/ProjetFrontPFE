@@ -1,0 +1,9 @@
+<body>
+  <!-- Sidebar affichée uniquement si l'utilisateur est connecté -->
+  <app-sidebar *ngIf="isLoggedIn() && !isExcludedRoute()"></app-sidebar>
+ 
+  <!-- Contenu principal de l'application -->
+  <div class="main-content">
+    <router-outlet></router-outlet>
+  </div>
+</body>

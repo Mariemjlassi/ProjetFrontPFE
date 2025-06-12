@@ -1,0 +1,339 @@
+<div class="dashboard-container">
+  <!-- Header avec titre et boutons d'actions -->
+  <div class="dashboard-header">
+    <h1 class="dashboard-title">
+      <i class="pi pi-chart-line"></i> Tableau de Bord Administratif
+    </h1>
+    <div class="header-actions">
+      <p-button icon="pi pi-refresh" label="Actualiser" (click)="loadData()"></p-button>
+      <p-menu #menu [popup]="true" [model]="exportItems"></p-menu>
+    <p-button 
+      icon="pi pi-file-pdf" 
+      label="Exporter PDF" 
+      severity="contrast"
+      (click)="menu.toggle($event)">
+    </p-button>
+    </div>
+  </div>
+
+  <!-- Section des indicateurs clés -->
+  <div class="key-metrics">
+    <!-- Carte Utilisateurs -->
+    <p-card class="metric-card">
+      <div class="metric-content">
+        <div class="metric-icon user">
+          <i class="pi pi-users"></i>
+        </div>
+        <div class="metric-info">
+          <span class="metric-label">Utilisateurs</span>
+          <span class="metric-value">{{ stats.totalUsers }}</span>
+          <span class="metric-description">Total inscrits</span>
+        </div>
+      </div>
+    </p-card>
+
+    <!-- Carte Comptes verrouillés -->
+    <p-card class="metric-card">
+      <div class="metric-content">
+        <div class="metric-icon locked">
+          <i class="pi pi-lock"></i>
+        </div>
+        <div class="metric-info">
+          <span class="metric-label">Comptes Verrouillés</span>
+          <span class="metric-value">{{ stats.lockedAccounts }}</span>
+          <span class="metric-description">À vérifier</span>
+        </div>
+      </div>
+    </p-card>
+
+    <!-- Carte Activités -->
+    <p-card class="metric-card">
+      <div class="metric-content">
+        <div class="metric-icon activity">
+          <i class="pi pi-clock"></i>
+        </div>
+        <div class="metric-info">
+          <span class="metric-label">Activités</span>
+          <span class="metric-value">{{ stats.totalActions }}</span>
+          <span class="metric-description">Total actions</span>
+        </div>
+      </div>
+    </p-card>
+
+    <!-- Carte Activités récentes -->
+    <p-card class="metric-card">
+      <div class="metric-content">
+        <div class="metric-icon recent">
+          <i class="pi pi-history"></i>
+        </div>
+        <div class="metric-info">
+          <span class="metric-label">Activités Récentes</span>
+          <span class="metric-value">{{ stats.lastWeekActions }}</span>
+          <span class="metric-description">7 derniers jours</span>
+        </div>
+      </div>
+    </p-card>
+  </div>
+
+  <!-- Section principale avec graphiques et alertes -->
+  <div class="main-content">
+    <!-- Colonne de gauche - Graphiques -->
+    <div class="charts-column">
+      <!-- Graphique des actions -->
+      <p-card header="Statistiques des Actions" subheader="Répartition par type d'action">
+        <div class="chart-container">
+          <canvas id="actionChart"></canvas>
+        </div>
+      </p-card>
+
+      <!-- Graphique temporel -->
+      <p-card [header]="'Évolution des Activités'" [subheader]="'Répartition sur ' + timeLabel" [style]="{'margin-top':'20px'}">
+        <div class="chart-controls">
+          <p-buttonGroup>
+            <button pButton type="button" icon="pi pi-chart-line" 
+                    (click)="setChartType('line')" 
+                    [class]="chartType === 'line' ? 'p-button-primary' : 'p-button-secondary'"></button>
+            <button pButton type="button" icon="pi pi-chart-bar" 
+                    (click)="setChartType('bar')"
+                    [class]="chartType === 'bar' ? 'p-button-primary' : 'p-button-secondary'"></button>
+          </p-buttonGroup>
+          <p-tabMenu [model]="timeRangeItems" [activeItem]="activeTimeRange"></p-tabMenu>
+        </div>
+        <div class="chart-container">
+          <canvas id="timeChart"></canvas>
+        </div>
+      </p-card>
+      <div class="full-width-chart">
+    <p-card header="Répartition des Rôles" subheader="Proportion des différents rôles utilisateurs">
+      <div class="chart-container">
+        <canvas id="roleChart"></canvas>
+      </div>
+    </p-card>
+  </div>
+    </div>
+
+    <!-- Colonne de droite - Alertes et activités -->
+    <div class="right-column">
+      <!-- Alertes de sécurité -->
+       <p-card header="Analyse IA" subheader="TensorFlow.js intégré" class="ai-card" [style]="{'margin-top' : '10px'}">
+  <div *ngIf="isTrainingModel" class="training-progress">
+    <p-progressBar [value]="trainingProgress"></p-progressBar>
+    <p>Entraînement du modèle IA en cours... {{trainingProgress}}%</p>
+  </div>
+
+  <div *ngIf="!isTrainingModel && (!aiStatus && !activityTrends && !securityAnalysis)">
+    <div class="empty-analysis">
+      <i class="pi pi-robot"></i>
+      <p>L'analyse IA n'a pas encore été exécutée</p>
+      <p-button 
+        label="Lancer l'analyse" 
+        icon="pi pi-bolt" 
+        (click)="analyzeDataWithAI()">
+      </p-button>
+    </div>
+  </div>
+
+  <div *ngIf="!isTrainingModel && (aiStatus || activityTrends || securityAnalysis)" class="analysis-results">
+    <div class="result-item" [class.warning]="aiStatus.includes('AVERTISSEMENT')" 
+                            [class.danger]="aiStatus.includes('DANGER')">
+      <i class="pi pi-shield"></i>
+      <div>
+        <h4>État du Système</h4>
+        <p>{{aiStatus}}</p>
+      </div>
+    </div>
+
+    <div class="result-item">
+      <i class="pi pi-chart-line"></i>
+      <div>
+        <h4>Tendances des Activités</h4>
+        <p>{{activityTrends}}</p>
+      </div>
+    </div>
+
+    <div class="result-item" [class.warning]="securityAnalysis.includes('ALERTE')" 
+                            [class.danger]="securityAnalysis.includes('ANOMALIE')">
+      <i class="pi pi-lock"></i>
+      <div>
+        <h4>Analyse de Sécurité</h4>
+        <p>{{securityAnalysis}}</p>
+      </div>
+    </div>
+
+    <div class="analysis-actions">
+      <p-button 
+        label="Actualiser" 
+        icon="pi pi-refresh" 
+        (click)="analyzeDataWithAI()">
+      </p-button>
+      <p-button 
+        label="Réinitialiser" 
+        icon="pi pi-trash" 
+        (click)="resetAIAnalysis()"
+        styleClass="p-button-text">
+      </p-button>
+    </div>
+  </div>
+</p-card>
+      <p-card header="Alertes de Sécurité" subheader="Tentatives de connexion récentes" class="alert-card" [style]="{'margin-top' : '10px'}">
+        <p-listbox [options]="failedAttempts" [listStyle]="{'max-height':'500px'}" [metaKeySelection]="false">
+          <ng-template let-attempt pTemplate="item">
+            <div class="alert-item" [class]="getAlertLevel(attempt)">
+              <div class="alert-icon-container">
+                <i [class]="getAlertIcon(attempt)"></i>
+              </div>
+              <div class="alert-content">
+                <div class="alert-header">
+                  <span class="username">{{ attempt.utilisateur?.username || 'Utilisateur inconnu' }}</span>
+                  <span class="alert-status">{{ getAlertStatus(attempt) }}</span>
+                </div>
+                <p class="alert-message">{{ attempt.description }}</p>
+                <div class="alert-footer">
+                  <span class="timestamp">{{ attempt.timestamp | date:'medium' }}</span>
+                  <span class="attempt-count">Tentative #{{ getAttemptCount(attempt) }}</span>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="empty">
+            <div class="no-alerts">
+              <i class="pi pi-check-circle"></i>
+              <span>Aucune alerte récente</span>
+            </div>
+          </ng-template>
+        </p-listbox>
+      </p-card>
+      <!-- Ajoutez cette carte dans votre right-column -->
+      <!-- Ajoutez cette carte dans votre right-column -->
+
+      <!-- Activités récentes -->
+      
+        <mat-card class="activity-card" style="flex: 1; margin-right: 20px;margin-top: 20px;">
+    <mat-card-header>
+      <mat-card-title>Activités Récentes</mat-card-title>
+      <mat-card-subtitle>Dernières actions sur le système</mat-card-subtitle>
+    </mat-card-header>
+    <mat-list class="activity-list">
+      <mat-list-item *ngFor="let activity of recentActivities" class="activity-item">
+        <mat-icon [class]="getActivityIconClass(activity.action)">{{ getActivityIcon(activity.action) }}</mat-icon>
+        <div class="activity-details">
+          <h4>{{ activity.utilisateur.username }} - {{ activity.action }}</h4>
+          <p>{{ activity.description }}</p>
+          <span class="activity-time">{{ activity.timestamp | date:'medium' }}</span>
+        </div>
+      </mat-list-item>
+    </mat-list>
+    <mat-card-actions>
+      <p-button 
+        (click)="toggleAllActivities()" 
+        label="{{ showAllActivities ? 'MASQUER LES ACTIVITÉS' : 'VOIR TOUTES LES ACTIVITÉS' }}"
+        icon="pi pi-list"
+        styleClass="p-button-text">
+      </p-button>
+    </mat-card-actions>
+  </mat-card>
+
+
+    </div>
+  </div>
+
+  <!-- Graphique des rôles -->
+  
+
+  <!-- Dialog pour toutes les activités -->
+  
+
+  <!-- Nouveau graphique temporel -->
+  
+
+  <!-- Tableau des activités PrimeNG -->
+<p-dialog 
+  header="Toutes les activités" 
+  [(visible)]="displayActivitiesDialog" 
+  [style]="{width: '90vw', maxWidth: '1400px'}" 
+  [contentStyle]="{'max-height': '100vh', 'overflow': 'auto'}"
+  [modal]="true" 
+  [dismissableMask]="true"
+  [resizable]="true"
+  [draggable]="false">
+  
+  <div class="activities-table-container">
+    <!-- Nouvelle structure pour les filtres -->
+    <div class="filter-container">
+      <div class="filter-row">
+        <div class="filter-item">
+          <p-calendar 
+          [(ngModel)]="selectedDateFilter" 
+          (onSelect)="applyFilters()"
+          [showIcon]="true"
+          inputId="dateFilter"
+          placeholder="Filtrer par date"
+          dateFormat="dd/mm/yy"
+          [showButtonBar]="true">
+        </p-calendar>
+        </div>
+        
+        <div class="filter-item">
+          <p-dropdown 
+            [options]="activityTypeOptions" 
+            [(ngModel)]="selectedTypeFilter"
+            (onChange)="applyFilters()"
+            placeholder="Filtrer par type"
+            [showClear]="true">
+          </p-dropdown>
+        </div>
+        
+        <div class="filter-item">
+          <p-button 
+            icon="pi pi-times" 
+            label="Réinitialiser" 
+            (onClick)="resetFilters()"
+            >
+          </p-button>
+        </div>
+      
+  <div class="filter-item">
+    <p-button 
+      icon="pi pi-file-pdf" 
+      label="Exporter PDF" 
+      (click)="exportFilteredToPDF()"
+      styleClass="p-button-danger">
+    </p-button>
+  </div>
+      </div>
+    </div>
+
+    <p-table 
+      [value]="filteredActivities" 
+      [paginator]="true" 
+      [rows]="6"
+      [rowsPerPageOptions]="[6,10,20]"
+      [paginatorDropdownAppendTo]="'body'"
+      [responsive]="true"
+      styleClass="p-datatable-striped p-datatable-gridlines">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Action</th>
+          <th>Utilisateur</th>
+          <th>Description</th>
+          <th>Date</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-activity>
+        <tr>
+          <td>
+            <i [class]="'pi ' + getPrimeNgActivityIcon(activity.action)"></i>
+            {{activity.action}}
+          </td>
+          <td>{{activity.utilisateur.username}}</td>
+          <td>{{activity.description}}</td>
+          <td>{{activity.timestamp | date:'medium'}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</p-dialog>
+
+<!-- Modifiez le bouton pour utiliser PrimeNG -->
+
+</div>

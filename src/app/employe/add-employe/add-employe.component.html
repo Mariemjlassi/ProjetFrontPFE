@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/3.1.0/css/font-awesome.min.css" />
+
+    <title>Gestion des Employés</title>
+</head>
+
+<body>
+
+    <div class="pcss3t pcss3t-effect-scale pcss3t-theme-1">
+        <!-- Menubar pour chaque employé -->
+<div class="card" *ngIf="selectedEmployeId !== null">
+    <p-menubar [model]="items" ></p-menubar>
+  </div>
+  
+  <!-- Contenu dynamique en fonction de l'onglet actif -->
+  <div *ngIf="activeTab === 'modifier-employe'">
+    <form [formGroup]="addEmployeeForm" (ngSubmit)="onSubmit()">
+        <div class="card">
+            <!-- Card Body -->
+            <div class="card-body">
+                <!-- Informations Personnelles Section -->
+                <div class="form-section">
+                    <h4>Informations Personnelles</h4>
+                    <div class="row">
+                        <!-- Nom et Prénom sur la même ligne -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Nom">Nom</label>
+                                <input pInputText id="Nom" formControlName="Nom" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Prenom">Prénom</label>
+                                <input pInputText id="Prenom" formControlName="Prenom" class="form-control" readonly />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- Matricule et Email sur la même ligne -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="matricule">Matricule</label>
+                                <input pInputText type="number" id="matricule" formControlName="matricule" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="email">Adresse Email</label>
+                                <input pInputText type="email" id="email" formControlName="email" class="form-control" placeholder="Entrez votre email" />
+                              <small class="text-danger" *ngIf="addEmployeeForm.controls['email'].invalid && addEmployeeForm.controls['email'].touched">
+  L'email n'est pas valide.
+</small>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coordonnées Section -->
+                <div class="form-section">
+                    <h4>Coordonnées</h4>
+                    <div class="row">
+                        <!-- Sexe et Date de Naissance sur la même ligne -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="sexe">Sexe</label>
+                                <p-dropdown [options]="sexes" [(ngModel)]="selectedSexe" optionLabel="name" placeholder="Sélectionner un sexe" formControlName="sexe"></p-dropdown>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="dN">Date de Naissance</label>
+                                <p-calendar id="dN" formControlName="dN"  dateFormat="dd/mm/yy" placeholder="Sélectionner une date" [readonlyInput]="true"></p-calendar>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- Date de Recrutement -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="dR">Date de Recrutement</label>
+                                <p-calendar id="dR" formControlName="dR"  dateFormat="dd/mm/yy" placeholder="Sélectionner une date"></p-calendar>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+
+                <!-- Poste Actuel Section -->
+                <div class="form-section" *ngIf="!employe.ajout">
+                    <h4>Poste Actuel</h4>
+                    <div class="row">
+                        <!-- Poste et Direction sur la même ligne -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Poste">Poste</label>
+                                <p-dropdown [options]="postes" optionLabel="titre" placeholder="Sélectionner un poste" formControlName="Poste" (onChange)="onPosteChange($event)"></p-dropdown>
+                                <small class="text-danger" *ngIf="addEmployeeForm.controls['Poste'].invalid && addEmployeeForm.controls['Poste'].touched">
+                                    Ce champ est obligatoire.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Direction">Direction</label>
+                                <p-dropdown [options]="directions" optionLabel="nom_direction" placeholder="Sélectionner une direction" formControlName="Direction" (onChange)="onDirectionChange($event)"></p-dropdown>
+                                <small class="text-danger" *ngIf="addEmployeeForm.controls['Direction'].invalid && addEmployeeForm.controls['Direction'].touched">
+                                    Ce champ est obligatoire.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="sites">Site</label>
+                            <p-dropdown [options]="sites" optionLabel="nom_site"
+                                placeholder="Sélectionner un site" formControlName="site" class="w-full" />
+                            <small class="text-danger"
+                                *ngIf="addEmployeeForm.controls['site']?.invalid && addEmployeeForm.controls['site']?.touched">
+                                Ce champ est obligatoire.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="dateDebut">Date de Début</label>
+                            <input pInputText type="date" id="dateDebut" formControlName="dateDebut"
+                                class="form-control" />
+                        </div>
+                    </div>
+                   
+                    </div>
+                </div>
+                <div class="form-section">
+                    
+                        <h4 class="text-secondary">État de l'Employé</h4>
+                        <div>
+                            <p-selectbutton [options]="stateOptions" formControlName="actif" optionLabel="label"
+                                optionValue="value" />
+                            <small class="text-danger"
+                                *ngIf="addEmployeeForm.controls['actif']?.invalid && addEmployeeForm.controls['actif']?.touched">
+                                Ce champ est obligatoire.
+                            </small>
+                        </div>
+                   
+                </div>
+                <!-- Documents Section -->
+                
+            </div>
+
+            <!-- Card Footer -->
+            <div class="card-footer">
+                <button  type="submit" class="btn btn-success" [disabled]="addEmployeeForm.invalid" severity="primary">
+                    Modifier l'Employé
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+  
+  <div *ngIf="activeTab === 'stage' && selectedEmployeId !== null">
+    <app-stage [employeId]="selectedEmployeId"></app-stage>
+  </div>
+  
+  <div *ngIf="activeTab === 'discipline' && selectedEmployeId !== null">
+    <app-discipline [employeId]="selectedEmployeId"></app-discipline>
+  </div>
+  
+  <div *ngIf="activeTab === 'experience' && selectedEmployeId !== null">
+    <app-experience [employeId]="selectedEmployeId" (experienceAdded)="onExperienceAdded()"></app-experience>
+  </div>
+  
+  <div *ngIf="activeTab === 'diplomes' && selectedEmployeId !== null">
+    <app-list-diplome [employeId]="selectedEmployeId"></app-list-diplome>
+  </div>
+  
+  <div *ngIf="activeTab === 'poste' && selectedEmployeId !== null">
+    <app-poste [employeId]="selectedEmployeId"></app-poste>
+  </div>
+  <div *ngIf="activeTab === 'formations-employees' && selectedEmployeId !== null">
+    
+    <app-formation-employe [employeId]="selectedEmployeId"></app-formation-employe>
+  </div>
+  <div *ngIf="activeTab === 'employe-competences' && selectedEmployeId !== null">
+  <app-employecompetence [employeId]="selectedEmployeId"></app-employecompetence>
+</div>
+    </div>
+
+</body>
+
+</html>

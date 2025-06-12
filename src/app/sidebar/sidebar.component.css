@@ -1,0 +1,203 @@
+/* Importing Google font - Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  min-height: 100vh;/* Couleur de fond claire */
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 85px;
+  display: flex;
+  overflow-x: hidden;
+  flex-direction: column;
+  background: #232c5b; /* Fond bleu foncé */
+  padding: 25px 20px;
+  transition: all 0.4s ease;
+  color: #BAD7E9; /* Texte bleu clair */
+}
+
+.sidebar:hover {
+  width: 290px;
+}
+
+.sidebar .sidebar-header {
+  display: flex;
+  align-items: center;
+}
+
+.sidebar .sidebar-header img {
+  width: 42px;
+}
+
+.sidebar .sidebar-header h2 {
+  color: #FCFFE7; /* Texte crème */
+  font-size: 1.25rem;
+  font-weight: 600;
+  white-space: nowrap;
+  margin-left: 23px;
+}
+
+.sidebar-links h4 {
+  color: #BAD7E9; /* Texte bleu clair */
+  font-weight: 500;
+  white-space: nowrap;
+  margin: 20px 0;
+  position: relative;
+}
+
+.sidebar-links h4 span {
+  opacity: 0;
+}
+
+.sidebar:hover .sidebar-links h4 span {
+  opacity: 1;
+}
+
+.sidebar-links .menu-separator {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 1px;
+  transform: scaleX(1);
+  transform: translateY(-50%);
+  background: #BAD7E9; /* Ligne bleu clair */
+  transform-origin: right;
+  transition-delay: 0.2s;
+}
+
+.sidebar:hover .sidebar-links .menu-separator {
+  transition-delay: 0s;
+  transform: scaleX(0);
+}
+
+.sidebar-links {
+  list-style: none;
+  margin-top: 20px;
+  height: 80%;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.sidebar-links::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebar-links li a {
+  display: flex;
+  align-items: center;
+  gap: 0 20px;
+  color: #BAD7E9; /* Texte bleu clair */
+  font-weight: 500;
+  white-space: nowrap;
+  padding: 15px 10px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+}
+
+.sidebar-links li a:hover {
+  color: #FCFFE7; /* Texte crème au survol */
+  background-color: rgba(235, 69, 95, 0.2); /* Rouge transparent */
+  border-radius: 4px;
+  border-left: 3px solid #EB455F; /* Bordure rouge */
+  transform: translateX(5px);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-links li a.active {
+  color: #FCFFE7; /* Texte crème */
+  background-color: rgba(235, 69, 95, 0.3); /* Rouge plus opaque */
+  border-left: 3px solid #EB455F; /* Bordure rouge */
+  font-weight: 600;
+}
+
+.sidebar-links li a .pi-bell:hover {
+  animation: ring 0.5s ease;
+}
+
+@keyframes ring {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(15deg); }
+  50% { transform: rotate(-15deg); }
+  75% { transform: rotate(10deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.sidebar-links li a:hover i {
+  transform: scale(1.1);
+  color: #EB455F; /* Icônes rouges au survol */
+}
+
+.user-account {
+  margin-top: auto;
+  padding: 12px 10px;
+  margin-left: -40px;
+}
+
+.user-profile {
+  display: flex;
+  transition: all 0.3s ease;
+  color: #BAD7E9; /* Texte bleu clair */
+}
+
+.user-profile img {
+  width: 42px;
+  border-radius: 50%;
+}
+
+.user-profile h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #FCFFE7; /* Texte crème */
+}
+
+.user-profile span {
+  font-size: 0.775rem;
+  font-weight: 600;
+  color: #EB455F; /* Texte rouge */
+}
+
+.user-detail {
+  white-space: nowrap;
+}
+
+/* Style pour les icônes */
+.pi {
+  color: #BAD7E9; /* Icônes bleu clair par défaut */
+}
+
+.sidebar-links li a:hover .pi {
+  color: #EB455F; /* Icônes rouges au survol */
+}
+
+.messagerie-item {
+  position: relative;
+}
+
+.message-badge {
+  position: absolute;
+  right: 10px;
+  background-color: #f44336; /* Rouge */
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+}

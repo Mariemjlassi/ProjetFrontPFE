@@ -1,0 +1,134 @@
+/* Style général du formulaire */
+.card {
+    border-radius: 12px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 1300px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+
+/* Titres des sections */
+h4 {
+    font-size: 1.2rem;
+    color: #2B3467;
+    margin-bottom: 20px;
+    font-weight: 600;
+    border-bottom: 2px solid #BAD7E9;
+    padding-bottom: 10px;
+}
+
+/* Sections du formulaire */
+.form-section {
+    margin-bottom: 25px;
+    padding: 15px;
+    background-color: #f6f6f6;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+/* Groupes de champs */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Champs de formulaire */
+.form-control, p-inputtext, p-dropdown, p-selectbutton {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    transition: all 0.2s ease-in-out;
+    font-size: 0.95rem;
+}
+
+
+
+/* Boutons de sélection */
+p-selectbutton {
+    display: flex;
+    gap: 10px;
+}
+
+p-selectbutton .p-button {
+    flex: 1;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 0.95rem;
+}
+
+/* Messages d'erreur */
+.text-danger {
+    font-size: 0.85rem;
+    color: #dc3545;
+    margin-top: 5px;
+}
+
+/* Bouton de soumission */
+.btn-success {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 6px;
+    background-color: #2B3467;
+    border: none;
+    color: #FCFFE7;
+}
+
+
+
+
+
+/* File Upload */
+p-fileupload {
+    width: 100%;
+}
+
+.p-fileupload-buttonbar {
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+.p-fileupload-content {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .card {
+        padding: 15px;
+    }
+
+    .form-section {
+        padding: 10px;
+    }
+
+    .form-group {
+        margin-bottom: 10px;
+    }
+
+    .form-control, p-inputtext, p-dropdown,  p-selectbutton {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+
+    h4 {
+        font-size: 1.1rem;
+    }
+}

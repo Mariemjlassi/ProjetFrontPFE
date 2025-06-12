@@ -1,0 +1,416 @@
+<div class="dashboard-header">
+  <div class="header-background"></div>
+
+  <div class="header-content">
+    <div class="title-container">
+      <div class="icon-badge animated">
+        <i class="pi pi-shield"></i>
+        <div class="particles"></div>
+      </div>
+      <br>
+      <div class="title-wrapper">
+        <h1 class="gradient-text">
+
+          <span class="highlight">Tableau de bord des habilitations</span>
+        </h1>
+
+        <div class="animated-underline"></div>
+
+        <p class="subtitle">
+          <i class="pi pi-sitemap pulse"></i>
+          Gestion des compétences et accès aux postes
+          <i class="pi pi-key pulse"></i>
+        </p>
+        <br>
+        <br>
+        <br>
+
+      </div>
+
+
+      <div class="header-actions">
+        <div class="header-actions">
+          <form class="form">
+            <button type="button">
+              <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img"
+                aria-labelledby="search">
+                <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
+                  stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </button>
+            <input class="input" type="text" placeholder="Rechercher un employé ou un poste..." required
+              [(ngModel)]="searchText" (input)="filterEmployes()" name="search">
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section principale avec onglets -->
+    <p-tabView class="main-tabview">
+      <!-- Onglet Vue globale -->
+      <p-tabPanel header="Vue Globale" leftIcon="pi pi-chart-line">
+        <div class="grid-container">
+          <!-- Cartes de statistiques en haut -->
+          <div class="stats-cards">
+            <div class="stat-card">
+              <div class="stat-icon" style="background: rgba(63, 81, 181, 0.1);">
+                <i class="pi pi-users" style="color: #3f51b5;"></i>
+              </div>
+              <div class="stat-content">
+                <h3>{{employes.length}}</h3>
+                <p>Employés</p>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon" style="background: rgba(233, 30, 99, 0.1);">
+                <i class="pi pi-check-circle" style="color: #e91e63;"></i>
+              </div>
+              <div class="stat-content">
+                <h3>{{getAverageAccessPercentage()}}%</h3>
+                <p>Taux d'accès moyen</p>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon" style="background: rgba(76, 175, 80, 0.1);">
+                <i class="pi pi-briefcase" style="color: #4caf50;"></i>
+              </div>
+              <div class="stat-content">
+                <h3>{{allPostes.length}}</h3>
+                <p>Postes différents</p>
+              </div>
+            </div>
+          </div>
+          <br><br>
+          <!-- Sélecteur de vue -->
+          <div class="view-selector">
+            <p-buttonGroup>
+              <button pButton type="button" icon="pi pi-th-large"
+                [class.p-button-outlined]="currentDisplayMode !== 'cards'" (click)="currentDisplayMode = 'cards'"
+                pTooltip="Vue cartes"></button>
+              <button pButton type="button" icon="pi pi-table"
+                [class.p-button-outlined]="currentDisplayMode !== 'matrix'" (click)="currentDisplayMode = 'matrix'"
+                pTooltip="Vue matrice"></button>
+            </p-buttonGroup>
+          </div>
+        </div>
+
+
+        <!-- Contenu dynamique selon la vue -->
+        <div [ngSwitch]="currentDisplayMode">
+          <!-- Vue Matrice -->
+          <div *ngSwitchCase="'matrix'" class="matrix-view">
+            <div class="matrix-container">
+              <div class="matrix-scroll-wrapper">
+                <table class="habilitation-matrix">
+                  <thead>
+                    <tr>
+                      <th class="sticky-header">Employés/Postes</th>
+                      <th *ngFor="let poste of allPostes" class="sticky-header">{{ poste }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let employe of filteredEmployes">
+                      <td class="employe-cell">
+                        <div class="employe-info" (click)="showEmployeDetails(employe)">
+                          <span class="avatar-small">{{ employe.prenom.charAt(0) }}{{ employe.nom.charAt(0) }}</span>
+                          <span>{{ employe.prenom }} {{ employe.nom }}</span>
+                        </div>
+                      </td>
+                      <td *ngFor="let poste of allPostes" class="access-cell">
+                        <div *ngIf="hasAccess(employe, poste)" [ngClass]="getAccessLevelForMatrix(employe, poste)"
+                          class="access-indicator" [pTooltip]="getTooltipForAccess(employe, poste)"
+                          tooltipPosition="top" [escape]="false"> <!-- Important pour permettre le HTML -->
+                          <i class="pi" [class.pi-check-circle]="isFullAccess(employe, poste)"
+                            [class.pi-exclamation-circle]="!isFullAccess(employe, poste)"></i>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vue Cartes -->
+          <div *ngSwitchCase="'cards'" class="cards-view">
+            <div class="employes-grid">
+              <div *ngFor="let employe of filteredEmployes; let i = index" class="employe-card"
+                [class.no-access]="getEmployeAccessPercentage(employe) === 0" [ngClass]="getAccessLevelClass(employe)"
+                (click)="showEmployeDetails(employe)" [style.--index]="i">
+
+                <div class="card-background"></div>
+
+                <div class="employe-content">
+                  <div class="employe-avatar">
+                    <p-avatar [label]="employe.prenom.charAt(0) + employe.nom.charAt(0)" size="xlarge"
+                      shape="circle"></p-avatar>
+                  </div>
+
+                  <div class="employe-info">
+                    <h3>{{ employe.prenom }} {{ employe.nom }}</h3>
+
+                    <div class="employe-meta">
+                      <span class="meta-item">
+                        <i class="pi pi-id-card"></i> {{ employe.matricule }}
+                      </span>
+                    </div>
+
+                    <!-- Indicateurs sous forme de tags -->
+                    <div class="indicators">
+                      <span class="indicator-tag competence">
+                        <i class="pi pi-tag"></i> {{ employe.competences.length }} compétences
+                      </span>
+                      <span class="indicator-tag poste">
+                        <i class="pi pi-briefcase"></i> {{ employe.postesHabilites.length }} postes
+                      </span>
+                    </div>
+
+                    <span class="access-badge">
+                      {{ getAccessLevelLabel(employe) }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </p-tabPanel>
+
+      <!-- Onglet Analyse par Poste -->
+      <p-tabPanel header="Analyse par Poste" leftIcon="pi pi-briefcase">
+        <div class="poste-analysis-container">
+          <div class="poste-selection">
+            <h3>Sélectionnez un poste pour analyser les compétences</h3>
+            <p-dropdown [options]="listePostes" [(ngModel)]="posteSelectionne" (onChange)="updateTopEmployesChart()"
+              placeholder="Choisir un poste..." [showClear]="true">
+              <ng-template pTemplate="selectedItem">
+                <span *ngIf="posteSelectionne" class="selected-poste">
+                  <i class="pi pi-briefcase"></i> {{ posteSelectionne }}
+                </span>
+              </ng-template>
+              <ng-template let-poste pTemplate="item">
+                <div class="poste-item">
+                  <i class="pi pi-briefcase"></i>
+                  <span>{{ poste.label }}</span>
+                </div>
+              </ng-template>
+            </p-dropdown>
+          </div>
+
+          <div *ngIf="posteSelectionne" class="poste-details">
+            <!-- Section Top Employés -->
+            <div >
+              <h4>Top 5 des employés pour "{{posteSelectionne}}"</h4>
+              <div class="chart-wrapper">
+                <p-chart type="bar" [data]="topEmployesData" [options]="topEmployesOptions"></p-chart>
+              </div>
+            </div>
+
+            <!-- Section Compétences - Nouvelle structure 
+            <div class="competence-analysis-section">
+              <h4>Analyse des Compétences pour "{{posteSelectionne}}"</h4>
+
+              <div class="competence-visualization">
+               
+                <div class="chart-container" [class.full-width]="!showExplanation">
+                  <p-chart type="doughnut" [data]="combinedCompetenceData" [options]="pieChartOptions"
+                    [style.width]="'100%'" [style.height]="'350px'"></p-chart>
+                </div>
+               
+                <div class="explanation-panel" *ngIf="showExplanation">
+                  <h5><i class="pi pi-info-circle"></i> Explications</h5>
+                  <div class="explanation-item" *ngFor="let comp of ambivalentCompetences">
+                    <p>
+                      La compétence <strong>{{comp.name}}</strong> apparaît dans les deux catégories car :
+                    </p>
+                    <ul>
+                      <li><span class="mastered-count">{{comp.mastered}} employé(s)</span> la maîtrisent</li>
+                      <li><span class="missing-count">{{comp.missing}} employé(s)</span> doivent l'améliorer</li>
+                    </ul>
+                    <p class="recommendation">
+                      <i class="pi pi-lightbulb"></i> Nous recommandons d'organiser des sessions de mentorat entre ces
+                      collaborateurs.
+                    </p>
+                  </div>
+                </div>
+                <div class="no-explanation" *ngIf="!showExplanation">
+
+                  <p>Toutes les compétences principales sont uniformément maîtrisées</p>
+                </div>
+              </div>
+            </div>-->
+          </div>
+        </div>
+      </p-tabPanel>
+    </p-tabView>
+
+    <!-- Dialog des détails de l'employé -->
+    <p-dialog [(visible)]="displayDialog" [style]="{width: '85vw', maxWidth: '1200px'}" [modal]="true"
+      [dismissableMask]="true" [resizable]="true" [closable]="true" [breakpoints]="{'960px': '75vw', '640px': '90vw'}"
+      [draggable]="false" [focusOnShow]="true" styleClass="modern-dialog">
+
+      <!-- En-tête amélioré avec animation -->
+      <ng-template pTemplate="header">
+        <div class="dialog-header-container" style="border-radius: 12px;">
+          <!-- Carte profil avec effet de profondeur -->
+          <div class="profile-card floating-element">
+            <!-- Avatar circulaire avec effet de lumière -->
+            <div class="employee-avatar-container">
+              <div class="employee-avatar-large" *ngIf="selectedEmploye">
+                <span>{{ selectedEmploye.prenom.charAt(0) }}{{ selectedEmploye.nom.charAt(0) }}</span>
+                <div class="avatar-halo"></div>
+              </div>
+              <div class="status-indicator" [ngClass]="getGlobalAccessLevel(selectedEmploye)"></div>
+            </div>
+
+            <!-- Contenu principal avec mise en page améliorée -->
+            <div class="header-content-wrapper">
+              <div class="header-main-content">
+                <h2 class="employee-name">{{ selectedEmploye?.prenom }} {{ selectedEmploye?.nom }}</h2>
+
+                <!-- Métadonnées organisées -->
+                <div class="employee-metadata-grid">
+                  <div class="metadata-item">
+                    <i class="pi pi-id-card metadata-icon"></i>
+                    <span class="metadata-value">{{ selectedEmploye?.matricule }}</span>
+                  </div>
+
+
+                </div>
+              </div>
+
+              <!-- Badge d'accès amélioré -->
+              <div class="access-level-container">
+                <div class="access-level-badge" [ngClass]="getGlobalAccessLevel(selectedEmploye)">
+                  <div class="badge-icon-container">
+                    <i class="pi" [ngClass]="{
+                                'pi-check-circle': getGlobalAccessLevel(selectedEmploye) === 'high',
+                                'pi-exclamation-circle': getGlobalAccessLevel(selectedEmploye) === 'medium',
+                                'pi-times-circle': getGlobalAccessLevel(selectedEmploye) === 'low'
+                            }"></i>
+                  </div>
+                  <div class="badge-content">
+                    <span class="badge-label">Niveau d'accès</span>
+                    <span class="badge-value">{{ getGlobalAccessLabel(selectedEmploye) }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </ng-template>
+
+      <!-- Contenu principal -->
+      <div *ngIf="selectedEmploye" class="employe-detail-container">
+        <p-tabView class="custom-tabview">
+          <!-- Onglet Compétences -->
+          <p-tabPanel header="Compétences" leftIcon="pi pi-tags">
+            <div class="tab-content">
+              <div class="skills-section">
+                <h3><i class="pi pi-star-fill"></i> Compétences Maîtrisées</h3>
+                <div class="skills-cloud">
+                  <span *ngFor="let competence of selectedEmploye.competences" class="skill-tag"
+                    [style.background]="'rgba(' + getSkillColor(competence) + ', 0.1)'"
+                    [style.color]="'rgb(' + getSkillColor(competence) + ')'">
+                    {{ competence }}
+                    <i class="pi pi-check-circle"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </p-tabPanel>
+
+          <!-- Onglet Postes -->
+          <p-tabPanel header="Postes Accessibles" leftIcon="pi pi-briefcase">
+            <div class="tab-content">
+              <div class="postes-analysis">
+                <div *ngFor="let poste of selectedEmploye.postesHabilites" class="poste-analysis-card">
+                  <div class="poste-header">
+                    <div class="poste-title-container">
+                      <h4>{{ poste.titre }}</h4>
+                      <p-tag [severity]="poste.competencesManquantes.length === 0 ? 'success' : 'warn'"
+                        [value]="poste.competencesManquantes.length === 0 ? 'Accès complet' : 'Accès conditionnel'"
+                        [icon]="poste.competencesManquantes.length === 0 ? 'pi pi-lock-open' : 'pi pi-lock'">
+                      </p-tag>
+                    </div>
+                  </div>
+
+                  <div class="star-rating">
+                    <ng-container *ngFor="let star of getStars(poste)">
+                      <i class="pi" [ngClass]="star <= filledStars(poste) ? 'pi-star-fill' : 'pi-star'"
+                        style="color: gold;"></i>
+                    </ng-container>
+                  </div>
+
+
+                  <div class="competences-accordion">
+                    <p-accordion [multiple]="true" [activeIndex]="[0]">
+                      <!-- Compétences Requises -->
+                      <p-accordionTab header="Compétences Requises">
+                        <div class="competences-grid">
+                          <div *ngFor="let competence of poste.competences" class="competence-item">
+                            <div class="competence-icon"
+                              [ngClass]="{'matched': selectedEmploye.competences.includes(competence)}">
+                              <i
+                                [class]="selectedEmploye.competences.includes(competence) ? 'pi pi-check-circle' : 'pi pi-times-circle'"></i>
+                            </div>
+                            <span class="competence-label">{{ competence }}</span>
+                            <p-tag severity="info" *ngIf="!selectedEmploye.competences.includes(competence)"
+                              value="À acquérir" icon="pi pi-exclamation-triangle">
+                            </p-tag>
+                          </div>
+                        </div>
+                      </p-accordionTab>
+
+                      <!-- Compétences Manquantes -->
+                      <p-accordionTab header="Compétences à Acquérir" *ngIf="poste.competencesManquantes.length > 0">
+                        <div class="competences-grid">
+                          <div *ngFor="let competence of poste.competencesManquantes" class="competence-item missing">
+                            <div class="competence-icon">
+                              <i class="pi pi-exclamation-circle"></i>
+                            </div>
+                            <span class="competence-label">{{ competence }}</span>
+                            <p-tag severity="danger" value="Prioritaire" icon="pi pi-flag"></p-tag>
+                          </div>
+                        </div>
+                      </p-accordionTab>
+
+                      <!-- Compétences Supplémentaires -->
+                      <p-accordionTab header="Compétences Supplémentaires"
+                        *ngIf="poste.competencesSupplementaires.length > 0">
+                        <div class="competences-grid">
+                          <div *ngFor="let competence of poste.competencesSupplementaires"
+                            class="competence-item extra">
+                            <div class="competence-icon">
+                              <i class="pi pi-plus-circle"></i>
+                            </div>
+                            <span class="competence-label">{{ competence }}</span>
+                            <p-tag severity="success" value="Bonus" icon="pi pi-star"></p-tag>
+                          </div>
+                        </div>
+                      </p-accordionTab>
+                    </p-accordion>
+                  </div>
+
+
+                </div>
+              </div>
+            </div>
+          </p-tabPanel>
+
+        </p-tabView>
+      </div>
+
+      <!-- Pied de page amélioré -->
+      <ng-template pTemplate="footer">
+        <div class="dialog-footer">
+          <button pButton type="button" label="Fermer" (click)="displayDialog=false"
+            class="p-button-text p-button-plain"></button>
+
+        </div>
+      </ng-template>
+    </p-dialog>
+  </div>

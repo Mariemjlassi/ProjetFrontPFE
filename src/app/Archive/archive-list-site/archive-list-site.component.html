@@ -1,0 +1,78 @@
+<div class="professional-container">
+
+
+         <div class="header-section text-center mb-6">
+                <h5 style="font-size: 40px;" class="text-blue-600 font-bold text-2xl">
+                    <i  style="font-size: 30px;"class="pi pi-briefcase mr-2"></i>   Archives des Sites
+                </h5>
+                <p class="text-blue-500 mt-2">
+                    <i class="pi pi-info-circle mr-1"></i>Consultez et gérez les sites archivés dans votre organisation
+                </p>
+            </div>
+
+    <!-- Card Container -->
+    <div class="p-card">
+        <div class="p-card-body">
+            <!-- Toolbar with modern design -->
+            <div class="toolbar">
+                <span class="p-input-icon-left search-box">
+                 
+                    <input pInputText type="text" [(ngModel)]="searchText" 
+                           (input)="dt.filterGlobal(searchText, 'contains')" 
+                           placeholder="Rechercher un site..." 
+                           class="custom-search" />
+                </span>
+                
+                
+            </div>
+
+            <!-- Enhanced Table inside Card -->
+            <div class="table-container mt-4">
+                <p-table #dt [value]="sites" selectionMode="multiple" [(selection)]="selectedSites"
+                    [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20, 50]"
+                    [globalFilterFields]="['id', 'nom_site']"
+                    styleClass="modern-table p-datatable-gridlines" [tableStyle]="{ 'min-width': '100%' }">
+
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width: 10%">Code</th>
+                            <th style="width: 30%">Nom du Site</th>
+                            <th style="width: 10%">Actions</th>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-site>
+                        <tr [pSelectableRow]="site">
+                            <td>
+                                <span class="id-badge">{{ site.id }}</span>
+                            </td>
+                            <td>
+                                <span class="poste-title">{{ site.nom_site }}</span>
+                            </td>
+                            <td>
+
+                                   <button pButton icon="pi pi-undo" 
+                                        class="p-button-rounded p-button-outlined p-button-info restore-button" 
+                                       (click)="desarchiverSite(site.id)" pTooltip="Désarchiver">Désarchiver
+                                </button>
+                                
+                            </td>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="3">
+                                <div class="empty-message">
+                                    <i class="pi pi-info-circle"></i>
+                                    Aucun site archivé trouvé
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</div>
+<p-confirmDialog></p-confirmDialog>

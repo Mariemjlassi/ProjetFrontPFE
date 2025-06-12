@@ -1,0 +1,1092 @@
+[draggable="true"] {
+  cursor: grab;
+}
+
+[draggable="true"]:active {
+  cursor: grabbing;
+}
+/* From Uiverse.io by Violeterror404 */ 
+.printBtn {
+  background-color: rgb(173, 216, 230);;
+  border-radius: 5px;
+  border: none;
+  padding: 2px 10px;
+  color: white;
+  cursor: pointer;
+  z-index: 8;
+  width: 7.5em;
+  height: 5.1em;
+  display: block; /* Pour appliquer margin */
+  margin: 0 auto; 
+}
+
+.printBtn:hover {
+  background-color:  rgb(135, 206, 250);
+  transform: scale(1.05);
+  transition: background-color 0.15s;
+}
+
+.printBtn:active {
+  background-color:  rgb(70, 130, 180);
+  transform: scale(0.98);
+}
+
+.printBtn:active #printButtonOne {
+  fill: #7fff2a;
+  transition: fill 0.3s ease-in-out;
+}
+
+.printBtn:active #printButtonTwo {
+  fill: #ffff00;
+  transition: fill 0.3s ease-in-out;
+}
+
+.printBtn:active #paper {
+  transform: translateY(10.5px);
+  transition: transform 0.35s steps(6, end);
+}
+
+.printBtn:not(active) #paper {
+  transition: transform 0.2s ease-out;
+}
+
+.printBtn:hover svg {
+  transform: scale(1.02);
+}
+
+.printBtn svg {
+  transition: transform 0.2s ease-in-out;
+  position: relative;
+  top: 4px;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column; /* Aligne les éléments verticalement */
+  justify-content: center; /* Centre les éléments horizontalement */
+  align-items: center; /* Centre les éléments verticalement */
+  height: 100%; /* Ajustez selon la hauteur de votre conteneur */
+}
+
+.printBtn {
+  background-color: rgb(173, 216, 230); /* Bleu très clair */
+  border-radius: 5px;
+  border: none;
+  padding: 2px 10px;
+  color: white;
+  cursor: pointer;
+  z-index: 8;
+  width: 7.5em;
+  height: 5.1em;
+  margin-top: 20px; /* Espacement au-dessus du bouton */
+}
+
+.printBtn:hover {
+  background-color: rgb(135, 206, 250); /* Bleu plus foncé au survol */
+  transform: scale(1.05);
+  transition: background-color 0.15s;
+}
+
+.printBtn:active {
+  background-color: rgb(70, 130, 180); /* Bleu foncé lorsqu'il est cliqué */
+  transform: scale(0.98);
+}
+/* Global Style for Form */
+.p-fluid {
+  max-width: 800px;
+  margin: auto;
+  font-family: Arial, sans-serif;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px transparent;
+}
+
+/* Style for Labels */
+label {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+  display: block;
+}
+
+/* Inputs and Dropdowns */
+.p-field input, 
+.p-field textarea, 
+.p-field p-dropdown, 
+.p-field p-multiselect {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+/* Highlight invalid inputs in red */
+.p-field input.ng-invalid.ng-touched, 
+.p-field textarea.ng-invalid.ng-touched, 
+.p-field p-dropdown.ng-invalid.ng-touched, 
+.p-field p-calendar.ng-invalid.ng-touched, 
+.p-field p-multiselect.ng-invalid.ng-touched {
+  border-color: red;
+}
+
+/* Small error message */
+.p-error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+}
+
+/* Classe pour les formations validées (texte vert) */
+.fc-event.fc-event-valid {
+  color: green !important;
+}
+
+.fc-event.fc-event-invalid {
+  color: navy !important;
+}
+
+/* Date container styling for alignment */
+.date-container {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.date-container .p-field {
+  flex: 1;
+}
+
+.custom-calendar {
+  width: 600px;
+}
+
+.table-container {
+  margin-left: 10%;
+}
+
+.action-button {
+  margin-right: 5px;
+}
+
+/* Style pour le bouton du calendrier */
+.calendar-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+}
+
+.fc-event-valid, .fc-event-invalid {
+  height: 50px !important;
+}
+.calendar-button {
+  margin-bottom: 1rem;
+  text-align: right;
+}
+
+.full-calendar {
+  height: 70vh; /* Ajuster la hauteur du calendrier */
+}
+.pdf-toolbar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.pdf-container {
+  width: 100%;
+  height: calc(100% - 60px);
+  border: 1px solid #ddd;
+}
+.confirmation-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+/* Style pour le bouton Oui */
+::ng-deep .p-button-success {
+  background-color: #28a745 !important;
+  border-color: #28a745 !important;
+}
+
+/* Style pour le bouton Non */
+::ng-deep .p-button-text {
+  color: #6c757d !important;
+}
+/* Thème bleu */
+.participants-dialog {
+  .p-dialog-header {
+    background-color: #2196F3;
+    color: white;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+  }
+
+  .p-dialog-header-icons .p-dialog-header-icon {
+    color: white;
+  }
+
+  .p-dialog-header-icons .p-dialog-header-icon:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .validate-btn {
+    background-color: #1976D2 !important;
+    border-color: #1976D2 !important;
+  }
+
+  .validate-btn:hover {
+    background-color: #1565C0 !important;
+    border-color: #1565C0 !important;
+  }
+
+  .validate-btn:disabled {
+    background-color: #90CAF9 !important;
+    border-color: #90CAF9 !important;
+    opacity: 0.7;
+  }
+
+  /* Style pour les boutons d'action */
+  .action-button {
+    color: #2196F3;
+    border-color: #2196F3;
+  }
+
+  .action-button:hover {
+    background-color: #E3F2FD !important;
+  }
+
+  /* Style pour les lignes du tableau */
+  .p-datatable .p-datatable-tbody > tr {
+    transition: background-color 0.2s;
+  }
+
+  .p-datatable .p-datatable-tbody > tr:hover {
+    background-color: #E3F2FD !important;
+  }
+}
+
+
+/* Style de la cellule */
+.date-rappel-cell {
+  min-width: 180px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Bouton principal */
+.has-date {
+  color: var(--primary-color) !important;
+  background-color: rgba(74, 137, 220, 0.1) !important;
+}
+
+.no-date {
+  color: var(--text-color-secondary) !important;
+}
+
+/* Affichage de la date */
+.date-display {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+
+.clear-icon {
+  cursor: pointer;
+  color: var(--red-500);
+  font-size: 0.8rem;
+  transition: color 0.2s;
+  
+  &:hover {
+    color: var(--red-700);
+  }
+}
+
+/* Conteneur du calendrier */
+.date-picker-container {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  background: white;
+  padding: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 300px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid var(--surface-d);
+}
+
+.date-hint {
+  display: block;
+  margin-top: 0.5rem;
+  color: var(--text-color-secondary);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+/* Version mobile */
+@media (max-width: 768px) {
+  .date-picker-container {
+    position: fixed;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+  }
+}
+/* Style pour le bouton du calendrier */
+button.p-button-rounded.p-button-text {
+  transition: all 0.3s ease;
+  color: #3b82f6; /* Couleur bleue moderne */
+  margin-right: 8px;
+}
+
+button.p-button-rounded.p-button-text:hover {
+  color: #2563eb; /* Bleu plus foncé au survol */
+  background-color: #f3f4f6 !important; /* Fond gris très léger */
+  transform: scale(1.05);
+}
+
+/* Style pour le tooltip */
+.p-tooltip .p-tooltip-text {
+  background: #374151; /* Gris foncé */
+  color: white;
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style pour le champ date */
+input[type="date"].form-control {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db; /* Gris clair */
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: #111827; /* Gris très foncé */
+  background-color: #f9fafb; /* Fond gris très clair */
+  transition: border-color 0.2s ease;
+  max-width: 180px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+input[type="date"].form-control:focus {
+  outline: none;
+  border-color: #3b82f6; /* Bleu */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* Style pour le sélecteur de date dans les navigateurs modernes */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.5); /* Rend l'icône plus sombre */
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  background-color: #e5e7eb; /* Gris clair au survol */
+}
+
+/* Animation pour l'apparition du champ date */
+input[type="date"].form-control {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* Style pour les tags de date */
+.date-tag {
+  margin-right: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.85rem;
+}
+
+/* Conteneur pour le sélecteur de date */
+.date-picker-container {
+  display: flex;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+/* Style pour le champ date */
+.form-control {
+  padding: 0.375rem 0.75rem;
+  border: 1px solid  #28a745;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+}
+
+/* Bouton "Défaut" */
+.p-button-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
+.pdf-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  cursor: default;
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  .pdf-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    cursor: default;
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Version CSS native sans nesting */
+  .pdf-status-success {
+    background-color: rgba(40, 167, 69, 0.1);
+    border: 1px solid rgba(40, 167, 69, 0.3);
+    color: #28a745;
+  }
+  
+  .pdf-status-success:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+}
+
+
+
+
+
+
+/* Container principal des commentaires */
+.comment-display-container {
+  max-height: 200px;
+  overflow-y: auto;
+  width: 500px;
+  padding: 12px;
+  background-color: #ffffff;
+  border-radius: 6px;
+  border: 1px solid #e0e3e7;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  line-height: 1.5;
+}
+
+/* Effet au survol */
+.comment-display-container:hover {
+  border-color: #c1c9d1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Style de la cellule de commentaire */
+.commentaire-cell {
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #2d3748;
+  font-size: 0.95rem;
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* Style des paragraphes dans le commentaire */
+.commentaire-cell p {
+  margin-bottom: 0.8em;
+}
+
+/* Style des sauts de ligne */
+.commentaire-cell br {
+  display: block;
+  content: "";
+  margin-bottom: 0.8em;
+}
+
+/* Style lorsqu'il n'y a pas de commentaire */
+.empty-comment {
+  color: #718096;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 0.9rem;
+}
+
+/* Icône d'information */
+.pi-info-circle {
+  font-size: 0.85rem;
+  color: #a0aec0;
+}
+
+/* Barre de défilement personnalisée */
+.comment-display-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.comment-display-container::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.comment-display-container::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 4px;
+}
+
+.comment-display-container::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+}
+
+/* Animation d'apparition */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Style pour les liens dans les commentaires */
+.commentaire-cell a {
+  color: #3182ce;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.commentaire-cell a:hover {
+  color: #2c5282;
+  text-decoration: underline;
+}
+
+/* Style pour le texte mis en forme (si vous utilisez markdown ou HTML) */
+.commentaire-cell strong {
+  font-weight: 600;
+  color: #1a202c;
+}
+
+.commentaire-cell em {
+  font-style: italic;
+  color: #4a5568;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .comment-display-container {
+    max-height: 150px;
+    padding: 10px;
+  font-size: 0.9rem;
+  }
+  
+  .empty-comment {
+    font-size: 0.85rem;
+  }
+}
+/* Styles pour les commentaires problématiques (alerte) */
+.commentaire-cell {
+  position: relative;
+  padding: 12px;
+  border-left: 4px solid #F59E0B; /* Couleur d'alerte orange */
+  background-color: #FFFBEB; /* Fond très clair pour alerte */
+  border-radius: 0 4px 4px 0;
+}
+
+/* Icône d'attention pour tous les commentaires */
+.commentaire-cell:before {
+  content: "!";
+  position: absolute;
+  left: -10px;
+  top: 12px;
+  width: 20px;
+  height: 20px;
+  background-color: #F59E0B;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+/* Style renforcé au survol */
+.commentaire-cell:hover {
+  background-color: #FEF3C7;
+  border-left-color: #D97706;
+}
+
+/* Style pour les commentaires vides (reste discret) */
+.empty-comment {
+  background-color: transparent;
+  border-left: none;
+}
+
+/* Animation pulsante pour attirer l'attention */
+@keyframes pulseWarning {
+  0% { border-left-color: #F59E0B; }
+  50% { border-left-color: #D97706; }
+  100% { border-left-color: #F59E0B; }
+}
+
+.commentaire-cell {
+  animation: pulseWarning 2s infinite;
+}
+
+/* Style pour le texte d'alerte */
+.commentaire-cell div {
+  color: #92400E; /* Couleur de texte plus foncée pour contraste */
+  font-weight: 500;
+}
+
+/* Style des paragraphes dans l'alerte */
+.commentaire-cell p {
+  margin-bottom: 0.8em;
+  position: relative;
+  padding-left: 8px;
+}
+
+/* Petite bordure gauche pour chaque paragraphe */
+.commentaire-cell p:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 2px;
+  background-color: #F59E0B;
+}
+.action-container {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.action-btn {
+  border-radius: 16px !important;
+  padding: 0.5rem 1rem !important;
+  min-width: 0 !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  border: none !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+/* Bouton Voir */
+.view-btn {
+  background: #3b82f6 !important;
+  color: white !important;
+}
+
+.view-btn:hover {
+  background: #2563eb !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2) !important;
+}
+
+/* Bouton Générer */
+.generate-btn {
+  background: #ef4444 !important;
+  color: white !important;
+}
+
+.generate-btn:hover {
+  background: #dc2626 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2) !important;
+}
+/* Styles pour la dialog de compatibilité */
+.compatibilite-alert {
+  padding: 1rem;
+}
+
+.alert-content {
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.alert-content.error {
+  background-color: #fff8f8;
+  border-left: 4px solid #ff5252;
+}
+
+.alert-content.warning {
+  background-color: #fffaf3;
+  border-left: 4px solid #ffb800;
+}
+
+.alert-content.success {
+  background-color: #f7fff6;
+  border-left: 4px solid #4caf50;
+}
+
+.alert-content i {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.alert-content.error i {
+  color: #ff5252;
+}
+
+.alert-content.warning i {
+  color: #ffb800;
+}
+
+.alert-content.success i {
+  color: #4caf50;
+}
+
+.alert-content h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.alert-content ul {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+  margin: 1rem auto;
+  max-width: 80%;
+}
+
+.alert-content li {
+  margin: 0.5rem 0;
+}
+
+.pi-check {
+  color: #4caf50;
+}
+
+.pi-times {
+  color: #f44336;
+}
+
+.recommendation {
+  font-style: italic;
+  color: #666;
+}
+/* Style global du dialog */
+.modern-pdf-dialog {
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.modern-pdf-dialog .p-dialog-header {
+  padding: 0;
+  border-bottom: 1px solid #e0e0e0;
+  background: #f8f9fa;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.modern-pdf-dialog .p-dialog-content {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #f5f7fa;
+}
+
+/* En-tête amélioré */
+.dialog-header {
+  padding: 1rem 1.5rem;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-icon {
+  font-size: 1.75rem;
+  color: #e74c3c;
+  background: rgba(231, 76, 60, 0.1);
+  padding: 0.75rem;
+  border-radius: 50%;
+}
+
+.header-text {
+  flex: 1;
+}
+
+.dialog-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.document-info {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  display: flex;
+  gap: 1rem;
+}
+
+/* Conteneur PDF amélioré */
+.pdf-container-wrapper {
+  flex: 1;
+  position: relative;
+  background: #f5f7fa;
+  overflow: hidden;
+  border-radius: 0 0 12px 12px;
+}
+
+.pdf-viewer-container {
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.3s ease;
+  position: relative;
+}
+
+.pdf-viewer-container.loading {
+  opacity: 0.5;
+}
+
+/* Overlay de chargement moderne */
+.modern-loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(2px);
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  text-align: center;
+  max-width: 300px;
+}
+
+.loading-text h4 {
+  margin: 0 0 0.5rem 0;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.loading-text p {
+  margin: 0;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+/* Badge de compatibilité */
+.compatibility-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 5;
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Barre d'actions modernisée */
+.modern-action-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: #ffffff;
+  border-top: 1px solid #e0e0e0;
+  flex-wrap: wrap;
+  gap: 1rem;
+  border-radius: 0 0 12px 12px;
+}
+
+.action-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.center-actions {
+  flex: 1;
+  justify-content: center;
+}
+
+/* Styles des boutons */
+.action-btn {
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+  padding: 0.75rem 1.25rem !important;
+  font-weight: 500 !important;
+}
+
+.verify-btn {
+  background: transparent !important;
+  color: #3498db !important;
+  border-color: #3498db !important;
+  box-shadow: 0 2px 5px rgba(52, 152, 219, 0.2) !important;
+}
+
+.verify-btn:hover {
+  background: rgba(52, 152, 219, 0.08) !important;
+  transform: translateY(-1px);
+}
+
+.verify-btn:active {
+  transform: translateY(0);
+}
+
+.confirm-btn {
+  background: #2ecc71 !important;
+  border-color: #2ecc71 !important;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(46, 204, 113, 0.3) !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+
+.confirm-btn:hover {
+  background: #27ae60 !important;
+  border-color: #27ae60 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(46, 204, 113, 0.4) !important;
+}
+
+.confirm-btn:active {
+  transform: translateY(0);
+}
+
+.button-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #e74c3c;
+  color: white;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  animation: pulse 2s infinite;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .modern-pdf-dialog {
+    width: 95vw !important;
+    height: 95vh !important;
+  }
+  
+  .modern-action-bar {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .action-group {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .action-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
+.p-inputtext, 
+.p-dropdown, 
+.p-multiselect, 
+.p-calendar .p-inputtext {
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+  background-color: white;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.p-inputtext:focus, 
+.p-dropdown:not(.p-disabled).p-focus, 
+.p-multiselect:not(.p-disabled).p-focus {
+  border-color: #3f51b5;
+  box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.1);
+  outline: none;
+}
+
+/* Conteneur des dates */
+.date-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}

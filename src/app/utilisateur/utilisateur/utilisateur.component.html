@@ -1,0 +1,306 @@
+<div class="admin-container">
+  <div class="admin-header-container">
+    <h2 class="admin-header">Gestion des Utilisateurs</h2>
+    <div class="stats-container">
+      <div class="stat-card">
+        <i class="pi pi-users"></i>
+        <div>
+          <span class="stat-value">{{totalRecords}}</span>
+          <span class="stat-label">Utilisateurs</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <i class="pi pi-shield"></i>
+        <div>
+          <span class="stat-value">{{countByRole('ADMIN')}}</span>
+          <span class="stat-label">Admins</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p-toast position="top-right"></p-toast>
+  <p-confirmDialog></p-confirmDialog>
+
+  <!-- Barre de recherche avancée -->
+  <div class="search-section">
+    <div class="search-wrapper">
+      <form class="search-form">
+        <button type="button" class="search-icon">
+          <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
+              stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </button>
+        <input class="search-input" placeholder="Rechercher un utilisateur..." [(ngModel)]="searchTerm"
+          (input)="filterUsers()" name="search" required type="text">
+        <button class="reset-btn" type="reset" (click)="clearSearch()" *ngIf="searchTerm">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </form>
+
+
+    </div>
+  </div>
+
+  <!-- Grille utilisateurs avec vue alternative -->
+  <div class="view-toggle">
+    <button pButton icon="pi pi-list" class="p-button-text" [ngClass]="{'active-view': viewMode === 'list'}"
+      (click)="viewMode = 'list'"></button>
+    <button pButton icon="pi pi-th-large" class="p-button-text" [ngClass]="{'active-view': viewMode === 'grid'}"
+      (click)="viewMode = 'grid'"></button>
+  </div>
+
+  <div *ngIf="viewMode === 'grid'" class="user-grid">
+    <p-card *ngFor="let utilisateur of filteredUsers | slice:first:first+rows" class="user-card"
+      [ngClass]="'role-' + utilisateur.role.toLowerCase()">
+      <div class="card-background"></div>
+      <div class="user-content">
+        <div class="user-avatar">
+          <p-avatar [label]="utilisateur.nom[0] + utilisateur.prenom[0]" size="xlarge" shape="circle" ></p-avatar>
+        </div>
+
+        <div class="user-info">
+          <h3>{{utilisateur.nom}} {{utilisateur.prenom}}</h3>
+
+          <div class="user-meta">
+            <span class="meta-item">
+              <i class="pi pi-user"></i> {{utilisateur.username}}
+            </span>
+
+          </div>
+
+          <div class="role-tag">
+            <p-tag [severity]="getSeverity(utilisateur.role)" [value]="capitalizeFirstLetter(utilisateur.role)"></p-tag>
+          </div>
+        </div>
+
+        <div class="user-actions">
+          <button pButton icon="pi pi-eye" class="p-button-rounded p-button-text p-button-plain" pTooltip="Voir détails"
+            tooltipPosition="top" (click)="viewUserDetails(utilisateur)"></button>
+          <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-plain" pTooltip="Modifier"
+            tooltipPosition="top" (click)="openEditDialog(utilisateur)"></button>
+          <button pButton icon="pi pi-trash" class="p-button-rounded p-button-text p-button-plain" pTooltip="Supprimer"
+            tooltipPosition="top" (click)="deleteUtilisateur(utilisateur.id)"></button>
+          <button pButton icon="pi pi-key" class="p-button-rounded p-button-text p-button-plain"
+            pTooltip="Réinitialiser MDP" tooltipPosition="top"
+            (click)="resetPassword(utilisateur.id, utilisateur.nom)"></button>
+
+            <button pButton 
+    [icon]="utilisateur.accountLocked ? 'pi pi-lock' : 'pi pi-lock-open'"
+    [severity]="utilisateur.accountLocked ? 'danger' : 'success'"
+    class="p-button-rounded p-button-text p-button-raised" 
+    pTooltip="{{ utilisateur.accountLocked ? 'Déverrouiller le compte' : 'Verrouiller le compte' }}"
+    tooltipPosition="top" 
+    (click)="toggleLockState(utilisateur)"
+    *ngIf="(userRole === 'SUPER_ADMIN' && utilisateur.role !== 'SUPER_ADMIN') || 
+               (userRole === 'ADMIN' && utilisateur.role !== 'ADMIN' && utilisateur.role !=='SUPER_ADMIN')">
+  </button>
+        </div>
+      </div>
+    </p-card>
+  </div>
+
+  <!-- Vue tableau -->
+  <div *ngIf="viewMode === 'list'" class="user-table-container">
+    <p-table [value]="filteredUsers | slice:first:first+rows" [paginator]="false" [rows]="rows" [responsive]="true"
+      styleClass="p-datatable-striped p-datatable-gridlines">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Utilisateur</th>
+          <th>Email</th>
+          <th>Nom d'utilisateur</th>
+          <th>Rôle</th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-utilisateur>
+        <tr>
+          <td>
+            <div class="user-cell">
+              <p-avatar [label]="utilisateur.nom[0] + utilisateur.prenom[0]" size="normal" shape="circle" [style]="{ 'background-color': 'rgba(235, 69, 95, 0.1)', color: '#EB455F' }"></p-avatar>
+              <span>{{utilisateur.nom}} {{utilisateur.prenom}}</span>
+            </div>
+          </td>
+          <td>{{utilisateur.email}}</td>
+          <td>{{utilisateur.username}}</td>
+          <td>
+            <p-tag [severity]="getSeverity(utilisateur.role)" [value]="capitalizeFirstLetter(utilisateur.role)"></p-tag>
+          </td>
+          <td>
+            <div class="table-actions">
+              <button pButton icon="pi pi-eye" class="p-button-rounded p-button-text p-button-plain"
+                pTooltip="Voir détails" (click)="viewUserDetails(utilisateur)"></button>
+              <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-plain"
+                pTooltip="Modifier" (click)="openEditDialog(utilisateur)"></button>
+              <button pButton icon="pi pi-trash" class="p-button-rounded p-button-text p-button-plain"
+                pTooltip="Supprimer" (click)="deleteUtilisateur(utilisateur.id)"></button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <!-- Pagination améliorée -->
+  <div class="pagination-container">
+    <p-paginator [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="[5,10,20,50]"
+      (onPageChange)="onPageChange($event)" [showCurrentPageReport]="true"
+      currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords}">
+      <ng-template pTemplate="firstpagelinkicon">
+        <i class="pi pi-angle-double-left"></i>
+      </ng-template>
+      <ng-template pTemplate="lastpagelinkicon">
+        <i class="pi pi-angle-double-right"></i>
+      </ng-template>
+    </p-paginator>
+  </div>
+
+  <!-- Modale d'édition -->
+  <p-dialog [(visible)]="displayDialog" header="Modifier l'utilisateur" [modal]="true" [closable]="false"
+    [style]="{width: '30vw'}">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="nom">Nom </label>
+        <input id="nom" pInputText [(ngModel)]="utilisateurSelectionne.nom">
+      </div>
+      <div class="p-field">
+        <label for="prenom">Prénom </label>
+        <input id="prenom" pInputText [(ngModel)]="utilisateurSelectionne.prenom" style="margin-top: 10px;">
+      </div>
+      <div class="p-field">
+        <label for="email">Email </label>
+        <input id="email" pInputText [(ngModel)]="utilisateurSelectionne.email" style="margin-top: 10px;">
+      </div>
+      <div class="p-field">
+        <label for="username">Nom d'utilisateur </label>
+        <input id="username" pInputText [(ngModel)]="utilisateurSelectionne.username" style="margin-top: 10px;">
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <button pButton label="Annuler" icon="pi pi-times" class="p-button-text" (click)="displayDialog = false"
+        severity="danger"></button>
+      <button pButton label="Enregistrer" icon="pi pi-check" class="p-button-text" (click)="updateUtilisateur()"
+        severity="success"></button>
+    </ng-template>
+  </p-dialog>
+
+
+  <!-- Modale de détails -->
+  <p-dialog [(visible)]="detailsDialogVisible" header="Détails de l'utilisateur" [modal]="true"
+    [style]="{width: '800px'}" [draggable]="false" [resizable]="false">
+    <div *ngIf="selectedUser" class="user-details">
+      <div class="details-header">
+        <p-avatar [label]="selectedUser.nom[0] + selectedUser.prenom[0]" size="xlarge" shape="circle" [style]="{ 'background-color': 'rgba(235, 69, 95, 0.1)', color: '#EB455F' }"></p-avatar>
+        <div class="details-title">
+          <h3>{{selectedUser.nom}} {{selectedUser.prenom}}</h3>
+          <p-tag [severity]="getSeverity(selectedUser.role)" [value]="capitalizeFirstLetter(selectedUser.role)"></p-tag>
+        </div>
+      </div>
+      
+      <div class="details-content">
+        <div class="detail-item">
+          <span class="detail-label"><i class="pi pi-envelope"></i> Email</span>
+          <span class="detail-value">{{selectedUser.email}}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label"><i class="pi pi-user"></i> Nom d'utilisateur</span>
+          <span class="detail-value">{{selectedUser.username}}-{{selectedUser.id}}</span>
+        </div>
+
+        <!-- Dans le dialog de détails -->
+        <div class="detail-item">
+          <span class="detail-label"><i class="pi pi-clock"></i> Dernière connexion</span>
+          <span class="detail-value">
+            {{ selectedUser.lastLogin ? (selectedUser.lastLogin | date:'dd/MM/yyyy HH:mm') : 'Jamais connecté' }}
+          </span>
+
+        </div>
+
+      </div>
+      <p-tabView [(activeIndex)]="activeTabIndex">
+        <!-- Onglet Info de base -->
+    
+        <!-- Onglet Journal complet -->
+        <p-tabPanel header="Journal des Actions">
+          <div class="actions-container">
+            <p-table [value]="userActions" [loading]="loadingActions" [paginator]="true" [rows]="4">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Action</th>
+                  <th>Description</th>
+                  <th>Date/Heure</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-action>
+                <tr>
+                  <td>
+                    <p-tag [value]="action.action" 
+                          [severity]="getActionSeverity(action.action)"></p-tag>
+                  </td>
+                  <td><small>{{ action.description }}</small></td>
+                  <td>{{action.timestamp | date:'dd/MM/yyyy HH:mm'}}</td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="3">Aucune action enregistrée</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </p-tabPanel>
+    
+        <!-- Onglet Actions récentes -->
+        <p-tabPanel header="Depuis dernière connexion">
+          <div class="recent-actions">
+            <p-timeline [value]="actionsSinceLastLogin" align="alternate">
+              <ng-template pTemplate="content" let-action>
+                <small class="p-text-secondary">{{action.timestamp | date:'dd/MM/yy HH:mm'}}</small>
+              </ng-template>
+              <ng-template pTemplate="opposite" let-action>
+                <p-card [header]="action.action" [subheader]="action.details">
+                  <p>{{action.description}}</p>
+                  <p>{{action.ipAddress}}</p>
+                  
+                </p-card>
+              </ng-template>
+            </p-timeline>
+            <p *ngIf="actionsSinceLastLogin.length === 0" class="p-text-secondary">
+              Aucune action depuis la dernière connexion
+            </p>
+          </div>
+        </p-tabPanel>
+      </p-tabView>
+    </div>
+    <ng-template pTemplate="footer">
+      <button pButton label="Fermer" icon="pi pi-times" class="p-button-text"
+        (click)="detailsDialogVisible = false"></button>
+    </ng-template>
+  </p-dialog>
+
+  <!-- Modale de réinitialisation de mot de passe améliorée -->
+  <p-dialog [(visible)]="passwordDialogVisible" header="Mot de passe réinitialisé" [modal]="true"
+    [style]="{width: '450px'}">
+    <div class="password-reset-content">
+      <div class="password-icon">
+        <i class="pi pi-check-circle"></i>
+      </div>
+      <h3>Réinitialisation réussie</h3>
+      <p>Le nouveau mot de passe est :</p>
+      <div class="password-display">
+        <input type="text" [value]="newPassword" readonly #passwordInput>
+        <button pButton icon="pi pi-copy" class="p-button-text" pTooltip="Copier" tooltipPosition="top"
+          (click)="copyToClipboard(passwordInput)"></button>
+      </div>
+      <small class="password-warning">Veuillez noter ce mot de passe, il ne sera plus affiché par la suite.</small>
+    </div>
+    <ng-template pTemplate="footer">
+      <button pButton label="Fermer" icon="pi pi-check" class="p-button-primary"
+        (click)="passwordDialogVisible = false"></button>
+    </ng-template>
+  </p-dialog>
+</div>

@@ -1,0 +1,56 @@
+<div class="conversation-list"> 
+  <h3>Conversations</h3>
+  <ul>
+   <li *ngFor="let conv of conversations" 
+    [class.active-conversation]="conv.sessionId === sessionId">
+  <span (click)="loadConversation(conv.sessionId)" style="cursor:pointer">
+    {{ conv.title }}
+  </span>
+  <button (click)="deleteConversation(conv.sessionId)">🗑</button>
+</li>
+  </ul>
+</div>
+
+
+
+<div class="chat-container">
+  <div class="chat-header">
+    <div class="chat-title">
+      <i class="fas fa-robot"></i>
+      <h2>Assistant de Vérification des Compétences</h2>
+    </div>
+    <div class="chat-subtitle">Vérifiez les qualifications des employés et leur éligibilité aux postes</div>
+  </div>
+  
+  <div class="chat-window">
+    <div *ngFor="let msg of messages" class="message-container">
+      <div [ngClass]="msg.from === 'user' ? 'user-message' : 'bot-message'">
+        <div class="message-content">
+          <div class="message-text">{{ msg.text }}</div>
+          <div class="message-time">{{ msg.time | date:'shortTime' }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="input-container">
+    <input [(ngModel)]="userInput" 
+           (keydown.enter)="send()" 
+           placeholder="Posez une question sur les qualifications (ex. L'employé [12345] peut-il travailler en tant que [Développeur Java] ?)" />
+    <button (click)="send()" class="send-button">
+      <i class="fas fa-paper-plane"></i> Envoyer
+    </button>
+  </div>
+  
+  <div class="examples-container">
+    <h4>Exemples de questions :</h4>
+    <div class="examples">
+      <div class="example" (click)="useExample('L\'employé [12345] peut-il travailler en tant que [Développeur Java] ?')">
+        L'employé [12345] peut-il travailler en tant que [Développeur Java] ?
+      </div>
+      <div class="example" (click)="useExample('L\'employé [101] est-il qualifié pour le poste de [Technicien Service Client] ?')">
+        L'employé [101] est-il qualifié pour le poste de [Technicien Service Client] ?
+      </div>
+    </div>
+  </div>
+</div>

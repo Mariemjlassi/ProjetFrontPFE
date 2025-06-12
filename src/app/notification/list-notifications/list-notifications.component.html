@@ -1,0 +1,62 @@
+<div class="notifications-container" pAnimateOnScroll enterClass="fadein">
+  <div class="notifications-header">
+      <div class="header-content">
+          <h2>
+              <i class="pi pi-bell"></i>
+              Notifications
+              <p-badge *ngIf="unreadCount > 0" [value]="unreadCount" severity="danger"></p-badge>
+          </h2>
+          <p>Restez informé des dernières activités</p>
+      </div>
+      <button pButton 
+              (click)="markAllAsRead()" 
+              [disabled]="unreadCount === 0 || loading"
+              class="mark-all-btn p-button-rounded p-button-text"
+              pTooltip="Marquer toutes comme lues"
+              tooltipPosition="bottom">
+          <i class="pi pi-check"></i>
+          <span class="btn-text">Tout marquer comme lu</span>
+      </button>
+  </div>
+
+  <p-divider *ngIf="!loading"></p-divider>
+
+  <div *ngIf="loading" class="loading-container">
+      <i class="pi pi-spinner pi-spin" style="font-size: 2rem"></i>
+      <p>Chargement des notifications...</p>
+  </div>
+
+  <div *ngIf="!loading">
+      <div *ngIf="notifications.length === 0" class="no-notifications">
+          <i class="pi pi-inbox" style="font-size: 3rem"></i>
+          <h3>Aucune notification</h3>
+          <p>Vous n'avez aucune notification pour le moment</p>
+      </div>
+
+      <div *ngIf="notifications.length > 0" class="notifications-list">
+          <div *ngFor="let notif of notifications" 
+               class="notification-item" 
+               [ngClass]="{'unread': !notif.lue}"
+               pAnimateOnScroll enterClass="fadeinleft">
+              <div class="notification-icon">
+                  <i [class]="getNotificationIcon(notif.type)"></i>
+              </div>
+              <div class="notification-content">
+                  <div class="notification-message">
+                      <p>{{ notif.message }}</p>
+                      <p-tag *ngIf="!notif.lue" value="Nouveau" severity="danger" ></p-tag>
+                  </div>
+                  <small class="notification-time">{{ notif.dateNotification | date:'medium' }}</small>
+              </div>
+              <button *ngIf="!notif.lue"
+                      pButton 
+                      (click)="markAsRead(notif.id); $event.stopPropagation()" 
+                      class="p-button-rounded p-button-text p-button-sm"
+                      pTooltip="Marquer comme lu"
+                      tooltipPosition="left">
+                  <i class="pi pi-check"></i>
+              </button>
+          </div>
+      </div>
+  </div>
+</div>

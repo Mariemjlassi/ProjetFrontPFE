@@ -1,0 +1,94 @@
+<div class="professional-container">
+    <!-- Card Container -->
+    <div class="p-card shadow-2">
+        <div class="p-card-body">
+            <!-- Header Section Centered -->
+            <div class="header-section text-center mb-6">
+                <h5 style="font-size: 40px;" class="text-blue-600 font-bold text-2xl">
+                    <i  style="font-size: 30px;"class="pi pi-briefcase mr-2"></i>   Archives des Postes
+                </h5>
+                <p class="text-blue-500 mt-2">
+                    <i class="pi pi-info-circle mr-1"></i>Consultez et gérez les postes archivés dans votre organisation
+                </p>
+            </div>
+
+            <!-- Rest of your table code remains the same -->
+            <div class="toolbar">
+                <span class="p-input-icon-left search-box">
+                <input pInputText type="text" [(ngModel)]="searchText" 
+                           (input)="dt.filterGlobal(searchText, 'contains')" 
+                           placeholder="Rechercher un poste..." 
+                           class="custom-search border-blue-200 focus:border-blue-500" />
+                </span>
+            </div>
+                <p-table #dt [value]="postes" selectionMode="multiple" [(selection)]="selectedPostes"
+                    [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20, 50]"
+                    [globalFilterFields]="['titre', 'niveauExperience', 'diplomeRequis', 'competencesRequises']"
+                    styleClass="modern-table p-datatable-gridlines" [tableStyle]="{ 'min-width': '100%' }">
+
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width: 10%"><i class="pi pi-id-card mr-2"></i> code du poste </th>
+                            <th style="width: 20%"><i class="pi pi-tag mr-2"></i>   Titre</th>
+                            <th style="width: 15%"><i class="pi pi-star mr-2"></i>   Niveau</th>
+                            <th style="width: 20%"><i class="pi pi-certificate mr-2"></i>   Diplôme</th>
+                            <th style="width: 20%"><i class="pi pi-list-check mr-2"></i>   Compétences</th>
+                            <th style="width: 15%"><i class="pi pi-cog mr-2"></i>Actions</th>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-poste>
+                        <tr [pSelectableRow]="poste" class="hover:bg-blue-50 transition-colors">
+                            <td>
+                                <span class="id-badge bg-blue-100 text-blue-800">{{ poste.id }}</span>
+                            </td>
+                            <td>
+                                <span class="poste-title font-medium">{{ poste.titre }}</span>
+                            </td>
+                            <td>
+                                <p-tag 
+                                       severity="info" 
+                                       icon="pi pi-star-fill"></p-tag> {{ poste.niveauExperience }}
+                            </td>
+                            <td>
+                                <div class="flex items-center">
+                                    <i class="pi pi-book mr-2 text-blue-500"></i>
+                                    <span>{{ poste.diplomeRequis }}</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="competences-container">
+                                 <span class="competence-badge" [innerHTML]="getCompetencesNames(poste.competencePostes)">
+
+                                     
+                                  </span>
+
+
+
+
+
+                         </div>
+                              </td>
+                            <td>
+                                <button pButton icon="pi pi-undo" 
+                                        class="p-button-rounded p-button-outlined p-button-info restore-button" 
+                                        (click)="deletePoste(poste)" pTooltip="Désarchiver">Désarchiver
+                                </button>
+                            </td>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="6">
+                                <div class="empty-message bg-blue-50 border-blue-200">
+                                    <i class="pi pi-inbox text-blue-500 text-2xl"></i>
+                                    <span class="text-blue-700">Aucun poste archivé trouvé</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div><p-confirmDialog></p-confirmDialog>

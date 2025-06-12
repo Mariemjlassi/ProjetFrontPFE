@@ -1,0 +1,127 @@
+<div class="card">
+  <p-toast></p-toast>
+  <p-confirmDialog 
+      [style]="{width: '450px'}" 
+      header="Confirmation" 
+      icon="pi pi-exclamation-triangle"
+      acceptLabel="Oui" 
+      rejectLabel="Non"
+      acceptButtonStyleClass="p-button-danger"
+      rejectButtonStyleClass="p-button-secondary">
+    </p-confirmDialog>
+    <div class="card-content">
+      <!-- Bouton pour ajouter une nouvelle discipline -->
+      <p-button label="Ajouter une discipline" icon="pi pi-plus" severity="secondary" (click)="showAddDisciplineDialog()"></p-button>
+  
+      <!-- Divider -->
+      <div class="divider"></div>
+  
+      <!-- Liste des disciplines -->
+      <div class="list-container">
+        <h3>Liste des Disciplines</h3>
+          
+      </div>
+          <p-table [value]="disciplines" [tableStyle]="{ 'min-width': '50rem' }">
+            <ng-template #header>
+                <tr>
+                    <th>Nom</th>
+                    <th>Date de Début</th>
+                    <th>Date de Fin</th>
+                    <th>Actions</th>
+                </tr>
+            </ng-template>
+            <ng-template #body let-discipline>
+                <tr>
+                    <td>{{ discipline.nom }}</td>
+                    <td>{{ discipline.dateDebut | date:'shortDate' }}</td>
+                    <td>{{ discipline.dateFin | date:'shortDate' }}</td>
+                    <td>
+                        <p-button icon="pi pi-pencil" severity="warn" [rounded]="true" [text]="true"
+                            (click)="showEditDisciplineDialog(discipline)" class="action-button">
+                        </p-button>
+                        <p-button icon="pi pi-times" severity="danger" [rounded]="true" [text]="true"
+                            (click)="confirmDelete(discipline.id!)" class="action-button">
+                        </p-button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        
+      </div>
+  
+      <!-- Boîte de dialogue pour ajouter une discipline -->
+      <p-dialog header="Ajouter une Discipline" 
+                [(visible)]="addDisciplineVisible" 
+                [modal]="true" 
+                [style]="{ width: '25rem' }" 
+                [draggable]="false" 
+                [resizable]="false"
+                [closable]="true"
+                [dismissableMask]="true">
+  
+        <form [formGroup]="disciplineForm" (ngSubmit)="addDiscipline()">
+          <div class="form-group">
+            <label for="nom">Nom de la Discipline :</label>
+            <input pInputText id="nom" type="text" formControlName="nom" class="form-control" />
+            <small class="text-danger" *ngIf="disciplineForm.controls['nom'].invalid && disciplineForm.controls['nom'].touched">
+              *Ce champ est obligatoire.
+            </small>
+          </div>
+  
+          <div class="form-group">
+            <label for="dateDebut">Date de Début :</label>
+            <input pInputText id="dateDebut" type="date" formControlName="dateDebut" class="form-control" />
+            <small class="text-danger" *ngIf="disciplineForm.controls['dateDebut'].invalid && disciplineForm.controls['dateDebut'].touched">
+              *Ce champ est obligatoire.
+            </small>
+          </div>
+  
+          <div class="form-group">
+            <label for="dateFin">Date de Fin :</label>
+            <input pInputText id="dateFin" type="date" formControlName="dateFin" class="form-control" />
+            <small class="text-danger" *ngIf="disciplineForm.controls['dateFin'].invalid && disciplineForm.controls['dateFin'].touched">
+              *Ce champ est obligatoire.
+            </small>
+          </div>
+  
+          <div class="form-actions">
+            <button pButton type="button" (click)="addDisciplineVisible = false" class="p-button-text" severity="danger">Annuler</button>
+            <button pButton type="submit" class="btn btn-primary" [disabled]="disciplineForm.invalid" severity="contrast" class="p-button-text">Ajouter</button>
+          </div>
+        </form>
+      </p-dialog>
+  
+      <!-- Boîte de dialogue pour modifier une discipline -->
+      <p-dialog header="Modifier la Discipline" [(visible)]="editDisciplineVisible" [modal]="true" [style]="{ width: '25rem' }" [position]="'center'">
+        <form [formGroup]="editDisciplineForm">
+          <div class="form-group">
+            <label for="editNom">Nom de la Discipline :</label>
+            <input pInputText id="editNom" type="text" formControlName="nom" class="form-control" />
+            <small class="text-danger" *ngIf="editDisciplineForm.controls['nom'].invalid && editDisciplineForm.controls['nom'].touched">
+              *Ce champ est obligatoire.
+            </small>
+          </div>
+  
+          <div class="form-group">
+            <label for="editDateDebut">Date de Début :</label>
+            <input pInputText id="editDateDebut" type="date" formControlName="dateDebut" class="form-control" />
+            <small class="text-danger" *ngIf="editDisciplineForm.controls['dateDebut'].invalid && editDisciplineForm.controls['dateDebut'].touched">
+              *Ce champ est obligatoire.
+            </small>
+          </div>
+  
+          <div class="form-group">
+            <label for="editDateFin">Date de Fin :</label>
+            <input pInputText id="editDateFin" type="date" formControlName="dateFin" class="form-control" />
+            <small class="text-danger" *ngIf="editDisciplineForm.controls['dateFin'].invalid && editDisciplineForm.controls['dateFin'].touched">
+              *Ce champ est obligatoire.
+            </small>
+          </div>
+  
+          <div class="form-actions">
+            <button pButton type="button" (click)="editDisciplineVisible = false" class="p-button-text" severity="danger">Annuler</button>
+            <button pButton type="button" (click)="updateDiscipline()" class="p-button-text" [disabled]="editDisciplineForm.invalid" severity="contrast" class="p-button-text">Enregistrer</button>
+          </div>
+        </form>
+      </p-dialog> 
+    </div>

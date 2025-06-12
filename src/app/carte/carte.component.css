@@ -1,0 +1,395 @@
+@import url("https://fonts.googleapis.com/css?family=Orbitron");
+* {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+body {
+  height: 45vh;
+  display: flex;
+  justify-content: center; /* Centre horizontalement */
+  align-items: center; /* Centre verticalement */
+  margin: 0; /* Supprime les marges par défaut */
+  padding: 0; /* Supprime les paddings par défaut */
+}
+
+#map {
+  position: relative;
+  width: 500px; /* Largeur de la carte */
+  height: 500px; /* Hauteur de la carte */
+  margin-top: 0; /* Ajustez cette valeur pour déplacer la carte plus haut */
+  margin-left: auto; /* Centre la carte horizontalement */
+  margin-right: auto; /* Centre la carte horizontalement */
+}
+#map_title {
+  width: 100%;
+  position: absolute;
+}
+#map_name {
+  color: #38668c;
+  font-family: "Orbitron", cursive;
+  position: relative;
+  text-shadow: 0px 0px 5px #3b3f47, 0px 0px 33px #32363f;
+  font-size: 22px;
+  width: 130px;
+  margin: auto;
+  padding: 25px;
+  text-align: center;
+}
+#map_name:before {
+  content: "";
+  width: 46px;
+  height: 2px;
+  left: 31px;
+  top: 70px;
+  z-index: 100;
+  background: gray;
+  position: absolute;
+}
+#map_name:after {
+  content: "map";
+  width: 10px;
+  height: 50px;
+  top: 50px;
+  font-size: 12px;
+  left: 80px;
+  /* background: red; */
+  position: absolute;
+}
+.region {
+  fill: rgba(33, 150, 243, 0.36);
+  stroke: gray;
+}
+path#XMLID_6_ {
+  stroke: gray;
+  fill: transparent;
+}
+.region:hover {
+  fill: rgba(255, 152, 0, 0.39);
+  stroke: gray;
+  cursor: pointer;
+}
+svg {
+  margin: auto; /* Centre le SVG dans son conteneur */
+  display: block; /* Assure que le SVG est un bloc pour que margin: auto fonctionne */
+}
+
+#map {
+  height: 500px;
+  margin: auto;
+  position: relative;
+}
+.town {
+  position: absolute;
+}
+
+.left > .town_name:before {
+  content: "";
+  width: 150px;
+
+  position: absolute;
+  bottom: -32px;
+  left: 51px;
+
+  background: gray;
+  box-shadow: 0px 0px 2px 1px rgba(255, 152, 0, 0.39);
+}
+.left > .town_name:after {
+  content: "";
+
+  padding: 3px;
+  position: absolute;
+  bottom: -34px;
+  left: 50px;
+  border-radius: 50%;
+
+  background: rgba(255, 152, 0, 0.39);
+  box-shadow: 0px 0px 2px 1px rgba(255, 152, 0, 0.39);
+  animation: pulsating 1s infinite;
+}
+.right > .town_name:before {
+  content: "";
+  width: 150px;
+
+  position: absolute;
+  bottom: -32px;
+  left: -100px;
+
+  background: gray;
+  box-shadow: 0px 0px 2px 1px rgba(255, 152, 0, 0.39);
+}
+.right > .town_name:after {
+  content: "";
+
+  padding: 3px;
+  position: absolute;
+  bottom: -34px;
+  left: 50px;
+  border-radius: 50%;
+
+  background: rgba(255, 152, 0, 0.39);
+  box-shadow: 0px 0px 2px 1px rgba(255, 152, 0, 0.39);
+  animation: pulsating 1s infinite;
+}
+@keyframes pulsating {
+  0% {
+  }
+  100% {
+    box-shadow: 0px 0px 0px 15px rgba(255, 152, 0, 0.139);
+  }
+}
+
+.t_name {
+  padding: ;
+  background: rgba(33, 150, 243, 0.36);
+  width: 80px;
+  margin-left: 9px;
+  padding: 5px;
+}
+.t_name:before {
+  content: url(http://www.novisdev.com/image/ct.png);
+  position: absolute;
+  top: -5px;
+  left: 8px;
+  animation: hide_show 1s infinite linear;
+}
+.t_name:after {
+  content: url(http://www.novisdev.com/image/cb.png);
+  position: absolute;
+  bottom: -10px;
+  left: 8px;
+  animation: hide_show 1s infinite linear;
+}
+
+.design_map {
+  position: absolute;
+  bottom: -10px;
+  left: 34%;
+  z-index: -1;
+  perspective: 150px;
+}
+.design {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+
+  transform: rotateX(57deg) rotateZ(180deg);
+  border: solid 15px rgba(255, 152, 0, 0.39);
+  opacity: 1;
+  transition: 1s ease-in-out;
+  border-left: solid 15px transparent;
+  border-right: solid 15px transparent;
+  box-shadow: 0px 0px 50px 5px orange;
+  animation: rot 2s infinite linear;
+}
+@keyframes rot {
+  0% {
+    transform: rotateX(57deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(57deg) rotateZ(-180deg);
+  }
+}
+@keyframes hide_show {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.detail_weather {
+  position: absolute;
+  color:black;
+  display: flex;
+  flex-direction: column;
+  left: 5%;
+  top: 30%;
+  background: #38668c;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.info {
+  font-size: 20px;
+  padding: 5px 0;
+  text-align: center;
+}
+.wi {
+  margin-right: 5px;
+}
+.w_info {
+  display: flex;
+  padding: 10px;
+}
+
+.w_info:not(:last-child) {
+  border-bottom: solid 1px #eee;
+}
+.form-container {
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  gap: 10px;
+}
+
+input {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+
+
+.position-marker {
+  background-color: red;
+  color: white;
+  padding: 5px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 12px;
+  text-align: center;
+}
+
+
+
+.town.left {
+  left: 0;
+}
+
+.town.right {
+  right: 0;
+}
+
+.town_name h5 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.town_name p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+
+
+.location-icon-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  width: 120px;
+  background-color: #6c757d;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; /* Positionnement au-dessus de l'icône */
+  left: 50%;
+  margin-left: -60px; /* Centrer le tooltip */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.location-icon-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+
+
+/* Container for the town */
+.town_name {
+  text-align: center;
+  width: auto; /* Let the width adapt to content */
+  min-height: 200px; /* Ensure there's enough space for content */
+  padding: 20px; /* Adjust padding to give it more space */
+  border-radius: 15px;
+  
+  color: black;
+  font-size: 13px;
+  font-family: "Orbitron", cursive;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+ 
+  width: 100%; /* Ensure it takes full width available */
+}
+
+/* Hover effect for town names */
+.town_name:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+/* Title for the region */
+.region-title {
+  font-size: 20px;
+  color: #2c3e50;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* Information about the weather */
+.weather-info {
+  margin-top: 10px;
+}
+
+/* General styling for each weather info */
+.weather-info p {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #34495e;
+  margin: 10px 0;
+}
+
+/* Icon for weather details */
+.weather-info i {
+  font-size: 20px;
+ 
+  margin-right: 10px;
+}
+
+/* Title for each weather data */
+.info-title {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+/* Adjustments for smaller screens */
+@media screen and (max-width: 768px) {
+  .town_name {
+    padding: 15px;
+    min-height: 180px; /* Adjust for smaller screens */
+  }
+  .weather-info p {
+    font-size: 14px;
+  }
+  .region-title {
+    font-size: 18px;
+  }
+}

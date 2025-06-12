@@ -1,0 +1,304 @@
+<div class="card">
+  <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
+
+  <div class="card-content">
+    <h1>Gestion des Compétences</h1>
+    
+    <p-tabView [(activeIndex)]="activeTabIndex">
+      <!-- Onglet Compétences Employé -->
+      <p-tabPanel header="Compétences Employé">
+        <div class="toolbar">
+          <form class="form">
+            <button>
+              <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="search">
+                <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </button>
+            <input class="input" 
+                   placeholder="Rechercher une compétence..." 
+                   required 
+                   type="text"
+                   [(ngModel)]="globalFilter"
+                   (input)="applyFilter($event, 'employe')"
+                   name="search">
+            <button *ngIf="globalFilter" class="reset" type="reset" (click)="globalFilter = ''; dtEmploye?.filterGlobal('', 'contains')">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </form>
+          
+          <div class="action-buttons">
+            <button pButton icon="pi pi-plus" label="Nouvelle Compétence" 
+                    class="p-button-secondary add-button" 
+                    (click)="showAddDialogEmploye()"></button>
+          </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="table-container">
+          <p-table #dtEmploye [value]="competencesEmploye" selectionMode="multiple" [(selection)]="selectedCompetencesEmploye"
+                  [paginator]="true" [rows]="7" [rowsPerPageOptions]="[7, 10, 20]"
+                  [globalFilterFields]="['nom']"
+                  styleClass="modern-table">
+            
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Référence</th>
+                <th>Nom de la Compétence</th>
+                <th>Opérations</th>
+              </tr>
+            </ng-template>
+            
+            <ng-template pTemplate="body" let-competence>
+              <tr [pSelectableRow]="competence">
+                <td>
+                  <span class="id-badge">COMP-{{ competence.id }}</span>
+                </td>
+                <td>
+                  <span class="poste-title">{{ competence.nom }}</span>
+                </td>
+                <td>
+                  <div class="action-icons">
+                    <button pButton icon="pi pi-pencil" 
+                            class="p-button-rounded p-button-text p-button-primary edit-button" 
+                            (click)="showEditDialogEmploye(competence)" pTooltip="Modifier">
+                    </button>
+                    <button pButton icon="pi pi-trash" 
+                            class="p-button-rounded p-button-text p-button-danger delete-button" 
+                            (click)="confirmDelete(competence.id, 'employe')" pTooltip="Supprimer">
+                    </button>
+                    <button pButton icon="pi pi-users" 
+                class="p-button-rounded p-button-text p-button-contrast view-button" 
+                (click)="showEmployesDialog(competence.id)" pTooltip="Voir les employés">
+        </button>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+            
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="3">
+                  <div class="empty-message">
+                    <i class="pi pi-info-circle"></i>
+                    Aucune compétence trouvée
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </p-tabPanel>
+      
+      <!-- Onglet Compétences Poste -->
+      <p-tabPanel header="Compétences Poste">
+        <div class="toolbar">
+          <form class="form">
+            <button>
+              <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="search">
+                <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </button>
+            <input class="input" 
+                   placeholder="Rechercher une compétence..." 
+                   required 
+                   type="text"
+                   [(ngModel)]="globalFilter"
+                   (input)="applyFilter($event, 'poste')"
+                   name="search">
+            <button *ngIf="globalFilter" class="reset" type="reset" (click)="globalFilter = ''; dtPoste?.filterGlobal('', 'contains')">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </form>
+          
+          <div class="action-buttons">
+            <button pButton icon="pi pi-plus" label="Nouvelle Compétence" 
+                    class="p-button-secondary add-button" 
+                    (click)="showAddDialogPoste()"></button>
+          </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="table-container">
+          <p-table #dtPoste [value]="competencesPoste" selectionMode="multiple" [(selection)]="selectedCompetencesPoste"
+                  [paginator]="true" [rows]="7" [rowsPerPageOptions]="[7, 10, 20]"
+                  [globalFilterFields]="['nom', 'description']"
+                  styleClass="modern-table">
+            
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Référence</th>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Opérations</th>
+              </tr>
+            </ng-template>
+            
+            <ng-template pTemplate="body" let-competence>
+              <tr [pSelectableRow]="competence">
+                <td>
+                  <span class="id-badge">COMP-{{ competence.id }}</span>
+                </td>
+                <td>{{ competence.nom }}</td>
+                <td>{{ competence.description || 'Non spécifié' }}</td>
+                <td>
+                  <div class="action-icons">
+                    <button pButton icon="pi pi-pencil" 
+                            class="p-button-rounded p-button-text p-button-primary edit-button" 
+                            (click)="showEditDialogPoste(competence)" pTooltip="Modifier">
+                    </button>
+                    <button pButton icon="pi pi-trash" 
+                            class="p-button-rounded p-button-text p-button-danger delete-button" 
+                            (click)="confirmDelete(competence.id, 'poste')" pTooltip="Supprimer">
+                    </button>
+                    
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+            
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="4">
+                  <div class="empty-message">
+                    <i class="pi pi-info-circle"></i>
+                    Aucune compétence trouvée
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+
+  <!-- Dialogues pour compétences employé -->
+  <p-dialog header="Ajouter une Compétence Employé" 
+            [(visible)]="addDialogVisibleEmploye" 
+            [modal]="true" 
+            [style]="{ width: '25rem' }">
+    <form [formGroup]="competenceEmployeForm" (ngSubmit)="addCompetenceEmploye()">
+      <div class="form-group" [ngClass]="{'has-error': competenceEmployeForm.controls['nom'].invalid && competenceEmployeForm.controls['nom'].touched}">
+        <label for="nom">Nom de la compétence :</label>
+        <input pInputText id="nom" type="text" formControlName="nom" />
+        <small class="text-danger" *ngIf="competenceEmployeForm.controls['nom'].hasError('required') && competenceEmployeForm.controls['nom'].touched">
+          Ce champ est obligatoire.
+        </small>
+      </div>
+
+      <div class="form-actions">
+        <button pButton type="button" (click)="addDialogVisibleEmploye = false" class="p-button-text" severity="danger">Annuler</button>
+        <button pButton type="submit" [disabled]="competenceEmployeForm.invalid" severity="contrast" class="p-button-text">Ajouter</button>
+      </div>
+    </form>
+  </p-dialog>
+
+  <p-dialog header="Modifier la Compétence Employé" 
+            [(visible)]="editDialogVisibleEmploye" 
+            [modal]="true" 
+            [style]="{ width: '25rem' }">
+    <form [formGroup]="editCompetenceEmployeForm" (ngSubmit)="updateCompetenceEmploye()">
+      <div class="form-group" [ngClass]="{'has-error': editCompetenceEmployeForm.controls['nom'].invalid && editCompetenceEmployeForm.controls['nom'].touched}">
+        <label for="editNom">Nom de la compétence :</label>
+        <input pInputText id="editNom" type="text" formControlName="nom" />
+        <small class="text-danger" *ngIf="editCompetenceEmployeForm.controls['nom'].hasError('required') && editCompetenceEmployeForm.controls['nom'].touched">
+          Ce champ est obligatoire.
+        </small>
+      </div>
+
+      <div class="form-actions">
+        <button pButton type="button" (click)="editDialogVisibleEmploye = false" class="p-button-text" severity="danger">Annuler</button>
+        <button pButton type="submit" [disabled]="editCompetenceEmployeForm.invalid" severity="success" class="p-button-text">Enregistrer</button>
+      </div>
+    </form>
+  </p-dialog>
+
+  <!-- Dialogues pour compétences poste -->
+  <p-dialog header="Ajouter une Compétence Poste" 
+            [(visible)]="addDialogVisiblePoste" 
+            [modal]="true" 
+            [style]="{ width: '25rem' }">
+    <form [formGroup]="competencePosteForm" (ngSubmit)="addCompetencePoste()">
+      <div class="form-group" [ngClass]="{'has-error': competencePosteForm.controls['nom'].invalid && competencePosteForm.controls['nom'].touched}">
+        <label for="nomPoste">Nom de la compétence :</label>
+        <input pInputText id="nomPoste" type="text" formControlName="nom" />
+        <small class="text-danger" *ngIf="competencePosteForm.controls['nom'].hasError('required') && competencePosteForm.controls['nom'].touched">
+          Ce champ est obligatoire.
+        </small>
+      </div>
+      <div class="form-group">
+        <label for="descriptionPoste">Description :</label>
+        <textarea pInputTextarea id="descriptionPoste" formControlName="description" rows="3"></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button pButton type="button" (click)="addDialogVisiblePoste = false" class="p-button-text" severity="danger">Annuler</button>
+        <button pButton type="submit" [disabled]="competencePosteForm.invalid" severity="contrast" class="p-button-text">Ajouter</button>
+      </div>
+    </form>
+  </p-dialog>
+
+  <p-dialog header="Modifier la Compétence Poste" 
+            [(visible)]="editDialogVisiblePoste" 
+            [modal]="true" 
+            [style]="{ width: '25rem' }">
+    <form [formGroup]="editCompetencePosteForm" (ngSubmit)="updateCompetencePoste()">
+      <div class="form-group" [ngClass]="{'has-error': editCompetencePosteForm.controls['nom'].invalid && editCompetencePosteForm.controls['nom'].touched}">
+        <label for="editNomPoste">Nom de la compétence :</label>
+        <input pInputText id="editNomPoste" type="text" formControlName="nom" />
+        <small class="text-danger" *ngIf="editCompetencePosteForm.controls['nom'].hasError('required') && editCompetencePosteForm.controls['nom'].touched">
+          Ce champ est obligatoire.
+        </small>
+      </div>
+      <div class="form-group">
+        <label for="editDescriptionPoste">Description :</label>
+        <textarea pInputTextarea id="editDescriptionPoste" formControlName="description" rows="3"></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button pButton type="button" (click)="editDialogVisiblePoste = false" class="p-button-text" severity="danger">Annuler</button>
+        <button pButton type="submit" [disabled]="editCompetencePosteForm.invalid" severity="success" class="p-button-text">Enregistrer</button>
+      </div>
+    </form>
+  </p-dialog>
+
+  <p-dialog header="Employés avec cette compétence" 
+          [(visible)]="employesDialogVisible" 
+          [modal]="true" 
+          [style]="{ width: '50rem' }"
+          [dismissableMask]="true">
+  <div *ngIf="employesWithCompetence.length > 0; else noEmployes">
+    <p-table [value]="employesWithCompetence" [rows]="5" [paginator]="true">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Matricule</th>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Niveau</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-employe>
+        <tr>
+          <td>{{ employe.matricule }}</td>
+          <td>{{ employe.nom }}</td>
+          <td>{{ employe.prenom }}</td>
+          <td>{{ employe.niveau }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <ng-template #noEmployes>
+    <div class="empty-message">
+      <i class="pi pi-info-circle"></i>
+      Aucun employé n'a cette compétence
+    </div>
+  </ng-template>
+</p-dialog>
+</div>

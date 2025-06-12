@@ -1,0 +1,385 @@
+<div class="card">
+    <!-- Header Section -->
+    
+
+    <!-- Table Container -->
+    <div class="card-content">
+        <h1>Gestion des Postes</h1>
+        <!-- Toolbar with modern design -->
+        <div class="toolbar">
+            <!-- New Search Box -->
+            <form class="form">
+                <button>
+                    <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="search">
+                        <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                </button>
+                <input class="input" 
+                       placeholder="Rechercher un poste..." 
+                       required 
+                       type="text"
+                       [(ngModel)]="searchText"
+                       (input)="dt.filterGlobal(searchText, 'contains')"
+                       name="search">
+                
+            </form>
+            
+            <div class="action-buttons">
+                <button pButton icon="pi pi-plus" label="Nouveau Poste" 
+                        class="p-button-secondary add-button" 
+                        (click)="visibleAddDialog = true"></button>
+                <button pButton icon="pi pi-file-excel" label="Exporter" 
+                        class="p-button-contrast export-button" 
+                        (click)="exportPostes()">
+                    <span *ngIf="selectedPostes.length > 0" class="selection-count">
+                        ({{selectedPostes.length}})
+                    </span>
+                </button>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <!-- Enhanced Table -->
+        <p-table #dt [value]="postes" selectionMode="multiple" [(selection)]="selectedPostes"
+            [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20, 50]"
+            [globalFilterFields]="['titre', 'niveauExperience', 'diplome_requis', 'competencesRequises']"
+            styleClass="modern-table" [tableStyle]="{ 'min-width': '75rem' }">
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 7%">Référence</th>
+                    <th style="width: 20%">Titre</th>
+                    <th style="width: 15%">Niveau</th>
+                    <th style="width: 15%">Diplôme</th>
+                    <th style="width: 20%">Compétences requises</th>
+                    
+                    <th style="width: 10%">Modifier/Archiver</th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-poste>
+                <tr [pSelectableRow]="poste">
+                    <td>
+                        <span class="id-badge">POST-{{ poste.id }}</span>
+                    </td>
+                    <td>
+                        <span class="poste-title">{{ poste.titre }}</span>
+                    </td>
+                    
+                    <td>
+                        <!-- p-tag avec tooltip -->
+                        <p-tag [value]="poste.niveauExperience || 'Non spécifié'"
+                               severity="info"
+                               styleClass="experience-tag"
+                               >
+                        </p-tag>
+                      </td>
+                    <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+                    >
+                  {{ poste.diplomeRequis }}
+                </td>
+                <td [pTooltip]="getCompetencesNames(poste.competencePostes)" 
+    tooltipPosition="top"
+    class="competences-cell">
+    {{ getCompetencesNames(poste.competencePostes) }}
+</td>
+                    <td>
+                        <div class="action-icons">
+                            <button pButton icon="pi pi-pencil" 
+                                    class="p-button-rounded p-button-text p-button-primary" 
+                                    (click)="openEditDialog(poste)" pTooltip="Modifier">
+                            </button>
+                            <button pButton icon="pi pi-trash" 
+                                    class="p-button-rounded p-button-text p-button-danger delete-button" 
+                                    (click)="deletePoste(poste)" pTooltip="Archiver">
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">
+                        <div class="empty-message">
+                            <i class="pi pi-info-circle"></i>
+                            Aucun poste trouvé
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+
+<p-dialog header="Confirmation d'archivage" [(visible)]="displayDeleteDialog" [modal]="true" 
+          [style]="{ width: '500px' }" [breakpoints]="{ '960px': '75vw', '640px': '90vw' }"
+          [transitionOptions]="'150ms cubic-bezier(0.4, 0, 0.2, 1)'">
+  <div class="confirmation-content">
+    <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem; color: #f44336;"></i>
+    <span>Voulez-vous vraiment archiver le poste <strong>"{{ posteToDelete?.titre }}"</strong> ?</span>
+  </div>
+  <br>
+  <div class="dialog-footer button-group">
+    <p-button label="Annuler" icon="pi pi-times" (click)="displayDeleteDialog = false" 
+              styleClass="p-button-outlined p-button-secondary"></p-button>
+    <p-button label="Confirmer" icon="pi pi-check" (click)="confirmDelete()" 
+              styleClass="p-button-raised p-button-danger"></p-button>
+  </div>
+</p-dialog>
+<p-dialog header="Modifier le Poste" [(visible)]="visibleUpdateDialog" [modal]="true" [closable]="false"
+   [style]="{ width: '700px', height: '700px', minWidth: '900px' }" [contentStyle]="{ 'max-height': '900px', 'overflow-y': 'auto' }"[responsive]="false">
+  
+    <span class="p-text-secondary block mb-4">Modifier les informations du poste.</span>
+
+    <div class="flex flex-col gap-4">
+        <div class="date-container">
+            <div class="flex items-center gap-6">
+                <label for="titre" class="font-semibold w-24">Titre</label>
+                <input pInputText id="titre" class="flex-auto" [(ngModel)]="selectedPoste.titre" autocomplete="off" />
+            </div>
+
+            <div class="flex items-center gap-6">
+                <label for="niveau" class="font-semibold w-24">Niveau Exp.</label>
+                <input pInputText id="niveau" class="flex-auto" [(ngModel)]="selectedPoste.niveauExperience" autocomplete="off" />
+            </div>
+        </div>
+
+        <div class="date-container">
+            <div class="flex items-center gap-6">
+                <label for="diplome" class="font-semibold w-24">Diplôme</label>
+                <input pInputText id="diplome" class="flex-auto" [(ngModel)]="selectedPoste.diplomeRequis" autocomplete="off" />
+            </div>
+
+            
+        </div>
+
+      <p-toast></p-toast>
+
+<!-- Ton formulaire avec les directions, compétences, programmes... -->
+
+<div class="flex items-center gap-6 mb-6">
+  <label for="directions" class="font-semibold w-24">Directions</label>
+  <p-multiselect 
+      [options]="directions" 
+      optionLabel="nom_direction" 
+      optionValue="id" 
+      placeholder="Sélectionner les directions" 
+      [filter]="true" 
+      [showToggleAll]="false" 
+      display="chip" 
+      appendTo="body"
+      [(ngModel)]="selectedDirectionIds">
+  </p-multiselect>
+</div>
+
+<div class="flex items-center gap-6 mb-6">
+  <label for="competences" class="font-semibold w-24">Compétences</label>
+  <p-multiselect 
+    [options]="competences" 
+    optionLabel="nom" 
+    optionValue="id" 
+    placeholder="Sélectionner les compétences" 
+    [filter]="true" 
+    [showToggleAll]="false" 
+    display="chip" 
+    appendTo="body"
+    [(ngModel)]="selectedCompetenceIds">
+  </p-multiselect>
+</div>
+
+<!-- Liste des programmes de formation -->
+<div class="flex flex-col gap-3 mb-4">
+  <label class="programme-label">
+    <i class="pi pi-book programme-label-icon"></i>
+    Programmes de formation
+  </label>
+
+  <div *ngIf="selectedPoste.lesProgrammesDeFormation">
+    <div *ngFor="let programme of selectedPoste.lesProgrammesDeFormation; let i = index; trackBy: trackByIndex">
+      <div class="programme-container">
+        <div class="programme-card">
+          <div class="programme-header">
+            <span class="programme-index">{{i + 1}}</span>
+            <p-button icon="pi pi-trash" 
+                      severity="danger" 
+                      [rounded]="true"
+                      [text]="true"
+                      (click)="supprimerProgrammeModif(i)">
+            </p-button>
+          </div>
+          <textarea 
+            pInputTextarea
+            rows="3"
+            class="w-full"
+            placeholder="Décrire le programme de formation..."
+            [ngModel]="selectedPoste.lesProgrammesDeFormation[i]"
+            (ngModelChange)="onProgrammeChange($event, i)">
+          </textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Bouton pour ajouter un nouveau champ -->
+  <p-button 
+    icon="pi pi-plus" 
+    label="Ajouter un programme" 
+    severity="secondary"
+    [outlined]="true"
+    (click)="ajouterProgrammeModif()"
+    class="w-full mt-2">
+  </p-button>
+</div>
+<br>
+   <div class="flex justify-end gap-3 mt-4" [style]="{ 'margin-left':'320px' }">
+    <p-button 
+        label="Annuler" 
+        icon="pi pi-times" 
+        severity="danger" 
+        [text]="true"
+        (click)="visibleUpdateDialog = false">
+    </p-button>
+    <p-button 
+        label="Modifier" 
+        icon="pi pi-check" 
+        severity="success" 
+        [text]="true"
+        (click)="updatePoste()">
+    </p-button>
+</div>
+</p-dialog>
+<!-- Dialogue d'Ajout -->
+<p-dialog header="Ajouter les informations du poste" [(visible)]="visibleAddDialog" [modal]="true" [closable]="false"
+  [style]="{ width: '700px', height: '700px', minWidth: '900px' }" [contentStyle]="{ 'max-height': '900px', 'overflow-y': 'auto' }" [responsive]="false">
+  
+
+    <div class="flex flex-col gap-4">
+        <div class="date-container">
+        <div class="flex items-center gap-6">
+            <label for="titreAdd" class="font-semibold w-24">Titre</label>
+            <input pInputText id="titreAdd" class="flex-auto" [(ngModel)]="newPoste.titre" autocomplete="off" />
+        </div>
+      
+
+        <div class="flex items-center gap-6">
+            <label for="niveauAdd" class="font-semibold w-24">Niveau Exp.</label>
+            <input pInputText id="niveauAdd" class="flex-auto" [(ngModel)]="newPoste.niveauExperience" autocomplete="off" />
+        </div>
+    </div>
+        <br>
+        <div class="date-container">
+        <div class="flex items-center gap-6">
+            <label for="diplomeAdd" class="font-semibold w-24">Diplôme</label>
+            <input pInputText id="diplomeAdd" class="flex-auto" [(ngModel)]="newPoste.diplomeRequis" autocomplete="off" />
+        </div>
+      
+      
+    </div>
+</div>
+    <br>
+    
+    <div class="flex items-center gap-6 mb-6">
+        <label for="directions" class="font-semibold w-24">Directions</label>
+       <p-multiselect 
+  [options]="directions" 
+  optionLabel="nom_direction" 
+  optionValue="id" 
+  placeholder="Sélectionner les directions" 
+  [filter]="true" 
+  [showToggleAll]="false" 
+  display="chip" 
+  [(ngModel)]="selectedDirectionIds"
+  (ngModelChange)="checkDirections()">
+</p-multiselect>
+
+   <br>
+      <br>
+    <div class="flex items-center gap-6 mb-6">
+        <label for="competences" class="font-semibold w-24">Compétences</label>
+      <p-multiselect 
+  [options]="competences" 
+  optionLabel="nom" 
+  optionValue="id" 
+  placeholder="Sélectionner les compétences" 
+  [filter]="true" 
+  [showToggleAll]="false" 
+  display="chip" 
+  [(ngModel)]="selectedCompetenceIds"
+  (ngModelChange)="checkCompetences()">
+</p-multiselect>
+
+
+<!-- Pour Programmes de formation, on peut afficher l'erreur si la liste est vide -->
+<div *ngIf="showProgrammesError" class="p-error mt-1">Veuillez ajouter au moins un Programme de formation.</div>
+      </div>
+    
+ <div class="flex flex-col gap-3 mb-4">
+  <label class="programme-label">
+    <i class="pi pi-book programme-label-icon"></i>
+    Programmes de formation
+</label>
+    
+    <!-- Liste des programmes existants -->
+    <div *ngFor="let programme of newPoste.lesProgrammesDeFormation; let i = index ; trackBy: trackByIndex" 
+         class="flex flex-col gap-2 p-3 bg-gray-50 rounded-lg trackBy: trackByIndex">
+<div class="programme-container">
+    <div class="programme-card">
+        <div class="programme-header">
+            <span class="programme-index">{{i + 1}}</span>
+ 
+            <p-button icon="pi pi-trash" 
+                      severity="danger" 
+                      [rounded]="true"
+                      [text]="true"
+                      (click)="supprimerProgramme(i)"></p-button>
+   
+           </div>
+        <textarea pInputTextarea 
+                  [(ngModel)]="newPoste.lesProgrammesDeFormation[i]"
+                  name="programme-{{i}}"
+                  rows="3"
+                  class="w-full"
+                  placeholder="Décrire le programme de formation..."></textarea>
+
+ </div>
+</div>
+    </div>
+    
+    <!-- Bouton pour ajouter un nouveau champ -->
+    <p-button 
+        icon="pi pi-plus" 
+        label="Ajouter un programme" 
+        severity="secondary"
+        [outlined]="true"
+        (click)="ajouterProgramme()"
+        class="w-full mt-2">
+    </p-button>
+</div>
+
+    
+    <br>
+
+    </div>
+ 
+    
+   <div class="flex justify-center gap-3 mt-4"[style]="{ 'margin-left':'350px' }">  <!-- Centrer les boutons et ajouter un espacement -->
+    <p-button 
+        label="Annuler" 
+        icon="pi pi-times" 
+        severity="danger" 
+        [text]="true"
+        (click)="visibleAddDialog = false">
+    </p-button>
+    <p-button 
+        label="Enregistrer" 
+        icon="pi pi-check" 
+        severity="success" 
+        [text]="true"
+        (click)="ajouterPoste()">
+    </p-button>
+</div>
+</p-dialog>
+<p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>

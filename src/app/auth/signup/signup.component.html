@@ -1,0 +1,117 @@
+<p-toast></p-toast>
+<div class="admin-container">
+    <p-card [style]="{ width: '50rem', 'margin-top': '2rem', 'border-radius': '16px' }" class="elevated-card">
+      <ng-template #header>
+        <div class="flex align-items-center justify-content-center gap-3">
+          
+          <h2>Création de Nouvel Utilisateur</h2>
+        </div>
+      </ng-template>
+      
+      <form [formGroup]="registerForm" (ngSubmit)="submitForm()" class="form-grid">
+        <!-- Section Informations Personnelles -->
+        <div class="section-header">
+          <i class="pi pi-id-card"></i>
+          <span>Informations Personnelles</span>
+        </div>
+        
+        <div class="field col-6">
+          <label for="nom" class="block mb-2 font-medium">Nom <span class="required">*</span></label>
+          <input pInputText id="nom" formControlName="nom" class="w-full" placeholder="Entrez le nom"/>
+          <small class="p-error block mt-1" *ngIf="registerForm.controls['nom'].invalid && registerForm.controls['nom'].touched">
+            <i class="pi pi-exclamation-circle mr-1"></i> Ce champ est obligatoire
+          </small>
+        </div>
+  
+        <div class="field col-6">
+          <label for="prenom" class="block mb-2 font-medium">Prénom <span class="required">*</span></label>
+          <input pInputText id="prenom" formControlName="prenom" class="w-full" placeholder="Entrez le prénom"/>
+          <small class="p-error block mt-1" *ngIf="registerForm.controls['prenom'].invalid && registerForm.controls['prenom'].touched">
+            <i class="pi pi-exclamation-circle mr-1"></i> Ce champ est obligatoire
+          </small>
+        </div>
+  
+        <!-- Section Identifiants -->
+        <div class="section-header mt-4">
+          <i class="pi pi-key"></i>
+          <span>Identifiants de Connexion</span>
+        </div>
+        
+        <div class="field col-6">
+          <label for="username" class="block mb-2 font-medium">Nom d'utilisateur <span class="required">*</span></label>
+          <input pInputText id="username" formControlName="username" class="w-full" placeholder="Entrez le nom d'utilisateur"/>
+          <small class="p-error block mt-1" *ngIf="registerForm.controls['username'].invalid && registerForm.controls['username'].touched">
+            <i class="pi pi-exclamation-circle mr-1"></i> Minimum 3 caractères requis
+          </small>
+        </div>
+  
+        <div class="field col-6">
+          <label for="email" class="block mb-2 font-medium">Email</label>
+          <input pInputText type="email" id="email" formControlName="email" class="w-full" placeholder="Entrez l'email"/>
+          <small class="p-error block mt-1" *ngIf="registerForm.controls['email'].invalid && registerForm.controls['email'].touched">
+            <i class="pi pi-exclamation-circle mr-1"></i> Format d'email invalide
+          </small>
+        </div>
+  
+        <div class="field col-6">
+          <label for="password" class="block mb-2 font-medium">Mot de passe <span class="required">*</span></label>
+          <p-password id="password" formControlName="password" [toggleMask]="true" [feedback]="true" 
+                     [inputStyle]="{width: '100%'}" placeholder="Créez un mot de passe"
+                     [promptLabel]="'Au moins 8 caractères'" [weakLabel]="'Faible'" [mediumLabel]="'Moyen'" [strongLabel]="'Fort'">
+          </p-password>
+          <small class="p-error block mt-1" *ngIf="registerForm.controls['password'].invalid && registerForm.controls['password'].touched">
+            
+          </small>
+        </div>
+  
+        <div class="field col-6">
+          <label for="confirmPassword" class="block mb-2 font-medium">Confirmation <span class="required">*</span></label>
+          <p-password id="confirmPassword" formControlName="confirmPassword" [toggleMask]="true" 
+                     [inputStyle]="{width: '100%'}" placeholder="Confirmez le mot de passe">
+          </p-password>
+          <small class="p-error block mt-1" *ngIf="registerForm.controls['confirmPassword'].invalid && registerForm.controls['confirmPassword'].touched">
+            <i class="pi pi-exclamation-circle mr-1"></i> Les mots de passe ne correspondent pas
+          </small>
+        </div>
+  
+        <!-- Section Rôle -->
+        <div class="section-header mt-4">
+          <i class="pi pi-shield"></i>
+          <span>Permissions</span>
+        </div>
+        
+        <div class="field col-12">
+          <label class="block mb-2 font-medium">Rôle Utilisateur <span class="required">*</span></label>
+          <p-dropdown [options]="roleOptions" formControlName="role" placeholder="Sélectionnez un rôle"
+                     optionLabel="label" optionValue="value" [style]="{width: '100%'}" [panelStyle]="{width: '100%'}">
+            <ng-template let-option pTemplate="item">
+              <div class="flex align-items-center gap-3">
+                <i [class]="option.icon"></i>
+                <div>
+                  <div>{{option.label}}</div>
+                  <small class="text-color-secondary">{{option.value}}</small>
+                </div>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+  
+        <!-- Bouton de soumission -->
+        <div class="field col-12 mt-5">
+          <p-button type="submit" label="Créer l'utilisateur" icon="pi pi-check" class="w-full" 
+                   [disabled]="registerForm.invalid" severity="primary" [loading]="loading"></p-button>
+        </div>
+      </form>
+      
+      <ng-template #footer>
+        <div class="flex justify-content-between align-items-center text-sm">
+          <span class="text-color-secondary">
+            <i class="pi pi-info-circle mr-1"></i> Seul un administrateur peut créer des utilisateurs
+          </span>
+          <span class="text-color-secondary">
+            <i class="pi pi-lock mr-1"></i> Tous les champs marqués d'un <span class="required">*</span> sont obligatoires
+          </span>
+        </div>
+      </ng-template>
+    </p-card>
+</div>

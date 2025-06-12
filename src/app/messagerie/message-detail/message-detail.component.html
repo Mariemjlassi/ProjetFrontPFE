@@ -1,0 +1,86 @@
+<div class="message-detail-container">
+  <!-- En-tête de la conversation -->
+  <div class="conversation-header">
+      
+      
+      <a href="/messages"><button pButton class="back-btn">
+          <i class="pi pi-arrow-left"></i>
+        </button></a> 
+        
+    <div class="conversation-info"><h2>{{ (thread && thread[0]) ? thread[0].sujet : 'Chargement...' }}</h2>
+      
+      <div class="participants">
+        <span *ngFor="let participant of getUniqueParticipants()" class="participant-tag">
+          {{ participant.nom }} {{ participant.prenom }}
+        </span>
+      </div>
+    </div>
+    <div class="conversation-actions">
+      <button class="action-button" (click)="toggleImportant()">
+        <i class="pi" [ngClass]="{'pi-star': !isImportant, 'pi-star-fill': isImportant}"></i>
+      </button>
+      <button class="action-button">
+        <i class="pi pi-ellipsis-v"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Fil de discussion -->
+  <div class="message-thread">
+      
+        <div *ngIf="!isLoading && thread.length === 0" class="empty-thread">
+          Aucun message dans cette conversation
+        </div>
+    <div *ngFor="let msg of thread" class="message-bubble" 
+         [class.sent]="msg.expediteur.id === userId"
+         [class.unread]="!msg.lu && msg.expediteur.id !== userId">
+         <div class="avatar-container">
+          <div class="custom-avatar" [class]="'avatar-' + getAvatarClass(msg.expediteur.nom)">
+            {{ getInitials(msg.expediteur.nom, msg.expediteur.prenom) }}
+          </div>
+        </div>
+
+      <div class="message-content">
+        <div class="message-meta">
+          <span class="sender-name">{{ msg.expediteurNom }} {{ msg.expediteurPrenom }}</span>
+          <span class="message-time">{{ msg.dateEnvoi | date:'HH:mm' }}</span>
+          <span class="message-date">{{ msg.dateEnvoi | date:'dd/MM/yyyy' }}</span>
+        </div>
+        <div class="message-text">{{ msg.contenu }}</div>
+        <div class="message-actions">
+          <button class="icon-button" (click)="preparerReponse(msg); $event.stopPropagation()">
+            <i class="pi pi-reply"></i>
+          </button>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Zone de réponse -->
+  <div class="reply-section" *ngIf="messageParent">
+    <div class="reply-header">
+      <h3>Réponse à {{ messageParent.expediteur.nom }}</h3>
+      <button class="close-button" (click)="messageParent = null">
+        <i class="pi pi-times"></i>
+      </button>
+    </div>
+    <form (ngSubmit)="repondre()" class="reply-form">
+      <div class="form-group">
+          <textarea [(ngModel)]="reponse.contenu" name="contenu" required
+        placeholder="Écrivez votre réponse ici..."></textarea>
+          <div class="editor-toolbar">
+           
+          </div>
+        </div>
+      <div class="form-actions">
+        <button type="button" class="secondary-button" (click)="messageParent = null">
+          Annuler
+        </button>
+        <button type="submit" class="primary-button" [disabled]="!reponse.contenu">
+          <i class="pi pi-send"></i> Envoyer
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

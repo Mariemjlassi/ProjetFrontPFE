@@ -1,0 +1,27 @@
+.candidat-card {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    border: 1px solid #dee2e6;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+  }
+  
+  .card-content {
+    display: flex;
+    justify-content: space-between;  
+    flex-wrap: wrap; 
+  }
+  
+  .result-item {
+    flex: 1;  /* Chaque élément prend une partie égale de l'espace */
+    margin: 5px;  /* Espace entre les éléments */
+  }
+  
+  .progress {
+    width: 100%;
+    height: 15px;
+    margin-top: 10px;
+  }
+  

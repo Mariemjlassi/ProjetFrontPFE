@@ -1,0 +1,926 @@
+/* Global Style for Form */
+.p-fluid {
+  max-width: 800px;
+  margin: auto;
+  font-family: Arial, sans-serif;
+
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px transparent;
+}
+
+/* Style for Labels */
+label {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+  display: block;
+}
+
+/* Inputs and Dropdowns */
+.p-field input, 
+.p-field textarea, 
+.p-field p-dropdown, 
+
+.p-field p-multiselect {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+/* Highlight invalid inputs in red */
+.p-field input.ng-invalid.ng-touched, 
+.p-field textarea.ng-invalid.ng-touched, 
+.p-field p-dropdown.ng-invalid.ng-touched, 
+.p-field p-calendar.ng-invalid.ng-touched, 
+.p-field p-multiselect.ng-invalid.ng-touched {
+  border-color: red;
+}
+
+/* Small error message */
+.p-error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+}
+/* Classe pour les formations validées (texte vert) */
+/* Surcharger les styles par défaut de FullCalendar */
+.fc-event.fc-event-valid {
+  color: green !important; /* Couleur du texte pour les formations validées */
+}
+
+.fc-event.fc-event-invalid {
+  color: navy !important; /* Couleur du texte pour les formations non validées */
+}
+
+
+/* Date container styling for alignment */
+.date-container {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap; /* Makes it responsive */
+}
+
+.date-container .p-field {
+  flex: 1; /* Inputs take equal space */
+}
+.custom-calendar {
+  width: 600px; /* Ajustez la largeur selon vos besoins */
+}
+.table-container {
+  margin-left: 10%; /* Centrer le conteneur avec des marges en haut et en bas de 20px */
+ /* Ajustez la largeur selon vos besoins */
+}
+
+.action-button {
+  margin-right: 5px;
+}
+/* Style pour le bouton du calendrier */
+.calendar-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+}
+.fc-event-valid, .fc-event-invalid {
+  height: 50px !important; /* Hauteur personnalisée */
+ 
+}
+
+.radio-group label:hover {
+  background-color: #e0e0e0;
+}
+.radio-group input[type="radio"] {
+  margin-right: 5px;
+}
+/* Ajoutez ceci à votre fichier CSS */
+.w-full {
+  width: 100%;
+}
+
+.p-field.p-grid {
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.employee-with-result {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem 0;
+}
+
+.result-selection {
+  margin-left: 1rem;
+}
+
+.radio-group {
+  display: flex;
+  gap: 1rem;
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.result-display {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.employee-result-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem 0;
+}
+
+.employee-info {
+  flex: 1;
+}
+
+.result-selection {
+  margin-left: 1rem;
+  min-width: 300px;
+}
+
+.radio-group {
+  display: flex;
+  gap: 1rem;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+}
+
+.radio-option input {
+  margin-right: 0.5rem;
+}
+
+.result-display {
+  display: flex;
+  align-items: center;
+}
+
+.employee-item {
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.result-section {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.radio-option input[type="radio"] {
+  margin-right: 0.5rem;
+}
+
+.result-tag {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.p-button-sm {
+  transform: scale(0.8);
+}
+/* Couleurs de base */
+:root {
+  --primary-blue: #2c3e50;
+  --secondary-blue: #3498db;
+  --light-blue: #ecf0f1;
+  --primary-red: #e74c3c;
+  --light-red: #fadbd8;
+  --dark-gray: #7f8c8d;
+  --medium-gray: #bdc3c7;
+  --light-gray: #f5f6fa;
+}
+
+.employee-selection {
+  .custom-multiselect-panel {
+    .employee-item {
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--medium-gray);
+      
+      .employee-info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+        
+        .employee-name {
+          font-weight: 600;
+          color: var(--primary-blue);
+        }
+        
+        .employee-matricule {
+          color: var(--dark-gray);
+          font-size: 0.85rem;
+        }
+      }
+      
+      .result-selection {
+        margin-top: 0.5rem;
+        padding-top: 0.5rem;
+        border-top: 1px dashed var(--medium-gray);
+        
+        .result-options {
+          display: flex;
+          gap: 0.5rem;
+          
+          .option-card {
+            flex: 1;
+            cursor: pointer;
+            border: 2px solid var(--medium-gray);
+            border-radius: 6px;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+            
+            input[type="radio"] {
+              display: none;
+            }
+            
+            .option-content {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              
+              .option-label {
+                font-size: 0.8rem;
+                margin-bottom: 0.25rem;
+              }
+              
+              .option-icon {
+                font-size: 1.2rem;
+              }
+            }
+            
+            &:hover {
+              border-color: var(--secondary-blue);
+              background-color: var(--light-blue);
+            }
+            
+            &.selected {
+              border-color: var(--secondary-blue);
+              background-color: var(--secondary-blue);
+              color: white;
+              
+              .option-icon {
+                color: white;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  .selected-employees {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+    
+    .employee-badge {
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      
+      .badge-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem;
+        color: white;
+        font-weight: 600;
+        
+        &.result-success {
+          background-color: var(--secondary-blue);
+        }
+        
+        &.result-warning {
+          background-color: var(--primary-red);
+        }
+        
+        &.result-neutral {
+          background-color: var(--dark-gray);
+        }
+        
+        i {
+          font-size: 1.2rem;
+        }
+      }
+      
+      .badge-content {
+        padding: 0.75rem;
+        background-color: white;
+        
+        .matricule {
+          color: var(--dark-gray);
+          font-size: 0.85rem;
+          margin-bottom: 0.5rem;
+        }
+        
+        .selected-result {
+          padding: 0.5rem;
+          background-color: var(--light-gray);
+          border-radius: 4px;
+          font-size: 0.9rem;
+        }
+        
+        .no-result {
+          padding: 0.5rem;
+          background-color: var(--light-red);
+          border-radius: 4px;
+          font-size: 0.9rem;
+          
+          .warning-text {
+            color: var(--primary-red);
+          }
+        }
+      }
+    }
+  }
+}
+.selected-employees {
+  margin-top: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #f9f9f9;
+}
+
+.employee-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0;
+}
+
+.good-message {
+  font-weight: bold;
+  color: green;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Aligner toutes les options à gauche */
+  gap: 10px; /* Espacement entre les options */
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  width: 250px; /* Ajuste cette valeur en fonction du texte le plus long */
+}
+
+.radio-group input[type="radio"] {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #66B7AD;
+  border-radius: 50%;
+  display: grid;
+  place-content: center;
+  transition: border 0.3s ease-in-out;
+}
+
+.radio-group input[type="radio"]::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background-color: #66B7AD;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: transform 0.2s ease-in-out;
+}
+
+.radio-group input[type="radio"]:checked {
+  border-color: #FAD7C4;
+}
+
+.radio-group input[type="radio"]:checked::before {
+  transform: scale(1);
+}
+.comment-field {
+  background: white;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-top: 5px;
+  text-align: left;
+  width: 100%; /* Prend toute la largeur disponible */
+  box-sizing: border-box; /* Inclut padding dans le calcul de la largeur */
+}
+
+.comment-field textarea {
+  width: 100%; /* Prend toute la largeur du parent */
+  margin-bottom: 0.5rem;
+  min-height: 80px; /* Hauteur minimale */
+  resize: vertical; /* Permet seulement le redimensionnement vertical */
+}
+
+.comment-buttons {
+  display: flex;
+  justify-content: flex-start; /* Alignement à gauche */
+  gap: 0.5rem;
+}
+.commentaire-cell {
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.commentaire-cell:hover {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  position: absolute;
+  background: white;
+  border: 1px solid #ddd;
+  padding: 8px;
+  z-index: 1000;
+  max-width: 300px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+}
+
+/* Style pour le dialogue */
+.custom-dialog .p-dialog-header {
+  background-color: #002366; /* Bleu marine */
+  color: white;
+  border-bottom: 1px solid #001a4d;
+}
+
+.custom-dialog .p-dialog-header .p-dialog-title {
+  font-weight: 600;
+}
+
+.custom-dialog .p-dialog-content {
+  padding: 1.5rem;
+}
+
+/* Style des sections */
+.section-title {
+  color: #002366;
+   font-weight: bold;
+  font-size: 1.2rem;
+   justify-content: center;
+}
+
+/* Style du formulaire */
+.form-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+
+.form-header {
+  background-color: #f5f7fa;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 1rem;
+}
+
+/* Style des boutons */
+.p-button-primary {
+  background-color: #002366;
+  border-color: #002366;
+}
+
+.p-button-primary:hover {
+  background-color: #001a4d;
+  border-color: #001a4d;
+}
+
+.p-button-text.p-button-plain {
+  color: #002366;
+}
+
+.p-button-text.p-button-plain:hover {
+  background-color: rgba(0, 35, 102, 0.04);
+}
+
+/* Style de l'aperçu */
+.preview-container {
+  border: 1px solid #e0e0e0;
+  padding: 1rem;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.preview-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  margin: 0 auto;
+}
+
+
+.logo-cell {
+  width: 15%;
+  vertical-align: middle;
+}
+
+.title-cell {
+  width: 60%;
+  vertical-align: middle;
+}
+
+.label-cell, .value-cell {
+  width: 12.5%;
+}
+
+.logo-img {
+  width: 80px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+
+.inner-table td {
+  padding: 8px;
+  border: none;
+}
+
+.document-type {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.document-title {
+  font-size: 18px;
+  padding-top: 10px;
+}
+/* Container principal */
+.parties-container {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Wrapper pour chaque partie */
+.partie-wrapper {
+  position: relative;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #3b82f6;
+  transition: all 0.3s ease;
+}
+
+.partie-wrapper:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Bouton supprimer */
+.delete-partie-btn {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  background: transparent !important;
+  color: #ef4444 !important;
+  border: none !important;
+  width: 2rem;
+  height: 2rem;
+}
+
+.delete-partie-btn:hover {
+  background: #fee2e2 !important;
+}
+
+/* Grille de formulaire */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+/* Labels */
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #374151;
+  font-size: 0.875rem;
+}
+
+/* Champs de formulaire */
+.p-inputtext, .p-calendar, .p-dropdown {
+  width: 100% !important;
+}
+
+.p-input-icon-left {
+  position: relative;
+}
+
+.p-input-icon-left i {
+  position: absolute;
+  top: 50%;
+  left: 0.75rem;
+  transform: translateY(-50%);
+  color: #6b7280;
+}
+
+/* Messages d'erreur */
+.error-msg {
+  color: #ef4444;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.error-container {
+  margin-top: 0.25rem;
+}
+
+/* Bouton Ajouter */
+.add-button {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.add-partie-btn {
+  background-color: #3b82f6 !important;
+  border-color: #3b82f6 !important;
+  transition: all 0.2s ease;
+}
+
+.add-partie-btn:hover {
+  background-color: #2563eb !important;
+  transform: translateY(-1px);
+}
+
+/* Adaptations pour les calendriers */
+.p-calendar .p-inputtext {
+  padding-left: 2.5rem !important;
+}
+
+/* Dropdown amélioré */
+.p-dropdown {
+  border-radius: 6px !important;
+  transition: border-color 0.2s ease;
+}
+
+.p-dropdown:not(.p-disabled):hover {
+  border-color: #3b82f6 !important;
+}
+
+.p-dropdown-panel {
+  border-radius: 6px !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+}
+/* Structure principale */
+.ft-dialog__container {
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    border-radius: 16px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+    border: none;
+    overflow: hidden;
+    background: #ffffff;
+    transform: translateZ(0);
+}
+
+/* En-tête */
+.ft-dialog__container .p-dialog-header {
+    background: linear-gradient(135deg, #3f51b5, #2196f3);
+    color: white;
+    padding: 1.5rem;
+    border-bottom: none;
+    display: flex;
+    align-items: center;
+}
+
+.ft-dialog__container .p-dialog-title {
+    font-weight: 600;
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.ft-dialog__container .p-dialog-title:before {
+    content: "\f19d";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 1.4em;
+}
+
+/* Contenu */
+.ft-dialog__content {
+    padding: 2rem;
+    background: #fafcff;
+    color: #2b2d42;
+}
+
+/* Cartes d'information */
+.ft-dialog__card {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1.2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    border-left: 4px solid #3f51b5;
+    margin-bottom: 1.2rem;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.ft-dialog__card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    border-left-color: #2196f3;
+}
+
+.ft-dialog__card-icon {
+    font-size: 1.4rem;
+    color: #3f51b5;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(63, 81, 181, 0.1);
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+
+.ft-dialog__card-content {
+    flex-grow: 1;
+}
+
+.ft-dialog__card-label {
+    font-weight: 600;
+    color: #5a5a5a;
+    margin-bottom: 0.3rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.ft-dialog__card-value {
+    color: #2b2d42;
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+/* Badge de statut */
+.ft-dialog__status {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.ft-dialog__status-badge {
+    display: inline-block;
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.ft-dialog__status--planned {
+    background: #fff3e0;
+    color: #e65100;
+}
+
+.ft-dialog__status--in-progress {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.ft-dialog__status--completed {
+    background: #f3e5f5;
+    color: #6a1b9a;
+}
+
+/* Pied de dialogue */
+.ft-dialog__container .p-dialog-footer {
+    padding: 1.2rem 2rem;
+    background: #fafcff;
+    border-top: 1px solid #e6eef7;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Boutons */
+.ft-dialog__button {
+    border: none;
+    padding: 0.8rem 1.8rem;
+    border-radius: 10px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 0.95rem;
+}
+::ng-deep .modern-dialog .p-dialog-header {
+  justify-content: center; /* centrer horizontalement */
+}
+
+::ng-deep .modern-dialog .p-dialog-title {
+  color: #003366; /* bleu marine */
+  font-weight: bold;
+  font-size:2rem;
+}
+
+.ft-dialog__button--close {
+    background: linear-gradient(135deg, #3f51b5, #2196f3);
+    color: white;
+}
+
+.ft-dialog__button--close:hover {
+    background: linear-gradient(135deg, #3949a3, #0d8aee);
+    box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+}
+
+.ft-dialog__button-icon {
+    font-size: 0.9em;
+}
+
+/* Animations */
+@keyframes ft-dialog__anim--enter {
+    0% { opacity: 0; transform: scale(0.96) translateY(10px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+::ng-deep .p-dialog {
+    animation: ft-dialog__anim--enter 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .ft-dialog__container {
+        width: 95vw !important;
+        max-width: 95vw;
+    }
+    
+    .ft-dialog__card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .ft-dialog__card-icon {
+        margin-bottom: 0.8rem;
+    }
+}

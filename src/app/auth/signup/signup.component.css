@@ -1,0 +1,125 @@
+.admin-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  
+}
+
+.elevated-card {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  border-radius: 16px !important;
+  border: none;
+  background: #ffffff;
+}
+
+.smalll{
+  margin-top: 10px;
+}
+
+h2 {
+  color: #2c3e50;
+  font-weight: 600;
+  text-align: center;
+}
+
+
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #133E87;
+  font-weight: 600;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e5e7eb;
+  grid-column: span 12;
+  margin-bottom: 1rem;
+}
+
+/* Ajoutez ces règles CSS */
+.p-error {
+  color: #ef4444 !important;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.p-error i {
+  color: inherit !important;
+  margin-right: 0.25rem;
+}
+
+/* Adaptation pour les champs password */
+
+
+/* Renforce la spécificité si nécessaire */
+small.p-error {
+  display: block;
+  color: #ef4444 !important;
+}
+
+.section-header i {
+  font-size: 1.1rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1.5rem;
+}
+
+.field {
+  margin-bottom: 0.5rem;
+}
+
+.field.col-12 {
+  grid-column: span 12;
+}
+
+.field.col-6 {
+  grid-column: span 6;
+}
+
+.required {
+  color: #ef4444;
+}
+
+.p-inputtext, .p-password-input {
+  width: 100%;
+  border-radius: 8px !important;
+}
+
+.p-dropdown {
+  border-radius: 8px !important;
+}
+
+.p-button {
+  border-radius: 8px !important;
+  padding: 0.75rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.p-button:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+@media (max-width: 768px) {
+  .admin-container {
+    padding: 1rem;
+  }
+  
+  .elevated-card {
+    width: 100% !important;
+  }
+  
+  .field.col-6 {
+    grid-column: span 12;
+  }
+  
+  .section-header {
+    font-size: 1rem;
+  }
+}

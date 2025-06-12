@@ -1,0 +1,421 @@
+/* Main Container */
+.professional-container {
+    background-color: #f8f9fa;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Header Section */
+ .header-section.text-center {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+ .header-section {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+ 
+  
+  .header-section p {
+    color: #7f8c8d;
+    margin: 0.5rem 0 0 0;
+  }
+
+
+  .text-blue-600 {
+  color: #06359b;
+
+}.font-bold {
+  font-weight: 700;
+}.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+
+}
+  /* Toolbar */
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .search-box {
+    flex-grow: 1;
+    max-width: 400px;
+  }
+  
+  .custom-search {
+    width: 100%;
+    border-radius: 20px;
+    padding-left: 2.5rem;
+    border: 1px solid #dfe6e9;
+    transition: all 0.3s;
+  }
+  
+  .custom-search:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .add-button {
+    background-color: #2c3e50 !important;
+    border-color: #2c3e50 !important;
+  }
+  
+  .export-button {
+    background-color: #3498db !important;
+    border-color: #3498db !important;
+  }
+  
+  /* Table Styles */
+  .modern-table {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .modern-table .p-datatable-thead > tr > th {
+    background-color: #2c3e50;
+    color: white;
+    font-weight: 500;
+    border: none;
+    padding: 1rem;
+  }
+  
+  .modern-table .p-datatable-tbody > tr {
+    transition: background-color 0.2s;
+  }
+  
+  .modern-table .p-datatable-tbody > tr > td {
+    border: none;
+    border-bottom: 1px solid #ecf0f1;
+    padding: 1rem;
+  }
+  
+  .modern-table .p-datatable-tbody > tr:hover {
+    background-color: #f1f5f9 !important;
+  }
+  
+  /* ID Badge */
+  .id-badge {
+    background-color: #e3f2fd;
+    color: #1976d2;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 0.85rem;
+  }
+  
+  /* Poste Title */
+  .poste-title {
+    font-weight: 500;
+    color: #2c3e50;
+  }
+  
+  /* Experience Tags */
+  .experience-tag {
+    border-radius: 12px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.85rem;
+  }
+  
+  /* Competences Chips */
+  .competences .p-chips {
+    width: 100%;
+  }
+  
+  .competences .p-chips-token {
+    background-color: #e3f2fd;
+    color: #1976d2;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  /* Document Button */
+  .document-button {
+    border-radius: 20px;
+    padding: 0.25rem 1rem;
+    font-size: 0.85rem;
+  }
+  
+  .no-document {
+    color: #95a5a6;
+    font-style: italic;
+  }
+  
+  /* Action Icons */
+  .action-icons {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .edit-button {
+    color: #3498db !important;
+  }
+  
+  .delete-button {
+    color: #e74c3c !important;
+  }
+  
+  .edit-button:hover, .delete-button:hover {
+    background-color: #f8f9fa !important;
+  }
+  
+  /* Empty Message */
+  .empty-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    color: #7f8c8d;
+    gap: 0.5rem;
+  }
+  
+  /* Paginator */
+  .p-paginator {
+    background-color: transparent !important;
+    border: none !important;
+    padding: 1rem 0;
+  }
+  
+  /* Responsive */
+  @media (max-width: 960px) {
+    .toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .search-box {
+        max-width: 100%;
+        width: 100%;
+    }
+  }
+  /* Style global du dialog */
+  :host ::ng-deep .p-dialog {
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  }
+  
+  .dialog-header {
+    background: linear-gradient(90deg, var(--primary-color) 0%, var(--primary-color-dark) 100%);
+    color: white;
+    padding: 1.5rem;
+    margin: -1.5rem -1.5rem 1rem -1.5rem;
+    border-radius: 12px 12px 0 0;
+  }
+  
+  .form-grid {
+    gap: 1.5rem;
+  }
+  
+  .direction-chip {
+    background: var(--surface-ground);
+    padding: 0.3rem 0.5rem;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .diplome-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+  }
+  
+  /* Animation au survol */
+  :host ::ng-deep .p-button:not(.p-button-text):hover {
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+  }/* Style général du dialogue */
+  .p-dialog {
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    border: 1px solid #e0e0e0;
+  }
+  
+  /* En-tête du dialogue */
+  .p-dialog .p-dialog-header {
+    background: linear-gradient(135deg, #3f51b5, #2196f3);
+    color: white;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    padding: 1.25rem;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .p-dialog .p-dialog-header .p-dialog-title {
+    font-weight: 600;
+    font-size: 1.25rem;
+  }
+  
+  /* Corps du dialogue */
+  .p-dialog .p-dialog-content {
+    padding: 1.5rem;
+    background-color: #f9fafb;
+  }
+  
+  /* Labels des champs */
+  .font-semibold {
+    color: #374151;
+    font-size: 0.875rem;
+  }
+  
+  /* Champs de saisie */
+  .p-inputtext {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background-color: white;
+  }
+  
+  .p-inputtext:enabled:hover {
+    border-color: #3f51b5;
+  }
+  
+  .p-inputtext:enabled:focus {
+    border-color: #3f51b5;
+    box-shadow: 0 0 0 0.2rem rgba(63, 81, 181, 0.25);
+    outline: 0 none;
+  }
+  
+  /* Multiselect */
+  .p-multiselect {
+    width: 100%;
+    min-width: 300px;
+  }
+  
+  .p-multiselect .p-multiselect-label {
+    padding: 0.75rem;
+  }
+  
+  .p-multiselect-panel {
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Date container styling for alignment */
+  .date-container {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap; /* Makes it responsive */
+  }
+  
+  .date-container .p-field {
+    flex: 1; /* Inputs take equal space */
+  }
+  
+  
+  /* File input */
+  input[type="file"] {
+    padding: 0.5rem;
+    border: 1px dashed #d1d5db;
+    border-radius: 6px;
+    width: 100%;
+    background-color: white;
+  }
+  
+  input[type="file"]:hover {
+    border-color: #3f51b5;
+  }
+  
+  /* Texte secondaire */
+  .p-text-secondary {
+    color: #6b7280;
+    font-size: 0.875rem;
+  }
+  
+  /* Espacement et mise en page */
+  .mb-4 {
+    margin-bottom: 1.5rem;
+  }
+  
+  .mb-6 {
+    margin-bottom: 2rem;
+  }
+  
+  .gap-4 > * + * {
+    margin-top: 1rem;
+  }
+  
+  .gap-6 > * + * {
+    margin-top: 1.5rem;
+  }
+  
+  .flex-col {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Animation d'ouverture */
+  .p-dialog-mask {
+    background-color: rgba(0, 0, 0, 0.5);
+    transition-duration: 0.3s;
+  }
+  
+  
+  
+  .date-container input,
+  .date-container p-multiselect {
+    flex: 1;
+  }
+  /* Card Styles */
+  .p-card {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+    border: none;
+  }
+  
+  .p-card-body {
+    padding: 2rem;
+  }
+  
+  /* Table inside card adjustments */
+  .table-container {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .modern-table.p-datatable-gridlines .p-datatable-thead > tr > th {
+    border-top: 1px solid #e0e0e0;
+  }
+  
+  .modern-table.p-datatable-gridlines .p-datatable-tbody > tr > td {
+    border-top: 1px solid #f0f0f0;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .p-card-body {
+        padding: 1rem;
+    }
+    
+    .toolbar {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .search-box {
+        width: 100%;
+    }
+    
+    .action-buttons {
+        width: 100%;
+        justify-content: flex-end;
+    }
+  }

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+
+<body>
+    <div class="login-container">
+        <p-toast position="top-right"></p-toast>
+        
+        <div class="login-wrapper">
+            <!-- Partie gauche - Formulaire -->
+            <div class="form-section">
+                <div class="form-header">
+                    <h1 class="animate__animated animate__fadeInDown">Connexion</h1>
+                    <p class="animate__animated animate__fadeIn animate__delay-1s">Accédez à votre espace personnel</p>
+                </div>
+                
+                <form [formGroup]="loginForm" (ngSubmit)="login()" class="animate__animated animate__fadeIn animate__delay-1s">
+                    <div class="input-group">
+                        <span class="input-icon pi pi-user"></span>
+                        <input pInputText id="username" formControlName="username" placeholder="Nom d'utilisateur "
+                            pTooltip="Saisissez votre identifiant" tooltipPosition="top" />
+                    </div>
+                    <span *ngIf="loginForm.controls['username'].invalid && loginForm.controls['username'].touched" class="error-message">
+                        *Identifiant requis
+                    </span>
+
+                    <div class="input-group">
+                        <span class="input-icon pi pi-lock"></span>
+                        <input [type]="showPassword ? 'text' : 'password'" pInputText id="password" 
+                            formControlName="password" placeholder="Mot de passe" autocomplete="off"
+                            pTooltip="Saisissez votre mot de passe" tooltipPosition="top" />
+                        <span class="password-toggle pi pi-eye" (click)="togglePasswordVisibility()"></span>
+                    </div>
+                    <span *ngIf="loginForm.controls['password'].invalid && loginForm.controls['password'].touched" class="error-message">
+                        *Mot de passe requis
+                    </span>
+
+                    <!-- Message d'erreur pour les tentatives restantes -->
+                    <div *ngIf="remainingAttempts !== null" class="attempts-warning">
+                        Tentatives restantes : {{ remainingAttempts }}
+                    </div>
+
+                    <!-- Message pour compte verrouillé -->
+                    <div *ngIf="accountLocked" class="account-locked">
+                        Votre compte est temporairement verrouillé. Veuillez réessayer dans 30 minutes ou contacter l'administrateur.
+                    </div>
+
+                    <div class="form-options">
+                        <a href="/forgot-password" class="forgot-password">
+                            Mot de passe oublié ?
+                        </a>
+                    </div>
+
+                    <re-captcha #recaptcha formControlName="recaptcha" class="recaptcha-container"
+                        siteKey="6LeIGUgrAAAAAHWyRifLhboUcwXHBeNzmzNZYa3C" 
+                        (resolved)="onCaptchaResolved($event!)">
+                    </re-captcha>
+
+                    <button type="submit" [disabled]="loginForm.invalid || accountLocked" 
+                        class="login-button animate__animated animate__fadeInUp animate__delay-2s">
+                        <span class="button-label">Se connecter</span>
+                        <span class="button-icon pi pi-arrow-right"></span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Partie droite - Illustration -->
+            <div class="illustration-section">
+                <div class="illustration-content">
+                    <h2 class="welcome-title">Bienvenue !</h2>
+                    
+                    <p class="welcome-text">Accédez à toutes les fonctionnalités de votre compte</p>
+                    
+                    <div class="illustration-image">
+                        <img src="/assets/images/login1.png" alt="Illustration connexion" 
+                            class="animate__animated animate__zoomIn animate__delay-1s">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

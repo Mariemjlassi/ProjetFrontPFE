@@ -1,0 +1,72 @@
+<div class="compose-container">
+  <div class="compose-header">
+    <button class="back-btn" routerLink="/messages">
+      <i class="pi pi-arrow-left"></i>
+    </button>
+    <h2>Nouveau Message</h2>
+    <div class="header-actions">
+      <button class="action-btn" matTooltip="Enregistrer comme brouillon">
+        <i class="pi pi-file-o"></i>
+      </button>
+    </div>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="envoyer()" class="compose-form">
+    <div class="form-group">
+      <label for="destinataires">
+        <i class="fas fa-users"></i> Destinataires
+      </label>
+      <div class="input-wrapper">
+        <p-multiSelect 
+          [options]="utilisateurs" 
+          formControlName="destinataireIds" 
+          optionLabel="nom" 
+          dataKey="id"
+          display="chip"
+          placeholder="Sélectionnez un ou plusieurs destinataires"
+          [maxSelectedLabels]="3"
+          [filter]="true"
+          class="w-full">
+          <ng-template let-user pTemplate="item">
+            <div class="user-option">
+              <div class="user-avatar" [style.background-color]="getUserColor(user.nom)">
+                {{ user.nom.charAt(0) }}{{ user.prenom.charAt(0) }}
+              </div>
+              <div class="user-info">
+                <strong>{{ user.nom }} {{ user.prenom }}</strong>
+                <small>{{ user.role }}</small>
+              </div>
+            </div>
+          </ng-template>
+        </p-multiSelect>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="sujet">
+        <i class="fas fa-tag"></i> Objet
+      </label>
+      <div class="input-wrapper">
+        <input pInputText type="text" id="sujet" formControlName="sujet" placeholder="Quel est l'objet de votre message ?">
+      </div>
+    </div>
+
+    <div class="form-group message-editor">
+      
+      <textarea id="contenu" formControlName="contenu" placeholder="Écrivez votre message ici..."></textarea>
+    </div>
+
+    <div class="form-footer">
+      
+      
+      <div class="form-actions">
+        <button type="button" class="cancel-btn" routerLink="/messages">
+          <i class="fas fa-trash"></i> Annuler
+        </button>
+        <button type="submit" class="send-btn" [disabled]="form.invalid">
+          <i class="fas fa-paper-plane"></i> Envoyer le message
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

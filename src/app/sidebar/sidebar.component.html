@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sidebar Menu with PrimeIcons</title>
+  <!-- Linking PrimeIcons -->
+  <link rel="stylesheet" href="https://unpkg.com/primeicons/primeicons.css" />
+  <!-- Linking CSS file -->
+  <link rel="stylesheet" href="sidebar.css" />
+</head>
+
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <a href="/home"><img src="assad.png" alt="logo" /></a>
+      <h2>OrgaRH</h2>
+    </div>
+    
+    <ul class="sidebar-links">
+      <!-- Section Tableau de bord (visible pour tous) -->
+      <li *ngIf="isAdmin() || isSuperAdmin()">
+        <a href="/dashboard">
+          <i class="pi pi-chart-bar"></i> Dashboard
+        </a>
+      </li>
+
+      <!-- Section Gestion des utilisateurs (Admin/SuperAdmin) -->
+      <div *ngIf="isAdmin() || isSuperAdmin()">
+        <h4>
+          <span>Gestion des Utilisateurs</span>
+          <div class="menu-separator"></div>
+        </h4>
+        <li>
+          <a href="/signup">
+            <i class="pi pi-user-plus"></i> Ajouter un utilisateur
+          </a>
+        </li>
+        <li>
+          <a href="/list-utilisateurs">
+            <i class="pi pi-users"></i> Liste des utilisateurs
+          </a>
+        </li>
+        <li>
+          <a href="/gestion-permissions">
+            <i class="pi pi-check-circle"></i> Permissions
+          </a>
+        </li>
+      </div>
+
+      <!-- Section Gestion du personnel (RH) -->
+      <div *ngIf="isRH()">
+        <h4>
+          <span>Gestion du Personnel</span>
+          <div class="menu-separator"></div>
+        </h4>
+        <li>
+          <a href="/ListeEmploye">
+            <i class="pi pi-users"></i> Employés (Application)
+          </a>
+        </li>
+        <li>
+          <a href="/list-employe-existants">
+            <i class="pi pi-user"></i> Employés (Sage)
+          </a>
+        </li>
+        <li>
+          <a href="archive">
+            <i class="pi pi-folder"></i> Archive
+          </a>
+        </li>
+      </div>
+
+      <!-- Section Organisation (RH) -->
+      <div *ngIf="isRH()">
+        <h4>
+          <span>Organisation</span>
+          <div class="menu-separator"></div>
+        </h4>
+        <li>
+          <a href="/list-Poste">
+            <i class="pi pi-briefcase"></i> Postes
+          </a>
+        </li>
+        <li>
+          <a href="list-site">
+            <i class="pi pi-building"></i> Sites
+          </a>
+        </li>
+        <li>
+          <a href="list-directions">
+            <i class="pi pi-sitemap"></i> Directions
+          </a>
+        </li>
+      </div>
+
+      <!-- Section Compétences et Formations -->
+      <div *ngIf="isRH() || isResponsable()">
+        <h4>
+          <span>Développement Professionnel</span>
+          <div class="menu-separator"></div>
+        </h4>
+        <li *ngIf="isRH()">
+          <a href="/competences">
+            <i class="pi pi-star"></i> Compétences 
+          </a>
+        </li>
+        <li *ngIf="isRH()">
+          <a href="formations">
+            <i class="pi pi-desktop"></i> Formations
+          </a>
+        </li>
+        <li *ngIf="isResponsable()">
+          <a href="formations-responsable">
+            <i class="pi pi-building"></i> Formations
+          </a>
+        </li>
+        <li *ngIf="isRH()">
+          <a href="habilite">
+            <i class="pi pi-key"></i> Habilitations
+          </a>
+        </li>
+      </div>
+
+      <!-- Section Diplômes (RH) -->
+      <div *ngIf="isRH()">
+        <h4>
+          <span>Gestion des Diplômes</span>
+          <div class="menu-separator"></div>
+        </h4>
+        <li>
+          <a href="/gerer-diplomes">
+            <i class="pi pi-graduation-cap"></i> Diplômes
+          </a>
+        </li>
+        <li>
+          <a href="/list-types">
+            <i class="pi pi-list"></i> Catégories
+          </a>
+        </li>
+      </div>
+
+      <!-- Section Reporting (RH/Admin) -->
+      <div *ngIf="isRH() || isResponsable()">
+        <h4>
+          <span>Analyse & reporting</span>
+          <div class="menu-separator"></div>
+        </h4>
+        <li>
+          <a href="/reporting">
+            <i class="pi pi-chart-bar"></i> Reporting RH
+          </a>
+        </li>
+        <li *ngIf="isRH()">
+  <a href="/chatbot">
+    <i class="pi pi-comments"></i> Chatbot
+  </a>
+</li>
+      </div>
+
+      <!-- Section Communication (tous) -->
+      <h4>
+        <span>Communication</span>
+        <div class="menu-separator"></div>
+      </h4>
+      <li *ngIf="isRH() || isResponsable() ">
+        <a href="/notifications">
+          <i class="pi pi-bell text-3xl" 
+             pBadge 
+             [value]="unreadNotificationsCount" 
+             [severity]="'danger'"
+             *ngIf="unreadNotificationsCount > 0"></i>
+          <i class="pi pi-bell text-3xl" *ngIf="unreadNotificationsCount === 0"></i>
+          Notifications
+        </a>
+      </li>
+      <li>
+        <a href="/messages" class="messagerie-item">
+          <i class="pi pi-inbox"></i>
+          Messagerie
+          <span *ngIf="unreadMessagesCount > 0" class="message-badge">
+            {{ unreadMessagesCount }}
+          </span>
+        </a>
+      </li>
+
+      <!-- Section Compte (tous) -->
+      <h4>
+        <span>Mon Compte</span>
+        <div class="menu-separator"></div>
+      </h4>
+      <li>
+        <a (click)="logout()" style="cursor: pointer;">
+          <i class="pi pi-sign-out"></i> Déconnexion
+        </a>
+      </li>
+    </ul>
+    
+    <div class="user-account">
+      <div class="user-profile">
+        <img src="/assets/user.png" alt="Profile Image" style="width: 120px; height: 80px;" />
+        <div class="user-detail">
+          <h3>{{ userDetails.prenom }} {{ userDetails.nom }}</h3>
+          <span>
+            <span *ngIf="isRH()">Responsable RH</span>
+            <span *ngIf="isAdmin()">Administrateur</span>
+            <span *ngIf="isDirecteur()">Directeur</span>
+            <span *ngIf="isResponsable()">Manager</span>
+            <span *ngIf="isSuperAdmin()">Super administrateur</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </aside>
+</body>
+
+</html>

@@ -1,0 +1,3238 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestion des Formations | Plateforme RH</title>
+  <style>
+    /* Styles globaux améliorés */
+    body {
+      background-color: #f5f7fa;
+      color: #2d3748;
+      margin: 0;
+      padding: 20px;
+    }
+
+    /* En-tête modernisé - Thème gris clair avec accents bleus */
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+      color: #334155;
+      padding: 1rem 2rem;
+      border-radius: 10px;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e2e8f0;
+    }
+
+    .app-title {
+      display: flex;
+      align-items: center;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .app-title i {
+      margin-right: 10px;
+      font-size: 1.8rem;
+      color: #2563eb;
+      /* Bleu accent */
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 15px;
+    }
+
+    /* Boutons avec accents bleus */
+    .p-button-primary {
+      background-color: #2563eb;
+      /* Bleu vif */
+      border-color: #2563eb;
+    }
+
+    .p-button-primary:hover {
+      background-color: #1d4ed8;
+      border-color: #1d4ed8;
+    }
+
+    .p-button-help {
+      background-color: #3b82f6;
+      /* Bleu moyen */
+      border-color: #3b82f6;
+    }
+
+    .p-button-help:hover {
+      background-color: #2563eb;
+      border-color: #2563eb;
+    }
+
+    /* Conteneur principal avec bordure bleue subtile */
+    .main-container {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border: 1px solid #e2e8f0;
+      border-top: 3px solid #3b82f6;
+      /* Ligne bleue en haut */
+    }
+
+    /* Onglets améliorés avec indicateur bleu */
+    .custom-tabview .p-tabview-nav {
+      border-radius: 8px 8px 0 0;
+      background: #f8fafc;
+
+    }
+
+    .custom-tabview .p-tabview-nav li .p-tabview-nav-link {
+      transition: all 0.3s;
+    }
+
+    .custom-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+      color: #2563eb;
+      border-color: #2563eb;
+    }
+
+    .custom-tabview .p-tabview-panels {
+      border-radius: 0 0 8px 8px;
+      padding: 1.5rem;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-top: none;
+    }
+
+    /* Tableaux modernisés avec accents bleus */
+    .enhanced-table {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background: #f8fafc;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .search-box {
+      position: relative;
+      width: 300px;
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #64748b;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 0.5rem 1rem 0.5rem 2.5rem;
+      border-radius: 20px;
+      border: 1px solid #e2e8f0;
+      transition: all 0.3s;
+      background-color: #f8fafc;
+    }
+
+    .search-box input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      /* Bleu pour le focus */
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+
+    .table-info {
+      font-size: 0.875rem;
+      color: #64748b;
+    }
+
+    /* Lignes de tableau améliorées avec effets bleus */
+    .formation-row td {
+      vertical-align: top;
+      padding: 1rem 0.75rem;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .formation-title {
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 0.25rem;
+    }
+
+    .formation-title:hover {
+      color: #2563eb;
+      /* Bleu au survol */
+    }
+
+    .formation-description {
+      font-size: 0.875rem;
+      color: #64748b;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .formation-type {
+      font-weight: 500;
+      color: #475569;
+    }
+
+    .formation-subtype {
+      font-size: 0.875rem;
+      color: #94a3b8;
+    }
+
+    .date-range {
+      font-size: 0.875rem;
+    }
+
+    .date-label {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      display: block;
+    }
+
+    /* Badges modernes avec bleu */
+    .status-badge {
+      font-weight: 600;
+      padding: 0.35rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+    }
+
+    .participants-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #dbeafe;
+      /* Fond bleu très clair */
+      color: #2563eb;
+      /* Texte bleu */
+      border-radius: 50%;
+      width: 26px;
+      height: 26px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+
+    /* Boutons d'action avec bleu */
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .action-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.2s;
+      background-color: #f1f5f9;
+      color: #64748b;
+      border: none;
+    }
+
+    .action-btn:hover {
+      transform: translateY(-2px);
+      background-color: #dbeafe;
+      /* Bleu très clair */
+      color: #2563eb;
+      /* Icône bleue */
+    }
+
+    /* Message vide stylisé */
+    .empty-message {
+      text-align: center;
+      padding: 3rem;
+      color: #64748b;
+    }
+
+    .empty-message i {
+      font-size: 3rem;
+      color: #cbd5e1;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    /* Dialogues modernisés avec accents bleus */
+    .modern-dialog .p-dialog-header {
+      background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+      color: #334155;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .modern-dialog .p-dialog-header i {
+      color: #2563eb;
+      /* Icône bleue */
+    }
+
+    .dialog-content {
+      padding: 1.5rem;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      flex: 1;
+    }
+
+    /* Style du dialogue participants */
+    .participants-dialog .p-dialog-header {
+      background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+      color: #334155;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+    }
+
+    /* Styles spécifiques pour votre structure existante */
+    .date-container {
+      display: flex;
+      gap: 20px;
+    }
+
+    .date-container .p-field {
+      flex: 1;
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .resultat-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .selected-employees {
+      margin-top: 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 1rem;
+      background-color: #f8fafc;
+    }
+
+    .employee-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .employee-item:last-child {
+      border-bottom: none;
+    }
+
+    /* Styles pour les participants */
+    .participant-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .participant-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #dbeafe;
+      /* Fond bleu très clair */
+      color: #2563eb;
+      /* Texte bleu */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .participant-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .participant-name {
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .participant-name:hover {
+      color: #2563eb;
+      /* Bleu au survol */
+    }
+
+    .participant-meta {
+      display: flex;
+      gap: 8px;
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Style des badges */
+    .matricule-badge {
+      background: #dbeafe;
+      /* Fond bleu très clair */
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.9rem;
+      color: #2563eb;
+      /* Texte bleu */
+    }
+
+    /* Style des liens email */
+    .email-link {
+      color: #64748b;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .email-link:hover {
+      color: #2563eb;
+      /* Bleu au survol */
+      text-decoration: underline;
+    }
+
+    .email-link i {
+      color: #3b82f6;
+      /* Icône bleue */
+    }
+
+    /* Style des documents */
+    .document-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .document-status {
+      font-size: 0.875rem;
+    }
+
+    .document-status.success {
+      color: #10b981;
+    }
+
+    .document-status.error {
+      color: #ef4444;
+    }
+
+    /* Styles pour les deux dialogues */
+    .dialog-content {
+      padding: 1rem;
+    }
+
+    .p-field {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #495057;
+    }
+
+    .p-inputtext,
+    .p-dropdown,
+    .p-calendar,
+    .p-multiselect,
+    .p-inputtextarea {
+      width: 100%;
+    }
+
+    .p-error {
+      color: #f44336;
+      font-size: 0.85rem;
+      margin-top: 0.25rem;
+      display: block;
+    }
+
+    .date-container {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .date-container>.p-field {
+      flex: 1;
+    }
+
+    .selected-employees {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #f8f9fa;
+      border-radius: 4px;
+    }
+
+    .employee-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .radio-group label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: normal;
+      cursor: pointer;
+    }
+
+    .p-dialog .p-dialog-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      padding: 1rem;
+      border-top: 1px solid #dee2e6;
+    }
+
+    /* Style spécifique pour les iframe PDF */
+    .pdf-viewer {
+      width: 100%;
+      height: 400px;
+      border: 1px solid #dee2e6;
+      border-radius: 4px;
+      margin-top: 0.5rem;
+    }
+
+    /* Style de l'évaluation */
+    .evaluation-form {
+      padding: 8px 0;
+    }
+
+    .radio-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+    }
+
+    .evaluation-result {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .result-tag {
+      font-weight: 600;
+      padding: 0.35rem 0.75rem;
+    }
+
+    .edit-btn {
+      color: #64748b;
+    }
+
+    .edit-btn:hover {
+      color: #2563eb;
+      /* Bleu au survol */
+    }
+
+    /* État vide */
+    .empty-state {
+      text-align: center;
+      padding: 2rem;
+      color: #64748b;
+    }
+
+    .empty-state i {
+      margin-bottom: 1rem;
+      color: #cbd5e1;
+      font-size: 2rem;
+    }
+
+    .empty-state p {
+      margin-top: 0.5rem;
+    }
+
+    /* Calendrier */
+    .fc-event {
+      background-color: #3b82f6 !important;
+      /* Bleu pour les événements */
+      border-color: #3b82f6 !important;
+    }
+
+    .fc-event:hover {
+      background-color: #2563eb !important;
+    }
+
+    /* Dropdowns avec accent bleu */
+    .p-dropdown:not(.p-disabled).p-focus {
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+      border-color: #3b82f6;
+    }
+
+    .p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
+      background: #dbeafe;
+      color: #2563eb;
+    }
+
+    /* Checkbox et Radio avec accent bleu */
+    .p-checkbox .p-checkbox-box.p-highlight {
+      background: #3b82f6;
+      border-color: #3b82f6;
+    }
+
+    .p-radiobutton .p-radiobutton-box.p-highlight {
+      background: #3b82f6;
+      border-color: #3b82f6;
+    }
+
+    .p-radiobutton .p-radiobutton-box.p-highlight:not(.p-disabled):hover {
+      background: #3b82f6;
+      border-color: #3b82f6;
+    }
+
+    /* Onglets avec indicateur bleu */
+    .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+      color: #2563eb;
+      border-color: #2563eb;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .app-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .header-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .form-row {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .search-box {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .participants-dialog .p-dialog {
+        width: 90vw !important;
+      }
+    }
+
+    /* Animation pour les interactions */
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+      }
+
+      70% {
+        box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+      }
+    }
+
+    .pulse-effect {
+      animation: pulse 1.5s infinite;
+    }
+
+    /* Effet de vague au survol pour les boutons */
+    .wave-effect {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .wave-effect:after {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      background-image: radial-gradient(circle, #3b82f6 10%, transparent 10.01%);
+      background-repeat: no-repeat;
+      background-position: 50%;
+      transform: scale(10, 10);
+      opacity: 0;
+      transition: transform .5s, opacity 1s;
+    }
+
+    .wave-effect:active:after {
+      transform: scale(0, 0);
+      opacity: .3;
+      transition: 0s;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+</head>
+
+<body>
+
+  <!-- En-tête modernisé -->
+  <div class="app-header">
+    <div class="app-title">
+      <i class="pi pi-book"></i>
+      <span>Gestion des Formations</span>
+    </div>
+    <div class="header-actions">
+      <button pButton type="button" label="Gérer les Entêtes" icon="pi pi-list" (click)="openEnteteDialog()"
+        class="p-button-raised p-button-help"></button>
+      <button pButton type="button" label="Nouvelle Formation" icon="pi pi-plus" (click)="openDialog()"
+        class="p-button-raised p-button-primary"></button>
+      <button pButton type="button" icon="pi pi-calendar" (click)="openCalendarDialog()"
+        class="p-button-rounded p-button-help" pTooltip="Vue calendrier" tooltipPosition="bottom"></button>
+    </div>
+  </div>
+
+  <!-- Conteneur principal -->
+
+  <p-card header="Liste des Formations" [style]="{ 'border-radius': '10px' }" class="p-shadow-3">
+    <p-tabView class="custom-tabview">
+
+      <p-dialog header="Détails de la formation" [(visible)]="displayEventDialog" [modal]="true"
+        [style]="{ width: '520px' }" [draggable]="false" [resizable]="false" class="ft-dialog__container">
+
+        <div class="ft-dialog__content" *ngIf="selectedEvent">
+          <div class="ft-dialog__card">
+            <div class="ft-dialog__card-icon">
+              <i class="fas fa-chalkboard-teacher"></i>
+            </div>
+            <div class="ft-dialog__card-content">
+              <div class="ft-dialog__card-label">Intitulé</div>
+              <div class="ft-dialog__card-value">{{ selectedEvent.title }}</div>
+            </div>
+          </div>
+
+          <div class="ft-dialog__card">
+            <div class="ft-dialog__card-icon">
+              <i class="fas fa-play-circle"></i>
+            </div>
+            <div class="ft-dialog__card-content">
+              <div class="ft-dialog__card-label">Début</div>
+              <div class="ft-dialog__card-value"> {{ selectedEvent.start | date: 'dd/MM/yyyy ' }}</div>
+            </div>
+          </div>
+
+          <div class="ft-dialog__card">
+            <div class="ft-dialog__card-icon">
+              <i class="fas fa-flag-checkered"></i>
+            </div>
+            <div class="ft-dialog__card-content">
+              <div class="ft-dialog__card-label">Fin</div>
+              <div class="ft-dialog__card-value">{{ selectedEvent.end | date: 'dd/MM/yyyy ' }}</div>
+            </div>
+          </div>
+
+
+        </div>
+
+        <ng-template pTemplate="footer">
+          <button pButton type="button" label="Fermer" (click)="displayEventDialog = false"
+            class="p-button-text"></button>
+        </ng-template>
+      </p-dialog>
+
+      <p-tabPanel header="Polyvalence" leftIcon="pi pi-sitemap">
+        <p-tabView>
+
+
+          <p-tabPanel header="Formations en attente">
+            <div class="enhanced-table">
+              <p-table #dtPolyAttente [value]="formationsPolyvalenceEnAttente"
+                [globalFilterFields]="['titre', 'description', 'typeFormation', 'sousTypeFormation', 'responsableEvaluationExterne']"
+                selectionMode="single" [(selection)]="selectedFormation" dataKey="id" [rows]="10" [paginator]="true"
+                styleClass="p-datatable-striped p-datatable-gridlines">
+                <ng-template pTemplate="caption">
+                  <div class="table-header">
+                    <div class="search-box">
+                      <i class="pi pi-search"></i>
+                      <input pInputText type="text"
+                        (input)="dtPolyAttente.filterGlobal($any($event.target).value, 'contains')"
+                        placeholder="Rechercher une formation..." />
+                    </div>
+                    <div class="table-info">
+                      {{formationsPolyvalenceEnAttente.length || 0}} formations en attente
+                    </div>
+                  </div>
+                </ng-template>
+
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>Titre</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Sous-type</th>
+                    <th>Responsable</th>
+                    <th>Participants</th>
+                    <th>Statut</th>
+                    <th>Validation</th>
+                    <th>Modifier</th>
+                    <th>annuler</th>
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-formation>
+                  <tr>
+                    <td>{{ formation.titre }}</td>
+                    <td>{{ formation.description }}</td>
+                    <td>{{ formation.typeFormation }}</td>
+                    <td>{{ formation.sousTypeFormation }}</td>
+                    <td>{{ formation.responsableEvaluation?.nom || formation.responsableEvaluationExterne || 'N/A' }}
+                    <td class="text-center">
+                      <button pButton icon="pi pi-users" (click)="showParticipants(formation)"
+                        class="p-button-rounded p-button-text p-button-plain" pTooltip="Voir participants"></button>
+                      <span class="participants-badge">{{formation.employes?.length || 0}}</span>
+                    </td>
+                    <td>
+                      <p-tag [severity]="getStatusSeverity(formation.dateFinPrevue)"
+                        [value]="getFormationStatus(formation.dateFinPrevue)">
+                      </p-tag>
+                    </td>
+                    <td>
+                      <p-tag [severity]="formation.valide ? 'success' : 'warn'"
+                        [value]="formation.valide ? 'Validée' : 'En attente'">
+                      </p-tag>
+                    </td>
+                    <td>
+                      <button *ngIf="!formation.valide" pButton icon="pi pi-pencil"
+                        (click)="openModificationDialog(formation)"
+                        class="p-button-rounded p-button-text p-button-plain" pTooltip="Modifier">
+                      </button>
+                    </td>
+                    <td>
+                      <button *ngIf="!formation.annuler" pButton icon="pi pi-times"
+                        (click)="onAnnulerFormation(formation)"
+                        class="p-button-rounded p-button-text p-button-danger action-btn" pTooltip="Annuler"
+                        tooltipPosition="top">
+                      </button>
+                    </td>
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="9">
+                      <div class="empty-message">
+                        <i class="pi pi-inbox"></i>
+                        <p>Aucune formation en attente trouvée</p>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </p-tabPanel>
+          <!-- Onglet : Formations validées -->
+          <p-tabPanel header="Formations validées">
+            <div class="enhanced-table">
+              <p-table #dtPolyValidees [value]="formationsPolyvalenceValidees"
+                [globalFilterFields]="['titre', 'description', 'typeFormation', 'sousTypeFormation', 'responsableEvaluationExterne']"
+                selectionMode="single" [(selection)]="selectedFormation" dataKey="id" [rows]="10" [paginator]="true"
+                styleClass="p-datatable-striped p-datatable-gridlines">
+                <ng-template pTemplate="caption">
+                  <div class="table-header">
+                    <div class="search-box">
+                      <i class="pi pi-search"></i>
+                      <input pInputText type="text"
+                        (input)="dtPolyValidees.filterGlobal($any($event.target).value, 'contains')"
+                        placeholder="Rechercher une formation..." />
+                    </div>
+                    <div class="table-info">
+                      {{formationsPolyvalenceValidees.length || 0}} formations validées
+                    </div>
+                  </div>
+                </ng-template>
+
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>Titre</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Sous-type</th>
+                    <th>Responsable</th>
+                    <th>Participants</th>
+                    <th>Statut</th>
+                    <th>Validation</th>
+                    <th>décrire une probleme </th>
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-formation>
+                  <tr>
+                    <td>{{ formation.titre }}</td>
+                    <td>{{ formation.description }}</td>
+                    <td>{{ formation.typeFormation }}</td>
+                    <td>{{ formation.sousTypeFormation }}</td>
+                    <td>{{ formation.responsableEvaluation?.nom || formation.responsableEvaluationExterne || 'N/A' }}
+                    <td class="text-center">
+                      <button pButton icon="pi pi-users" (click)="showParticipants(formation)"
+                        class="p-button-rounded p-button-text p-button-plain" pTooltip="Voir participants"></button>
+                      <span class="participants-badge">{{formation.employes?.length || 0}}</span>
+                    </td>
+                    <td>
+                      <p-tag [severity]="getStatusSeverity(formation.dateFinPrevue)"
+                        [value]="getFormationStatus(formation.dateFinPrevue)">
+                      </p-tag>
+                    </td>
+                    <td>
+                      <p-tag [severity]="formation.valide ? 'success' : 'warn'"
+                        [value]="formation.valide ? 'Validée' : 'En attente'">
+                      </p-tag>
+                    </td>
+                    <td style="position: relative; text-align: left;">
+                      <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                        <button pButton icon="pi pi-exclamation-triangle" (click)="showCommentField(formation)"
+                          class="p-button-rounded p-button-text p-button-plain" pTooltip="Signaler un problème"
+                          style="align-self: flex-start; margin-bottom: 5px;">
+                        </button>
+
+                        <div *ngIf="formationWithComment?.id === formation.id" class="comment-field">
+                          <p class="comment-instruction">
+                            Veuillez préciser le problème rencontré lors de la validation, en mentionnant :
+                            <br>- Les matricules et noms des employés concernés
+                            <br>- La nature exacte du problème
+                            <br>- Toute information utile pour le traitement
+                          </p>
+
+                          <textarea pInputTextarea [(ngModel)]="commentaire" placeholder="Exemple : 
+              Problème de validation pour :
+              - [Matricule] Nom Prénom : [Description du problème]
+              - [Matricule] Nom Prénom : [Description du problème]
+              
+              [Autres observations]" style="white-space: pre-wrap;"></textarea>
+
+                          <div class="comment-buttons">
+                            <button pButton icon="pi pi-check" (click)="submitComment()"
+                              class="p-button-rounded p-button-text p-button-success" pTooltip="Confirmer">
+                            </button>
+                            <button pButton icon="pi pi-times" (click)="cancelComment()"
+                              class="p-button-rounded p-button-text p-button-danger" pTooltip="Annuler">
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="8">
+                      <div class="empty-message">
+                        <i class="pi pi-inbox"></i>
+                        <p>Aucune formation validée trouvée</p>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </p-tabPanel>
+
+          <!-- Onglet : Formations en attente -->
+
+
+
+
+          <!-- Onglet : Formations à corriger -->
+          <p-tabPanel header="Formations à corriger" leftIcon="pi pi-exclamation-triangle">
+            <div class="enhanced-table">
+              <p-table #dtPolyCorriger [value]="formationsPolyvalenceACorriger"
+                [globalFilterFields]="['titre', 'description', 'typeFormation', 'sousTypeFormation', 'responsableEvaluationExterne']"
+                selectionMode="single" [(selection)]="selectedFormation" dataKey="id" [rows]="10" [paginator]="true"
+                styleClass="p-datatable-striped p-datatable-gridlines">
+                <ng-template pTemplate="caption">
+                  <div class="table-header">
+                    <div class="search-box">
+                      <i class="pi pi-search"></i>
+                      <input pInputText type="text"
+                        (input)="dtPolyCorriger.filterGlobal($any($event.target).value, 'contains')"
+                        placeholder="Rechercher une formation..." />
+                    </div>
+                    <div class="table-info">
+                      {{formationsPolyvalenceACorriger.length || 0}} formations à corriger
+                    </div>
+                  </div>
+                </ng-template>
+
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>Titre</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Sous-type</th>
+                    <th>Responsable</th>
+                    <th>Participants</th>
+                    <th>Statut</th>
+                    <th>Validation</th>
+                    <th>Problème</th>
+
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-formation>
+                  <tr>
+                    <td>{{ formation.titre }}</td>
+                    <td>{{ formation.description }}</td>
+                    <td>{{ formation.typeFormation }}</td>
+                    <td>{{ formation.sousTypeFormation }}</td>
+                    <td>{{ formation.responsableEvaluation?.nom || formation.responsableEvaluationExterne || 'N/A' }}
+                    <td class="text-center">
+                      <button pButton icon="pi pi-users" (click)="showParticipants(formation)"
+                        class="p-button-rounded p-button-text p-button-plain" pTooltip="Voir participants"></button>
+                      <span class="participants-badge">{{formation.employes?.length || 0}}</span>
+                    </td>
+                    <td>
+                      <p-tag [severity]="getStatusSeverity(formation.dateFinPrevue)"
+                        [value]="getFormationStatus(formation.dateFinPrevue)">
+                      </p-tag>
+                    </td>
+                    <td>
+                      <p-tag [severity]="formation.valide ? 'success' : 'warn'"
+                        [value]="formation.valide ? 'Validée' : 'En attente'">
+                      </p-tag>
+                    </td>
+                    <td>
+                      <!-- Mode édition -->
+                      <div *ngIf="formationWithComment?.id === formation.id" class="comment-field">
+                        <p class="comment-instruction">
+                          Veuillez préciser le problème rencontré lors de la validation, en mentionnant :
+                          <br>- Les matricules et noms des employés concernés
+                          <br>- La nature exacte du problème
+                          <br>- Toute information utile pour le traitement
+                        </p>
+
+                        <textarea pInputTextarea [(ngModel)]="commentaire" placeholder="Exemple : 
+              - [Matricule] Nom Prénom : [Description du problème]
+              - [Matricule] Nom Prénom : [Description du problème]
+              
+              [Autres observations]" style="white-space: pre-wrap; width: 100%; min-height: 120px;"></textarea>
+
+                        <div class="comment-buttons">
+                          <button pButton icon="pi pi-check" (click)="submitComment()"
+                            class="p-button-rounded p-button-text p-button-success" pTooltip="Confirmer">
+                          </button>
+                          <button pButton icon="pi pi-times" (click)="cancelComment()"
+                            class="p-button-rounded p-button-text p-button-danger" pTooltip="Annuler">
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Mode affichage -->
+                      <div *ngIf="formationWithComment?.id !== formation.id" class="comment-display-container">
+                        <div class="comment-content-wrapper">
+                          <div *ngIf="formation.commentaire" class="commentaire-cell"
+                            [class.empty-comment]="!formation.commentaire">
+                            {{ formation.commentaire }}
+                          </div>
+                          <div *ngIf="!formation.commentaire" class="empty-comment">
+                            -
+                          </div>
+                        </div>
+
+                        <button pButton icon="pi pi-pencil"
+                          class="p-button-rounded p-button-text p-button-warning edit-comment-btn"
+                          (click)="editComment(formation)">
+                        </button>
+                      </div>
+                    </td>
+
+
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="10">
+                      <div class="empty-message">
+                        <i class="pi pi-inbox"></i>
+                        <p>Aucune formation à corriger trouvée</p>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </p-tabPanel>
+
+          <p-tabPanel header="Formations annulées" leftIcon="pi pi-ban">
+            <div class="enhanced-table">
+              <p-table #dtAnnulees [value]="formationsPolyvalenceAnnulees"
+                [globalFilterFields]="['titre','typeFormation','sousTypeFormation','responsableEvaluationExterne']"
+                selectionMode="single" [(selection)]="selectedFormation" dataKey="id" [rows]="10" [paginator]="true"
+                styleClass="p-datatable-striped p-datatable-gridlines">
+                <ng-template pTemplate="caption">
+                  <div class="table-header">
+                    <div class="search-box">
+                      <i class="pi pi-search"></i>
+                      <input pInputText (input)="dtAnnulees.filterGlobal($any($event.target).value,'contains')"
+                        placeholder="Rechercher une formation annulée..." />
+                    </div>
+                    <div class="table-info">
+                      {{ formationsIntegrationAnnulees.length }} formations annulées
+                    </div>
+                  </div>
+                </ng-template>
+
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th pSortableColumn="titre">Titre <p-sortIcon field="titre" /></th>
+                    <th pSortableColumn="typeFormation">Type <p-sortIcon field="typeFormation" /></th>
+                    <th>Dates</th>
+                    <th pSortableColumn="responsableEvaluation">Responsable <p-sortIcon field="responsableEvaluation" />
+                    </th>
+                    <th>Participants</th>
+                    <th>Statut</th>
+                    <th>Date d'annulation</th> <!-- Nouvelle colonne pour la date d'annulation -->
+                    <th>Relancer la formation</th>
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-formation>
+                  <tr>
+                    <td>{{ formation.titre }}</td>
+                    <td>{{ formation.typeFormation }} / {{ formation.sousTypeFormation }}</td>
+                    <td>
+                      {{ formation.dateDebutPrevue | date:'dd/MM/yyyy' }}
+                      –
+                      {{ formation.dateFinPrevue | date:'dd/MM/yyyy' }}
+                    </td>
+                    <td>
+                      {{ formation.responsableEvaluation?.nom
+                      || formation.responsableEvaluationExterne
+                      || 'N/A' }}
+                    </td>
+                    <td class="text-center">{{ formation.employes?.length || 0 }}</td>
+                    <td>
+                      <p-tag severity="danger" value="Annulée"></p-tag>
+                    </td>
+                    <td>
+                      <!-- Affichage de la date d'annulation -->
+                      {{ formation.dateAnnulation | date:'dd/MM/yyyy' }}
+                    </td>
+                    <td class="action-buttons">
+                      <!-- Bouton pour réactiver -->
+                      <button *ngIf="formation.annuler" pButton icon="pi pi-undo"
+                        (click)="onReactiverFormation(formation)"
+                        class="p-button-rounded p-button-text p-button-warning" pTooltip="Réactiver"
+                        tooltipPosition="top">
+                      </button>
+                    </td>
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="8">
+                      <div class="empty-message">
+                        <i class="pi pi-inbox"></i>
+                        <p>Aucune formation annulée trouvée</p>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </p-tabPanel>
+        </p-tabView>
+      </p-tabPanel>
+
+
+      <!-- Onglet Formations Integration -->
+      <p-tabPanel header="Integration" leftIcon="pi pi-users">
+        <p-tabView>
+          <!-- Onglet : Formations à corriger -->
+
+
+          <p-tabPanel header="Formations en attente">
+            <div class="enhanced-table">
+              <p-table #dtIntAttente [value]="formationsIntegrationEnAttente"
+                [globalFilterFields]="['titre', 'description', 'typeFormation', 'sousTypeFormation', 'responsableEvaluationExterne']"
+                selectionMode="single" [(selection)]="selectedFormation" dataKey="id" [rows]="10" [paginator]="true"
+                styleClass="p-datatable-striped p-datatable-gridlines">
+                <ng-template pTemplate="caption">
+                  <div class="table-header">
+                    <div class="search-box">
+                      <i class="pi pi-search"></i>
+                      <input pInputText type="text"
+                        (input)="dtIntAttente.filterGlobal($any($event.target).value, 'contains')"
+                        placeholder="Rechercher une formation..." />
+                    </div>
+                    <div class="table-info">
+                      {{formationsIntegrationEnAttente.length || 0}} formations en attente
+                    </div>
+                  </div>
+                </ng-template>
+
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th pSortableColumn="titre">Titre <p-sortIcon field="titre" /></th>
+                    <th pSortableColumn="typeFormation">Type <p-sortIcon field="typeFormation" /></th>
+                    <th>Dates</th>
+                    <th pSortableColumn="responsableEvaluation">Responsable <p-sortIcon field="responsableEvaluation" />
+                    </th>
+                    <th>Participants</th>
+                    <th>Statut</th>
+                    <th>Validation</th>
+                    <th>Modifier</th>
+                    <th>annuler</th>
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-formation>
+                  <tr class="formation-row">
+                    <td>
+                      <div class="formation-title">{{ formation.titre }}</div>
+                      <div class="formation-description">{{ formation.description }}</div>
+                    </td>
+                    <td>
+                      <div class="formation-type">{{ formation.typeFormation }}</div>
+                      <div class="formation-subtype">{{ formation.sousTypeFormation }}</div>
+                    </td>
+                    <td>
+                      <div class="date-range">
+                        <span class="date-label">Début:</span>
+                        {{ formation.dateDebutPrevue | date: 'dd/MM/yyyy' }}
+                      </div>
+                      <div class="date-range">
+                        <span class="date-label">Fin:</span>
+                        {{ formation.dateFinPrevue | date: 'dd/MM/yyyy' }}
+                      </div>
+                    </td>
+                    <td>{{ formation.responsableEvaluation?.nom || formation.responsableEvaluationExterne || 'N/A' }}
+                    </td>
+                    <td class="text-center">
+                      <button pButton icon="pi pi-users" (click)="showParticipants(formation)"
+                        class="p-button-rounded p-button-text p-button-plain action-btn" pTooltip="Voir participants"
+                        tooltipPosition="top"></button>
+                      <span class="participants-badge">{{formation.employes?.length || 0}}</span>
+                    </td>
+                    <td>
+                      <p-tag [severity]="getStatusSeverity(formation.dateFinPrevue)"
+                        [value]="getFormationStatus(formation.dateFinPrevue)" styleClass="status-badge"></p-tag>
+                    </td>
+                    <td>
+                      <p-tag [severity]="formation.valide ? 'success' : 'warn'"
+                        [icon]="formation.valide ? 'pi pi-check' : 'pi pi-clock'"
+                        [value]="formation.valide ? 'Validée' : 'En attente'" styleClass="status-badge"></p-tag>
+                    </td>
+                    <td class="action-buttons">
+                      <button *ngIf="!formation.valide" pButton icon="pi pi-pencil"
+                        (click)="openModificationDialog(formation)"
+                        class="p-button-rounded p-button-text p-button-plain action-btn" pTooltip="Modifier"
+                        tooltipPosition="top"></button>
+                    </td>
+                    <td>
+                      <button *ngIf="!formation.annuler" pButton icon="pi pi-times"
+                        (click)="onAnnulerFormation(formation)"
+                        class="p-button-rounded p-button-text p-button-danger action-btn" pTooltip="Annuler"
+                        tooltipPosition="top">
+                      </button>
+                    </td>
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="8">
+                      <div class="empty-message">
+                        <i class="pi pi-inbox"></i>
+                        <p>Aucune formation en attente trouvée</p>
+                      </div>
+                    </td>
+
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </p-tabPanel>
+          <!-- Onglet : Formations validées -->
+          <p-tabPanel header="Formations validées">
+            <div class="enhanced-table">
+              <p-table #dtIntValidees [value]="formationsIntegrationValidees"
+                [globalFilterFields]="['titre', 'description', 'typeFormation', 'sousTypeFormation', 'responsableEvaluationExterne']"
+                selectionMode="single" [(selection)]="selectedFormation" dataKey="id" [rows]="10" [paginator]="true"
+                styleClass="p-datatable-striped p-datatable-gridlines">
+                <ng-template pTemplate="caption">
+                  <div class="table-header">
+                    <div class="search-box">
+                      <i class="pi pi-search"></i>
+                      <input pInputText type="text"
+                        (input)="dtIntValidees.filterGlobal($any($event.target).value, 'contains')"
+                        placeholder="Rechercher une formation..." />
+                    </div>
+                    <div class="table-info">
+                      {{formationsIntegrationValidees.length || 0}} formations validées
+                    </div>
+                  </div>
+                </ng-template>
+
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th pSortableColumn="titre">Titre <p-sortIcon field="titre" /></th>
+                    <th pSortableColumn="typeFormation">Type <p-sortIcon field="typeFormation" /></th>
+                    <th>Dates</th>
+                    <th pSortableColumn="responsableEvaluation">Responsable <p-sortIcon field="responsableEvaluation" />
+                    </th>
+                    <th>Participants</th>
+                    <th>Statut</th>
+                    <th>Validation</th>
+                    <th>décrire une probleme </th>
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-formation>
+                  <tr class="formation-row">
+                    <td>
+                      <div class="formation-title">{{ formation.titre }}</div>
+                      <div class="formation-description">{{ formation.description }}</div>
+                    </td>
+                    <td>
+                      <div class="formation-type">{{ formation.typeFormation }}</div>
+                      <div class="formation-subtype">{{ formation.sousTypeFormation }}</div>
+                    </td>
+                    <td>
+                      <div class="date-range">
+                        <span class="date-label">Début:</span>
+                        {{ formation.dateDebutPrevue | date: 'dd/MM/yyyy' }}
+                      </div>
+                      <div class="date-range">
+                        <span class="date-label">Fin:</span>
+                        {{ formation.dateFinPrevue | date: 'dd/MM/yyyy' }}
+                      </div>
+                    </td>
+                    <td>{{ formation.responsableEvaluation?.nom || formation.responsableEvaluationExterne || 'N/A' }}
+                    </td>
+                    <td class="text-center">
+                      <button pButton icon="pi pi-users" (click)="showParticipants(formation)"
+                        class="p-button-rounded p-button-text p-button-plain action-btn" pTooltip="Voir participants"
+                        tooltipPosition="top"></button>
+                      <span class="participants-badge">{{formation.employes?.length || 0}}</span>
+                    </td>
+                    <td>
+                      <p-tag [severity]="getStatusSeverity(formation.dateFinPrevue)"
+                        [value]="getFormationStatus(formation.dateFinPrevue)" styleClass="status-badge"></p-tag>
+                    </td>
+                    <td>
+                      <p-tag [severity]="formation.valide ? 'success' : 'warn'"
+                        [icon]="formation.valide ? 'pi pi-check' : 'pi pi-clock'"
+                        [value]="formation.valide ? 'Validée' : 'En attente'" styleClass="status-badge"></p-tag>
+                    </td>
+                    <!-- Dans l'onglet "Formations validées" de l'intégration -->
+                    <td style="position: relative; text-align: left;">
+                      <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                        <button pButton icon="pi pi-exclamation-triangle" (click)="showCommentField(formation)"
+                          class="p-button-rounded p-button-text p-button-plain" pTooltip="Signaler un problème"
+                          style="align-self: flex-start; margin-bottom: 5px;">
+                        </button>
+
+                        <div *ngIf="formationWithComment?.id === formation.id" class="comment-field">
+                          <p class="comment-instruction">
+                            Veuillez préciser le problème rencontré lors de la validation, en mentionnant :
+                            <br>- Les matricules et noms des employés concernés
+                            <br>- La nature exacte du problème
+                            <br>- Toute information utile pour le traitement
+                          </p>
+
+                          <textarea pInputTextarea [(ngModel)]="commentaire" placeholder="Exemple : 
+Problème de validation pour :
+- [Matricule] Nom Prénom : [Description du problème]
+- [Matricule] Nom Prénom : [Description du problème]
+
+[Autres observations]" style="white-space: pre-wrap;"></textarea>
+
+                          <div class="comment-buttons">
+                            <button pButton icon="pi pi-check" (click)="submitComment()"
+                              class="p-button-rounded p-button-text p-button-success" pTooltip="Confirmer">
+                            </button>
+                            <button pButton icon="pi pi-times" (click)="cancelComment()"
+                              class="p-button-rounded p-button-text p-button-danger" pTooltip="Annuler">
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+
+
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="7">
+                      <div class="empty-message">
+                        <i class="pi pi-inbox"></i>
+                        <p>Aucune formation validée trouvée</p>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </p-tabPanel>
+          <p-tabPanel header="Formations à corriger" leftIcon="pi pi-exclamation-triangle">
+            <div class="enhanced-table">
+              <p-table #dtIntCorriger [value]="formationsIntegrationACorriger"
+                [globalFilterFields]="['titre', 'description', 'typeFormation', 'sousTypeFormation', 'responsableEvaluationExterne']"
+                selectionMode="single" [(selection)]="selectedFormation" dataKey="id" [rows]="10" [paginator]="true"
+                styleClass="p-datatable-striped p-datatable-gridlines">
+                <ng-template pTemplate="caption">
+                  <div class="table-header">
+                    <div class="search-box">
+                      <i class="pi pi-search"></i>
+                      <input pInputText type="text"
+                        (input)="dtIntCorriger.filterGlobal($any($event.target).value, 'contains')"
+                        placeholder="Rechercher une formation..." />
+                    </div>
+                    <div class="table-info">
+                      {{formationsIntegrationACorriger.length || 0}} formations à corriger
+                    </div>
+                  </div>
+                </ng-template>
+
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th pSortableColumn="titre">Titre <p-sortIcon field="titre" /></th>
+                    <th pSortableColumn="typeFormation">Type <p-sortIcon field="typeFormation" /></th>
+                    <th>Dates</th>
+                    <th pSortableColumn="responsableEvaluation">Responsable <p-sortIcon field="responsableEvaluation" />
+                    </th>
+                    <th>Participants</th>
+                    <th>Statut</th>
+                    <th>Validation</th>
+                    <th>Problème</th>
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-formation>
+                  <tr class="formation-row">
+                    <td>
+                      <div class="formation-title">{{ formation.titre }}</div>
+                      <div class="formation-description">{{ formation.description }}</div>
+                    </td>
+                    <td>
+                      <div class="formation-type">{{ formation.typeFormation }}</div>
+                      <div class="formation-subtype">{{ formation.sousTypeFormation }}</div>
+                    </td>
+                    <td>
+                      <div class="date-range">
+                        <span class="date-label">Début:</span>
+                        {{ formation.dateDebutPrevue | date: 'dd/MM/yyyy' }}
+                      </div>
+                      <div class="date-range">
+                        <span class="date-label">Fin:</span>
+                        {{ formation.dateFinPrevue | date: 'dd/MM/yyyy' }}
+                      </div>
+                    </td>
+                    <td>{{ formation.responsableEvaluation?.nom || formation.responsableEvaluationExterne || 'N/A' }}
+                    </td>
+                    <td class="text-center">
+                      <button pButton icon="pi pi-users" (click)="showParticipants(formation)"
+                        class="p-button-rounded p-button-text p-button-plain action-btn" pTooltip="Voir participants"
+                        tooltipPosition="top"></button>
+                      <span class="participants-badge">{{formation.employes?.length || 0}}</span>
+                    </td>
+                    <td>
+                      <p-tag [severity]="getStatusSeverity(formation.dateFinPrevue)"
+                        [value]="getFormationStatus(formation.dateFinPrevue)" styleClass="status-badge"></p-tag>
+                    </td>
+                    <td>
+                      <p-tag [severity]="formation.valide ? 'success' : 'warn'"
+                        [icon]="formation.valide ? 'pi pi-check' : 'pi pi-clock'"
+                        [value]="formation.valide ? 'Validée' : 'En attente'" styleClass="status-badge"></p-tag>
+                    </td>
+                    <td>
+                      <!-- Mode édition -->
+                      <div *ngIf="formationWithComment?.id === formation.id" class="comment-field">
+                        <p class="comment-instruction">
+                          Veuillez préciser le problème rencontré lors de la validation, en mentionnant :
+                          <br>- Les matricules et noms des employés concernés
+                          <br>- La nature exacte du problème
+                          <br>- Toute information utile pour le traitement
+                        </p>
+
+                        <textarea pInputTextarea [(ngModel)]="commentaire" placeholder="Exemple : 
+                      - [Matricule] Nom Prénom : [Description du problème]
+                      - [Matricule] Nom Prénom : [Description du problème]
+                      
+                      [Autres observations]" style="white-space: pre-wrap; width: 100%; min-height: 120px;"></textarea>
+
+                        <div class="comment-buttons">
+                          <button pButton icon="pi pi-check" (click)="submitComment()"
+                            class="p-button-rounded p-button-text p-button-success" pTooltip="Confirmer">
+                          </button>
+                          <button pButton icon="pi pi-times" (click)="cancelComment()"
+                            class="p-button-rounded p-button-text p-button-danger" pTooltip="Annuler">
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Mode affichage -->
+                      <div *ngIf="formationWithComment?.id !== formation.id" class="comment-display-container">
+                        <div class="comment-content-wrapper">
+                          <div *ngIf="formation.commentaire" class="commentaire-cell"
+                            [class.empty-comment]="!formation.commentaire">
+                            {{ formation.commentaire }}
+                          </div>
+                          <div *ngIf="!formation.commentaire" class="empty-comment">
+                            -
+                          </div>
+                        </div>
+
+                        <button pButton icon="pi pi-pencil"
+                          class="p-button-rounded p-button-text p-button-warning edit-comment-btn"
+                          (click)="editComment(formation)">
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="8">
+                      <div class="empty-message">
+                        <i class="pi pi-inbox"></i>
+                        <p>Aucune formation à corriger trouvée</p>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </p-tabPanel>
+          <p-tabPanel header="Formations annulées" leftIcon="pi pi-ban">
+            <div class="enhanced-table">
+              <p-table #dtAnnulees [value]="formationsIntegrationAnnulees"
+                [globalFilterFields]="['titre','typeFormation','sousTypeFormation','responsableEvaluationExterne']"
+                selectionMode="single" [(selection)]="selectedFormation" dataKey="id" [rows]="10" [paginator]="true"
+                styleClass="p-datatable-striped p-datatable-gridlines">
+                <ng-template pTemplate="caption">
+                  <div class="table-header">
+                    <div class="search-box">
+                      <i class="pi pi-search"></i>
+                      <input pInputText (input)="dtAnnulees.filterGlobal($any($event.target).value,'contains')"
+                        placeholder="Rechercher une formation annulée..." />
+                    </div>
+                    <div class="table-info">
+                      {{ formationsIntegrationAnnulees.length }} formations annulées
+                    </div>
+                  </div>
+                </ng-template>
+
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th pSortableColumn="titre">Titre <p-sortIcon field="titre" /></th>
+                    <th pSortableColumn="typeFormation">Type <p-sortIcon field="typeFormation" /></th>
+                    <th>Dates</th>
+                    <th pSortableColumn="responsableEvaluation">Responsable <p-sortIcon field="responsableEvaluation" />
+                    </th>
+                    <th>Participants</th>
+                    <th>Statut</th>
+                    <th>Date d'annulation</th> <!-- Nouvelle colonne pour la date d'annulation -->
+                    <th>Relancer la formation</th>
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-formation>
+                  <tr>
+                    <td>{{ formation.titre }}</td>
+                    <td>{{ formation.typeFormation }} / {{ formation.sousTypeFormation }}</td>
+                    <td>
+                      {{ formation.dateDebutPrevue | date:'dd/MM/yyyy' }}
+                      –
+                      {{ formation.dateFinPrevue | date:'dd/MM/yyyy' }}
+                    </td>
+                    <td>
+                      {{ formation.responsableEvaluation?.nom
+                      || formation.responsableEvaluationExterne
+                      || 'N/A' }}
+                    </td>
+                    <td class="text-center">{{ formation.employes?.length || 0 }}</td>
+                    <td>
+                      <p-tag severity="danger" value="Annulée"></p-tag>
+                    </td>
+                    <td>
+                      <!-- Affichage de la date d'annulation -->
+                      {{ formation.dateAnnulation | date:'dd/MM/yyyy' }}
+                    </td>
+                    <td class="action-buttons">
+                      <!-- Bouton pour réactiver -->
+                      <button *ngIf="formation.annuler" pButton icon="pi pi-undo"
+                        (click)="onReactiverFormation(formation)"
+                        class="p-button-rounded p-button-text p-button-warning" pTooltip="Réactiver"
+                        tooltipPosition="top">
+                      </button>
+                    </td>
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="8">
+                      <div class="empty-message">
+                        <i class="pi pi-inbox"></i>
+                        <p>Aucune formation annulée trouvée</p>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </p-tabPanel>
+
+
+        </p-tabView>
+
+      </p-tabPanel>
+      <!-- Onglet Formations Polycompétences -->
+      <p-tabPanel header="Polycompétences" leftIcon="pi pi-star">
+        <div class="enhanced-table">
+          <p-table #dt3 [value]="formationsCompletes"
+            [globalFilterFields]="['titre', 'description', 'typeFormation', 'sousTypeFormation', 'responsableEvaluationExterne']"
+            selectionMode="single" [(selection)]="selectedFormation" dataKey="id" [rows]="10" [paginator]="true"
+            stateStorage="session" stateKey="statedemo-session" styleClass="p-datatable-striped p-datatable-gridlines">
+            <ng-template pTemplate="caption">
+              <div class="table-header">
+                <div class="search-box">
+                  <i class="pi pi-search"></i>
+                  <input pInputText type="text" (input)="dt3.filterGlobal($any($event.target).value, 'contains')"
+                    placeholder="Rechercher une formation..." />
+                </div>
+                <div class="table-info">
+                  {{formationsCompletes.length || 0}} formations complètes
+                </div>
+              </div>
+            </ng-template>
+
+            <ng-template pTemplate="header">
+              <tr>
+                <th pSortableColumn="titre" style="width:22%">Titre <p-sortIcon field="titre" /></th>
+                <th pSortableColumn="typeFormation" style="width:15%">Type <p-sortIcon field="typeFormation" /></th>
+                <th style="width:15%">Dates</th>
+                <th pSortableColumn="responsableEvaluation" style="width:15%">Responsable <p-sortIcon
+                    field="responsableEvaluation" /></th>
+                <th style="width:10%">Participants</th>
+                <th style="width:10%">Statut</th>
+                <th style="width:8%">Validation</th>
+                <th style="width:8%">modifier</th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-formation>
+              <tr class="formation-row">
+                <td>
+                  <div class="formation-title">{{ formation.titre }}</div>
+                  <div class="formation-description">{{ formation.description }}</div>
+                </td>
+                <td>
+                  <div class="formation-type">{{ formation.typeFormation }}</div>
+                  <div class="formation-subtype">{{ formation.sousTypeFormation }}</div>
+                </td>
+                <td>
+                  <div class="date-range">
+                    <span class="date-label">Début:</span>
+                    {{ formation.dateDebutPrevue | date: 'dd/MM/yyyy' }}
+                  </div>
+                  <div class="date-range">
+                    <span class="date-label">Fin:</span>
+                    {{ formation.dateFinPrevue | date: 'dd/MM/yyyy' }}
+                  </div>
+                </td>
+                <td>{{ formation.responsableEvaluation?.nom || formation.responsableEvaluationExterne || 'N/A' }}</td>
+                <td class="text-center">
+                  <button pButton icon="pi pi-users" (click)="showParticipants(formation)"
+                    class="p-button-rounded p-button-text p-button-plain action-btn" pTooltip="Voir participants"
+                    tooltipPosition="top"></button>
+                  <span class="participants-badge">{{formation.employes?.length || 0}}</span>
+                </td>
+                <td>
+                  <p-tag [severity]="getStatusSeverity(formation.dateFinPrevue)"
+                    [value]="getFormationStatus(formation.dateFinPrevue)" styleClass="status-badge"></p-tag>
+                </td>
+                <td>
+                  <p-tag severity="success" icon="pi pi-star" value="Complète" styleClass="status-badge"></p-tag>
+                </td>
+                <td>
+                  <button pButton icon="pi pi-pencil" (click)="openModificationDialog(formation)"
+                    class="p-button-rounded p-button-text p-button-plain action-btn" pTooltip="Modifier"
+                    tooltipPosition="top"></button>
+
+                </td>
+
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="7">
+                  <div class="empty-message">
+                    <i class="pi pi-inbox"></i>
+                    <p>Aucune formation complète trouvée</p>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </p-tabPanel>
+    </p-tabView>
+  </p-card>
+
+  <!-- Dialogue Calendrier modernisé -->
+  <p-dialog header="Calendrier des Formations" [(visible)]="displayCalendarDialog" [modal]="true"
+    [style]="{ width: '85vw', height: '85vh' }" [draggable]="false" [resizable]="false" class="modern-dialog">
+    <div class="dialog-content">
+      <full-calendar [options]="calendarOptions"></full-calendar>
+    </div>
+    <ng-template pTemplate="footer">
+      <button pButton label="Fermer" (click)="displayCalendarDialog = false" class="p-button-text"></button>
+    </ng-template>
+  </p-dialog>
+
+  <!-- Dialogue Participants modernisé -->
+  <p-dialog header="Liste des Participants" [(visible)]="displayDialog" [modal]="true" [closable]="true"
+    [style]="{ width: '70vw' }" class="participants-dialog">
+    <div class="dialog-content">
+      <p-table *ngIf="selectedFormation?.employes" [value]="selectedFormation.employes" [rows]="8" [paginator]="true"
+        styleClass="p-datatable-gridlines p-datatable-striped">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="min-width: 180px;">Participant</th>
+            <th style="width: 120px;">Matricule</th>
+            <th>Email</th>
+            <th *ngIf="showDocumentColumn()" style="width: 200px;">Document</th>
+            <th *ngIf="selectedFormation.valide" style="width: 250px;">Évaluation</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-employe>
+          <tr>
+            <!-- Colonne Participant -->
+            <td>
+              <div class="participant-info">
+                <div class="participant-avatar">
+                  {{ employe.prenom.charAt(0) }}{{ employe.nom.charAt(0) }}
+                </div>
+                <div class="participant-details">
+                  <div class="participant-name">{{ employe.prenom }} {{ employe.nom }}</div>
+                  <div class="participant-meta">
+
+                  </div>
+                </div>
+              </div>
+            </td>
+
+            <!-- Colonne Matricule -->
+            <td>
+              <span class="matricule-badge">{{ employe.matricule }}</span>
+            </td>
+
+            <!-- Colonne Email -->
+            <td>
+              <a href="mailto:{{ employe.email }}" class="email-link">
+                <i class="pi pi-envelope"></i> {{ employe.email }}
+              </a>
+            </td>
+
+            <!-- Colonne Document (si formation validée) -->
+            <td *ngIf="showDocumentColumn()">
+              <div *ngIf="pdfUrls[employe.id]" class="document-container">
+                <button pButton icon="pi pi-file-pdf" (click)="openPdfDialog(pdfUrls[employe.id])"
+                  class="p-button-rounded p-button-outlined p-button-danger" pTooltip="Voir le document"
+                  tooltipPosition="top"></button>
+                <span class="document-status success">Document disponible</span>
+              </div>
+              <div *ngIf="!pdfUrls[employe.id]" class="document-container">
+                <i class="pi pi-times-circle" style="color: #ef4444;"></i>
+                <span class="document-status error">Non disponible</span>
+              </div>
+            </td>
+
+            <!-- Colonne Résultat (si formation validée) -->
+            <td *ngIf="selectedFormation.valide">
+              <div *ngIf="!employe.resultat" class="evaluation-form">
+                <div class="radio-options">
+                  <div
+                    *ngFor="let option of selectedFormation?.sousTypeFormation === 'POLYCOMPETENCE' ? resultatOptionss : resultatOptions"
+                    class="radio-option">
+                    <p-radioButton [name]="'eval_'+employe.id" [value]="option.value" [(ngModel)]="employe.tempResultat"
+                      (onClick)="updateResultat(selectedFormation.id, employe.id, option.value, employe)">
+                    </p-radioButton>
+                    <label (click)="updateResultat(selectedFormation.id, employe.id, option.value, employe)">
+                      {{option.label}}
+                    </label>
+                  </div>
+
+                </div>
+              </div>
+
+              <div *ngIf="employe.resultat" class="evaluation-result">
+                <p-tag [severity]="getSeverity(employe.resultat)" [value]="getResultatLabel(employe.resultat)"
+                  styleClass="result-tag"></p-tag>
+                <button pButton icon="pi pi-pencil" (click)="checkBeforeEdit(employe)"
+                  [disabled]="(selectedFormation.sousTypeFormation === 'INTEGRATION' || selectedFormation.sousTypeFormation === 'POLYVALENCE') && employe.resultat === 'REUSSI'"
+                  class="p-button-rounded p-button-text edit-btn" pTooltip="Modifier" tooltipPosition="left"></button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td [attr.colspan]="selectedFormation.valide ? 5 : 3">
+              <div class="empty-state">
+                <i class="pi pi-users" style="font-size: 2rem; color: #64748b;"></i>
+                <p>Aucun participant trouvé pour cette formation</p>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </p-dialog>
+
+  <!-- Dialogue PDF modernisé -->
+  <p-dialog header="PDF Viewer" [(visible)]="displayPdfDialog" [modal]="true" [closable]="true"
+    [style]="{ width: '80vw' }">
+    <iframe *ngIf="pdfUrl" [src]="pdfUrl" width="100%" height="700px"
+      style="border: 1px solid #ddd; border-radius: 4px;"></iframe>
+  </p-dialog>
+
+
+  <!-- Dialogue Affectation de poste modernisé -->
+  <p-dialog header="Affectation de poste" [(visible)]="displayPosteAssignmentDialog" [modal]="true"
+    class="modern-dialog">
+    <div class="dialog-content">
+      <div class="p-fluid">
+        <p>L'employé <strong>{{ selectedEmploye?.nom }} {{ selectedEmploye?.prenom }}</strong>
+          a réussi cette formation et va obtenir le poste <strong>{{ selectedPoste?.titre }}</strong>.</p>
+        <p>Veuillez préciser dans quelle direction et sur quel site il exercera ce poste :</p>
+
+        <div class="p-field">
+          <label>Direction</label>
+          <p-dropdown [options]="directions" optionLabel="nom_direction" [(ngModel)]="selectedDirection"
+            (onChange)="onDirectionSelect($event)">
+          </p-dropdown>
+        </div>
+
+        <div class="p-field">
+          <label>Site</label>
+          <p-dropdown [options]="sites" optionLabel="nom_site" [(ngModel)]="selectedSite"
+            [disabled]="!selectedDirection">
+          </p-dropdown>
+        </div>
+
+        <div class="p-d-flex p-jc-end">
+          <button pButton label="Confirmer" icon="pi pi-check" (click)="confirmAssignment()"
+            [disabled]="!selectedDirection || !selectedSite">
+          </button>
+        </div>
+      </div>
+    </div>
+  </p-dialog>
+
+  <!-- Dialogue Création modernisé -->
+  <p-dialog header="Créer une Formation" [(visible)]="dialogVisible" [modal]="true" [closable]="false"
+    [style]="{ width: '900px', height: '900px' }" [contentStyle]="{ 'max-height': '700px', 'overflow-y': 'auto' }"
+    [responsive]="true" [draggable]="false" [resizable]="false">
+    <form [formGroup]="formationForm" (ngSubmit)="submitFormation()">
+
+
+      <div class="dialog-content p-fluid">
+
+
+
+
+        <!-- Champ Titre -->
+        <div class="p-field">
+          <label for="titre">Titre</label>
+          <input pInputText id="titre" formControlName="titre" placeholder="Entrez le titre de la formation" />
+          <br>
+          <small *ngIf="formationForm.get('titre')?.invalid && formationForm.get('titre')?.touched" class="p-error">
+            Le titre est obligatoire.
+          </small>
+        </div>
+        <br>
+
+        <!-- Champ Description avec p-inputTextarea -->
+        <div class="p-field p-mb-3">
+          <label for="description">Description</label>
+          <textarea pInputTextarea id="description" formControlName="description" rows="5"
+            placeholder="Entrez la description de la formation"></textarea>
+          <br>
+          <small *ngIf="formationForm.get('description')?.invalid && formationForm.get('description')?.touched"
+            class="p-error">
+            La description est obligatoire.
+          </small>
+        </div>
+        <br>
+        <div class="date-container">
+          <div class="p-field">
+            <label for="sousTypeFormation">Sous-Type de Formation</label>
+            <p-dropdown id="sousTypeFormation" formControlName="sousTypeFormation" [options]="sousTypeFormations"
+              placeholder="Sélectionner un sous-type" [showClear]="true" [filter]="true"
+              filterPlaceholder="Rechercher un sous-type" (onChange)="onSousTypeChange($event.value)">
+            </p-dropdown>
+            <br>
+            <small
+              *ngIf="formationForm.get('sousTypeFormation')?.invalid && formationForm.get('sousTypeFormation')?.touched"
+              class="p-error">
+              Le sous-type de formation est obligatoire.
+            </small>
+          </div>
+        </div>
+
+        <!-- Champ Type de Formation -->
+        <div class="p-field">
+          <label for="typeFormation">Type de Formation</label>
+          <p-dropdown id="typeFormation" formControlName="typeFormation" [options]="typeFormations"
+            placeholder="Sélectionner un type" [showClear]="true" [filter]="true" filterPlaceholder="Rechercher un type"
+            [disabled]="formationForm.get('typeFormation')?.disabled ?? false">
+          </p-dropdown>
+          <br>
+
+          <small *ngIf="formationForm.get('typeFormation')?.invalid && formationForm.get('typeFormation')?.touched"
+            class="p-error">
+            Le type de formation est obligatoire.
+          </small>
+        </div>
+
+
+        <div class="p-mb-4" *ngIf="formationForm.get('enteteId')?.value">
+          <h4>Aperçu de l'entête sélectionnée</h4>
+          <table border="1" class="entete-preview">
+            <tr>
+              <td rowspan="2" class="logo-cell">
+                <img src="assad.png" alt="Logo" class="logo-img">
+              </td>
+
+              <td rowspan="2" class="title-cell">
+                <table class="inner-table">
+                  <tr>
+                    <td class="document-type">FICHE</td>
+                  </tr>
+                  <tr>
+                    <td class="document-title">{{ selectedEntete?.libelle || 'Entête de formation' }}</td>
+                  </tr>
+                </table>
+              </td>
+
+              <td class="label-cell">
+                <table class="inner-table">
+                  <tr>
+                    <td>REF.</td>
+                  </tr>
+                  <tr>
+                    <td>REVISION</td>
+                  </tr>
+                  <tr>
+                    <td>DATE APPL.</td>
+                  </tr>
+                  <tr>
+                    <td>PAGE</td>
+                  </tr>
+                </table>
+              </td>
+
+              <td class="value-cell">
+                <table class="inner-table">
+                  <tr>
+                    <td>{{ selectedEntete?.reference || 'REF-001' }}</td>
+                  </tr>
+                  <tr>
+                    <td>{{ selectedEntete?.numerorevision || '0' }}</td>
+                  </tr>
+                  <tr>
+                    <td>{{ (selectedEntete?.dateApplication | date:'dd/MM/yyyy') || '01/01/2023' }}</td>
+                  </tr>
+                  <tr>
+                    <td>1/2</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="p-field" *ngIf="shouldShowEnteteSection()">
+          <label for="enteteId">Entête</label>
+          <p-dropdown [options]="entetes" optionLabel="libelle" formControlName="enteteId"
+            placeholder="Sélectionnez une entête" (onChange)="onEnteteSelect($event.value)">
+          </p-dropdown>
+          <br>
+          <small *ngIf="formationForm.get('enteteId')?.invalid && formationForm.get('enteteId')?.touched"
+            class="p-error">
+            L'entête est obligatoire.
+          </small>
+        </div>
+        <!-- Champ Sous-Type de Formation -->
+
+        <br>
+        <!-- Sélection du poste -->
+        <div class="p-field" *ngIf="shouldShowPosteSection()">
+          <label for="poste">Poste</label>
+          <p-dropdown id="poste" [options]="postes" optionLabel="titre" formControlName="titrePoste"
+            [(ngModel)]="posteSelectionne" placeholder="Sélectionner un poste"
+            (onChange)="onPosteSelect($event); updateDateFields()" [showClear]="true" [filter]="true"
+            filterPlaceholder="Rechercher un poste">
+          </p-dropdown>
+          <br>
+          <small *ngIf="formationForm.get('titrePoste')?.invalid && formationForm.get('titrePoste')?.touched"
+            class="p-error">
+            Le poste est obligatoire.
+          </small>
+        </div>
+        <div class="date-container">
+          <!-- Champ Date de début -->
+          <div class="p-field ">
+            <label for="dateDebutPrevue">Date de début</label>
+            <p-calendar id="dateDebutPrevue" formControlName="dateDebutPrevue" [showIcon]="true"
+              dateFormat="dd/mm/yy"></p-calendar>
+            <br>
+            <small
+              *ngIf="formationForm.get('dateDebutPrevue')?.invalid && formationForm.get('dateDebutPrevue')?.touched"
+              class="p-error">
+              La date de début est obligatoire.
+            </small>
+          </div>
+
+          <!-- Champ Date de fin -->
+          <div class="p-field">
+            <label for="dateFinPrevue">Date de fin</label>
+            <p-calendar id="dateFinPrevue" formControlName="dateFinPrevue" [showIcon]="true"
+              dateFormat="dd/mm/yy"></p-calendar>
+            <br>
+            <ng-container *ngIf="formationForm.get('dateFinPrevue')?.dirty">
+              <small *ngIf="formationForm.get('dateFinPrevue')?.hasError('required')" class="p-error">
+                La date de fin est obligatoire.
+              </small>
+              <small
+                *ngIf="formationForm.get('dateFinPrevue')?.hasError('dateInvalide') && !formationForm.get('dateFinPrevue')?.hasError('required')"
+                class="p-error">
+                La date de fin doit être après la date de début.
+              </small>
+            </ng-container>
+          </div>
+        </div>
+        <br>
+        <!-- Champ Type de responsable -->
+        <div class="date-container">
+          <div class="p-field">
+            <label for="responsableType">Type de responsable</label>
+            <p-dropdown id="responsableType" formControlName="responsableType" [options]="['INTERNE', 'EXTERNE']"
+              placeholder="Sélectionner un type de responsable" (onChange)="onResponsableTypeChange($event.value)"
+              [showClear]="true" [disabled]="formationForm.get('responsableType')?.disabled ?? false">
+            </p-dropdown>
+            <br>
+            <small
+              *ngIf="formationForm.get('responsableType')?.invalid && formationForm.get('responsableType')?.touched"
+              class="p-error">
+              Le type de responsable est obligatoire.
+            </small>
+            <br>
+
+          </div>
+
+          <!-- Responsable Interne -->
+          <div *ngIf="selectedResponsableType === 'INTERNE'">
+            <div class="p-field">
+              <label for="responsableEvaluationId">Responsable interne</label>
+              <p-dropdown id="responsableEvaluationId" formControlName="responsableEvaluationId"
+                [options]="responsables" optionLabel="nom" optionValue="id" placeholder="Sélectionner un responsable"
+                [showClear]="true" [filter]="true" filterPlaceholder="Rechercher un responsable">
+              </p-dropdown>
+              <br>
+              <small
+                *ngIf="formationForm.get('responsableEvaluationId')?.invalid && formationForm.get('responsableEvaluationId')?.touched"
+                class="p-error">
+                Le responsable interne est obligatoire.
+              </small>
+            </div>
+          </div>
+
+          <!-- Responsable Externe -->
+          <div *ngIf="selectedResponsableType === 'EXTERNE'">
+            <div class="p-field">
+              <label for="responsableEvaluationExterne">Responsable externe</label>
+              <input pInputText id="responsableEvaluationExterne" formControlName="responsableEvaluationExterne"
+                placeholder="Entrez le nom du responsable externe" />
+              <br>
+              <small
+                *ngIf="formationForm.get('responsableEvaluationExterne')?.invalid && formationForm.get('responsableEvaluationExterne')?.touched"
+                class="p-error">
+                Le responsable externe est obligatoire.
+              </small>
+            </div>
+          </div>
+        </div>
+        <br>
+        <!-- Sélection des employés -->
+        <div class="p-field">
+          <label for="selectedCities">Sélectionner des employés</label>
+          <p-multiselect [options]="cities" formControlName="selectedCities" placeholder="Sélectionner des employés"
+            [maxSelectedLabels]="3" [filter]="true" filterPlaceholder="Rechercher un employé" optionLabel="name"
+            optionValue="code">
+          </p-multiselect>
+
+          <div *ngIf="isPolycompetence() && selectedEmployees.length > 0" class="selected-employees">
+            <h4>Employés sélectionnés</h4>
+            <div *ngFor="let employee of selectedEmployees" class="employee-item">
+              <span>{{ employee.name }} - Matricule: {{ employee.matricule }}</span>
+
+              <span *ngIf="!selectedRadio[employee.code] || editingEmployee[employee.code]; else showResult"
+                class="radio-group">
+                <label *ngFor="let option of resultatOptionss">
+                  <input type="radio" [name]="'radio_' + employee.code" [value]="option.value"
+                    (change)="onRadioChange(employee.code, option.value)">
+                  {{ option.label }}
+                </label>
+              </span>
+
+
+
+
+              <ng-template #showResult>
+                <p-tag [severity]="getSeverity(selectedRadio[employee.code])"
+                  [value]="getResultatLabel(selectedRadio[employee.code])">
+                </p-tag>
+                <button type="button" pButton icon="pi pi-pencil" class="p-button-rounded p-button-text"
+                  (click)="editSelection(employee.code)">
+                </button>
+
+              </ng-template>
+
+            </div>
+          </div>
+
+          <br>
+          <small *ngIf="formationForm.get('selectedCities')?.invalid && formationForm.get('selectedCities')?.touched"
+            class="p-error">
+            La sélection des employés est obligatoire.
+          </small>
+        </div>
+
+
+
+
+
+
+        <br>
+
+        <!-- Champ Nombre de parties (visible seulement pour Polyvalence/Intégration) -->
+        <!-- Champ Nombre de parties (visible seulement pour Polyvalence/Intégration ET quand un poste est sélectionné) -->
+
+        <br>
+        <div *ngIf="isPolyOrIntegration() && posteSelectionne" class="parties-container">
+          <div *ngFor="let i of nombrePartiesArray; let idx = index; let last = last" class="partie-wrapper">
+            <div class="partie-content">
+              <!-- Bouton Supprimer -->
+              <button *ngIf="nombrePartiesArray.length > 1" pButton icon="pi pi-times" class="delete-partie-btn"
+                (click)="supprimerPartie(i)"></button>
+
+              <div class="form-grid">
+                <!-- Champ Formateur -->
+                <div class="form-group">
+                  <label for="formateurPartie{{i}}">Formateur partie {{ idx + 1 }}</label>
+                  <span class="p-input-icon-left">
+
+                    <input type="text" pInputText id="formateurPartie{{i}}" formControlName="formateurPartie{{i}}"
+                      placeholder="Nom du formateur" />
+                  </span>
+                  <small class="error-msg"
+                    *ngIf="formationForm.get('formateurPartie' + i)?.invalid && formationForm.get('formateurPartie' + i)?.touched">
+                    Le formateur est requis.
+                  </small>
+                </div>
+
+                <!-- Date Début -->
+                <div class="form-group">
+                  <label for="dateDebutPartie{{i}}">Date début partie {{ idx + 1 }}</label>
+                  <p-calendar id="dateDebutPartie{{i}}" formControlName="dateDebutPartie{{i}}" [showIcon]="true"
+                    dateFormat="dd/mm/yy"></p-calendar>
+                  <small class="error-msg"
+                    *ngIf="formationForm.get('dateDebutPartie' + i)?.invalid && formationForm.get('dateDebutPartie' + i)?.touched">
+                    La date de début est requise.
+                  </small>
+                </div>
+
+                <!-- Date Fin -->
+                <div class="form-group">
+                  <label for="dateFinPartie{{i}}">Date fin partie {{ idx + 1 }}</label>
+                  <p-calendar id="dateFinPartie{{i}}" formControlName="dateFinPartie{{i}}" [showIcon]="true"
+                    dateFormat="dd/mm/yy" [showTime]="false" [monthNavigator]="true" [yearNavigator]="true"
+                    yearRange="2000:2030">
+                  </p-calendar>
+                  <div class="error-container"
+                    *ngIf="formationForm.get('dateFinPartie' + i)?.errors && 
+                        (formationForm.get('dateFinPartie' + i)?.touched || formationForm.get('dateFinPartie' + i)?.dirty)">
+                    <small class="error-msg" *ngIf="formationForm.get('dateFinPartie' + i)?.errors?.['required']">
+                      La date de fin est requise.
+                    </small>
+                    <small class="error-msg" *ngIf="formationForm.get('dateFinPartie' + i)?.errors?.['dateInvalide']">
+                      La date de fin doit être postérieure à la date de début.
+                    </small>
+                    <small class="error-msg"
+                      *ngIf="formationForm.get('dateFinPartie' + i)?.hasError('dateOverlap') && formationForm.get('dateFinPartie' + i)?.touched">
+                      La période se chevauche avec une autre partie.
+                    </small>
+                  </div>
+                  <small class="error-msg" *ngIf="periodeErrors[i]">{{ periodeErrors[i] }}</small>
+                </div>
+
+                <!-- Programme -->
+                <div class="form-group full-width" *ngIf="posteSelectionne?.lesProgrammesDeFormation?.length">
+                  <label>Programme pour partie {{ idx + 1 }}</label>
+                  <p-dropdown [options]="posteSelectionne.lesProgrammesDeFormation"
+                    formControlName="programmePartie{{i}}" placeholder="Sélectionner un programme" [showClear]="true"
+                    [filter]="true" filterPlaceholder="Rechercher un programme">
+                  </p-dropdown>
+                  <small class="error-msg"
+                    *ngIf="formationForm.get('programmePartie' + i)?.invalid && formationForm.get('programmePartie' + i)?.touched">
+                    Le programme est requis.
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bouton Ajouter -->
+          <div class="add-button" *ngIf="peutAjouterPartie()">
+            <button pButton type="button" label="Ajouter une partie" icon="pi pi-plus" class="add-partie-btn"
+              (click)="ajouterPartie()"></button>
+          </div>
+        </div>
+
+        <br>
+
+        <!-- Section PDF -->
+        <!--  <div class="p-field" *ngIf="shouldShowPosteSection()">
+        <h4>Document PDF</h4>
+        <p>Voici le document PDF associé au poste sélectionné :</p>
+        <iframe id="pdfViewer" width="100%" height="400px" style="border: 1px solid #ddd; border-radius: 4px;"></iframe>
+      </div> -->
+      </div>
+      <!-- Boutons -->
+
+    </form>
+    <ng-template pTemplate="footer">
+      <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+        <button pButton label="Annuler" icon="pi pi-times" class="p-button-text" (click)="closeDialog()"
+          severity="danger"></button>
+
+        <button *ngIf="shouldShowEnteteSection() && isPolyOrIntegration()" pButton label="Aperçu" icon="pi pi-eye"
+          class="p-button-text" (click)="showPreview()" severity="info"></button>
+
+        <button pButton label="Enregistrer" icon="pi pi-check" class="p-button-text" (click)="submitFormation()"
+          type="submit" severity="success"></button>
+      </div>
+    </ng-template>
+
+  </p-dialog>
+
+
+
+
+
+  <p-dialog header="Aperçu de la Formation" [(visible)]="previewDialogVisible" [modal]="true"
+    [style]="{ width: '1100px', maxWidth: '90vw' }" [contentStyle]="{ 'max-height': '80vh', 'overflow-y': 'auto' }">
+    <div id="ficheImpression" style="
+          width: 1000px;
+          margin: 20px auto;
+          padding: 20px;
+          border: 2px solid black;
+          box-shadow: 0 0 10px rgba(0,0,0,0.2);
+          font-family: Arial, sans-serif;
+          background-color: white;
+        ">
+
+
+      <h2 style="text-align: center; margin-bottom: 20px;">L'ACCUMULATEUR TUNISIEN ASSAD</h2>
+
+      <table border="1" style="width: 100%; border-collapse: collapse; text-align: center; margin-bottom: 20px;">
+        <tr>
+          <td rowspan="2" style="width: 15%; border: 1px solid black;">
+            <img src="assad.png" alt="Logo" style="width: 80px; height: auto;">
+          </td>
+
+          <td rowspan="2" style="width: 60%; border: 1px solid black;">
+            <table style="width: 100%; border-collapse: collapse; height: 100%;">
+              <tr>
+                <td
+                  style="border: 1px solid black; text-align: center; font-weight: bold; font-size: 16px; padding: 4px;">
+                  FICHE
+                </td>
+              </tr>
+              <tr>
+                <td style="border: 1px solid black; text-align: center; font-size: 18px; padding-top: 10px;">
+                  {{ previewData.entete?.libelle || 'Entête de formation' }}
+                </td>
+              </tr>
+            </table>
+          </td>
+
+          <td style="width: 12.5%; border: 1px solid black;">
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="border: 1px solid black; padding: 4px;">REF.</td>
+              </tr>
+              <tr>
+                <td style="border: 1px solid black; padding: 4px;">REVISION</td>
+              </tr>
+              <tr>
+                <td style="border: 1px solid black; padding: 4px;">DATE APPL.</td>
+              </tr>
+              <tr>
+                <td style="border: 1px solid black; padding: 4px;">PAGE</td>
+              </tr>
+            </table>
+          </td>
+
+          <td style="width: 12.5%; border: 1px solid black;">
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="border: 1px solid black; padding: 4px;">{{ previewData.entete?.reference || 'REF-001' }}</td>
+              </tr>
+              <tr>
+                <td style="border: 1px solid black; padding: 4px;">{{ previewData.entete?.numerorevision || '0' }}</td>
+              </tr>
+              <tr>
+                <td style="border: 1px solid black; padding: 4px;">{{ (previewData.entete?.dateApplication |
+                  date:'dd/MM/yyyy') || '01/01/2023' }}</td>
+              </tr>
+              <tr>
+                <td style="border: 1px solid black; padding: 4px;">1/2</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+
+      <div
+        style="margin: 40px auto; width: 90%; font-family: Arial, sans-serif; font-size: 19px; padding: 20px; border-radius: 8px; text-align: left;">
+        <p><strong>Nom et Prénom : </strong></p>
+        <p><strong>Matricule :</strong></p>
+        <p><strong>Affectation :</strong></p>
+        <p><strong>Poste projeté :</strong>{{ previewData.poste?.titre }} </p>
+        <p><strong>Période de formation :</strong> Du {{ (previewData.dateDebutPrevue | date:'dd/MM/yyyy') }} au {{
+          (previewData.dateFinPrevue | date:'dd/MM/yyyy') }}</p>
+        <p><strong>Responsable de suivi :</strong>{{ previewData.responsable?.nom }} {{ previewData.responsable?.prenom
+          || '' }}</p>
+      </div>
+
+      <div style="display: flex; justify-content: space-around; margin-top: 30px; margin-bottom: 20px;">
+        <div style="text-align: center;">
+          <div style="width: 110px; height: 40px; border: 2px solid black; margin: 0 auto;"></div>
+          <div>Nouvel employé</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="width: 110px; height: 40px; border: 2px solid black; margin: 0 auto;"></div>
+          <div>Polyvalence</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="width: 110px; height: 40px; border: 2px solid black; margin: 0 auto;"></div>
+          <div>Changement de poste</div>
+        </div>
+      </div>
+
+
+      <table class="table table-bordered"
+        style="width: 100%; border-collapse: collapse; border: 1px solid black; margin-top: 20px;">
+        <thead>
+          <tr>
+
+            <th style="border: 1px solid black; padding: 8px;">Axes de formation/Contenu</th>
+            <th style="border: 1px solid black; padding: 8px;">Formateur</th>
+            <th colspan="2" style="text-align: center; border: 1px solid black; padding: 8px;">Période</th>
+            <th style="border: 1px solid black; padding: 8px;">Visa de formateur</th>
+            <th style="border: 1px solid black; padding: 8px;">Évaluation</th>
+          </tr>
+          <tr>
+            <th style="border: 1px solid black; padding: 8px;"></th>
+            <th style="border: 1px solid black; padding: 8px;"></th>
+
+            <th style="border: 1px solid black; text-align: center; padding: 8px;">Prévue</th>
+            <th style="border: 1px solid black; text-align: center; padding: 8px;">Réalisée</th>
+            <th style="border: 1px solid black; padding: 8px;"></th>
+            <th style="border: 1px solid black; padding: 8px;"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let programme of previewData.poste?.lesProgrammesDeFormation; let i = index"
+            style="page-break-inside: avoid;">
+
+
+            <td style="border: 1px solid black; padding: 8px;">
+              {{ previewData.periodes[i]?.programme }}
+            </td>
+
+
+            <td style="border: 1px solid black; padding: 8px;">
+              {{ previewData.periodes[i]?.formateur}}
+            </td>
+
+            <td style="border: 1px solid black; padding: 8px;"> Du {{ (previewData.periodes[i]?.dateDebut |
+              date:'dd/MM/yyyy') }} au {{ (previewData.periodes[i]?.dateFin | date:'dd/MM/yyyy') }}</td>
+            <td style="border: 1px solid black; padding: 8px;"></td>
+            <td style="border: 1px solid black; padding: 8px;"></td>
+            <td style="border: 1px solid black; padding: 8px;"></td>
+          </tr>
+
+          <!-- afficher un message si aucun programme -->
+          <tr
+            *ngIf="!previewData.poste?.lesProgrammesDeFormation || previewData.poste.lesProgrammesDeFormation.length === 0">
+            <td colspan="7" style="border: 1px solid black; padding: 8px; text-align: center;">
+              Aucun programme spécifié
+            </td>
+          </tr>
+
+
+
+
+        </tbody>
+      </table>
+      <div style="margin-top: 20px; font-family: Arial, sans-serif; font-size: 14px;">
+        <p><strong>Commentaire du responsable de suivi :</strong></p>
+        <textarea rows="4"
+          style="width: 100%; padding: 8px; border: 1px solid #ccc; font-family: Arial, sans-serif; font-size: 14px;">
+            ................................................................................................................
+            ................................................................................................................
+            ................................................................................................................
+            </textarea>
+      </div>
+      <table class="table table-bordered" style="margin-top: 20px; border: 1px solid black;">
+        <thead>
+          <tr>
+            <th style="border: 1px solid black;">Resp de suivi (Hiérarchie)</th>
+            <th style="border: 1px solid black;">L’intéressé(e)</th>
+            <th style="border: 1px solid black;">Responsable formation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="text-align: center; height: 90px; border: 1px solid black;"></td>
+            <td style="text-align: center; height: 90px; border: 1px solid black;"></td>
+            <td style="text-align: center; height: 90px; border: 1px solid black;"></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="margin-top: 20px; font-family: Arial, sans-serif; font-size: 14px;">
+        <p style="font-weight: bold; color: #333;">A - Connaissances suffisantes et maîtrisées</p>
+        <p style="font-weight: bold; color: #4CAF50;">B - Connaissances suffisantes</p>
+        <p style="font-weight: bold; color: #FF9800;">C - Connaissances Passables</p>
+        <p style="font-weight: bold; color: #F44336;">D - Connaissances médiocres</p>
+        <p style="font-weight: bold; color: #2196F3;">* Critère d’acceptation : B</p>
+      </div>
+
+      <div
+        style="margin-top: 15px; border: 2px solid #000; padding: 8px; text-align: center; font-size: 12px; background-color: #f9f9f9;">
+        <p><strong>Ce document est notre propriété. La personne à qui il est confié ne peut la reproduire, la copier ou
+            en donner connaissance à quelqu’un d’autre, sans notre autorisation écrite.</strong></p>
+      </div>
+
+    </div>
+
+    <ng-template pTemplate="footer">
+      <button pButton type="button" label="Fermer" (click)="previewDialogVisible = false"
+        class="p-button-text"></button>
+      <button pButton type="button" label="Confirmer" (click)="submitFormation(); previewDialogVisible = false"
+        class="p-button-success"></button>
+    </ng-template>
+  </p-dialog>
+
+  <p-dialog header="Modifier la Formation" [(visible)]="displayModificationDialog" [modal]="true" [closable]="true"
+    [style]="{ width: '900px', height: shouldShowPosteSectionModif() ? '800px' : '600px' }"
+    [contentStyle]="{ 'max-height': '900px', 'overflow-y': 'auto' }" [responsive]="true">
+    <form [formGroup]="modificationForm">
+      <div class="p-fluid">
+        <div class="p-mb-4" *ngIf="modificationForm.get('entete')?.value">
+          <h4>Aperçu de l'entête sélectionnée</h4>
+          <table border="1" class="entete-preview">
+            <tr>
+              <td rowspan="2" class="logo-cell">
+                <img src="assad.png" alt="Logo" class="logo-img">
+              </td>
+
+              <td rowspan="2" class="title-cell">
+                <table class="inner-table">
+                  <tr>
+                    <td class="document-type">FICHE</td>
+                  </tr>
+                  <tr>
+                    <td class="document-title">{{ modificationForm.get('entete')?.value?.libelle || 'Entête de
+                      formation' }}</td>
+                  </tr>
+                </table>
+              </td>
+
+              <td class="label-cell">
+                <table class="inner-table">
+                  <tr>
+                    <td>REF.</td>
+                  </tr>
+                  <tr>
+                    <td>REVISION</td>
+                  </tr>
+                  <tr>
+                    <td>DATE APPL.</td>
+                  </tr>
+                  <tr>
+                    <td>PAGE</td>
+                  </tr>
+                </table>
+              </td>
+
+              <td class="value-cell">
+                <table class="inner-table">
+                  <tr>
+                    <td>{{ modificationForm.get('entete')?.value?.reference || 'REF-001' }}</td>
+                  </tr>
+                  <tr>
+                    <td>{{ modificationForm.get('entete')?.value?.numerorevision || '0' }}</td>
+                  </tr>
+                  <tr>
+                    <td>{{ (modificationForm.get('entete')?.value?.dateApplication | date:'dd/MM/yyyy') || '01/01/2023'
+                      }}</td>
+                  </tr>
+                  <tr>
+                    <td>1/2</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <!-- Champ Titre -->
+        <div class="p-field">
+          <label for="titre">Titre</label>
+          <input pInputText id="titre" formControlName="titre" placeholder="Entrez le titre de la formation" />
+          <br>
+          <small *ngIf="modificationForm.get('titre')?.invalid && modificationForm.get('titre')?.touched"
+            class="p-error">
+            Le titre est obligatoire.
+          </small>
+        </div>
+        <br>
+        <!-- Dans votre p-dialog de modification -->
+        <div class="p-field" *ngIf="shouldShowEnteteSectionModif()">
+          <label for="entete">Entête</label>
+          <p-dropdown [options]="entetes" optionLabel="libelle" formControlName="entete"
+            placeholder="Sélectionnez une entête">
+          </p-dropdown>
+          <br>
+          <small *ngIf="modificationForm.get('entete')?.invalid && modificationForm.get('entete')?.touched"
+            class="p-error">
+            L'entête est obligatoire.
+          </small>
+        </div>
+
+
+        <div *ngIf="isPolyOrIntegrationModif() && modificationForm.get('titrePoste')?.value" class="parties-container">
+          <h4>Périodes de formation</h4>
+
+          <div *ngFor="let periode of periodesModif; let idx = index" class="partie-wrapper">
+            <div class="partie-content">
+              <!-- Bouton Supprimer -->
+              <button *ngIf="periodesModif.length > 1" pButton icon="pi pi-times" class="delete-partie-btn"
+                (click)="supprimerPeriodeModif(idx)"></button>
+
+              <div class="form-grid">
+                <!-- Champ Formateur -->
+                <div class="form-group">
+                  <label [for]="'formateurModif' + idx">Formateur partie {{ idx + 1 }}</label>
+                  <span class="p-input-icon-left">
+
+                    <input type="text" pInputText [id]="'formateurModif' + idx" [(ngModel)]="periode.formateur"
+                      [ngModelOptions]="{standalone: true}" placeholder="Nom du formateur" />
+                  </span>
+                </div>
+
+                <!-- Date Début -->
+                <div class="form-group">
+                  <label [for]="'dateDebutModif' + idx">Date début partie {{ idx + 1 }}</label>
+                  <p-calendar [id]="'dateDebutModif' + idx" [(ngModel)]="periode.dateDebut"
+                    [ngModelOptions]="{standalone: true}" [showIcon]="true" dateFormat="dd/mm/yy"></p-calendar>
+                </div>
+
+                <!-- Date Fin -->
+                <div class="form-group">
+                  <label [for]="'dateFinModif' + idx">Date fin partie {{ idx + 1 }}</label>
+                  <p-calendar [id]="'dateFinModif' + idx" [(ngModel)]="periode.dateFin"
+                    [ngModelOptions]="{standalone: true}" [showIcon]="true" dateFormat="dd/mm/yy" [showTime]="false"
+                    [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030">
+                  </p-calendar>
+                </div>
+
+                <!-- Programme -->
+                <div class="form-group full-width"
+                  *ngIf="modificationForm.get('titrePoste')?.value?.lesProgrammesDeFormation?.length">
+                  <label [for]="'programmeModif' + idx">Programme pour partie {{ idx + 1 }}</label>
+                  <p-dropdown [options]="modificationForm.get('titrePoste')?.value?.lesProgrammesDeFormation"
+                    [(ngModel)]="periode.programme" [ngModelOptions]="{standalone: true}" [id]="'programmeModif' + idx"
+                    placeholder="Sélectionner un programme" [showClear]="true" [filter]="true"
+                    filterPlaceholder="Rechercher un programme">
+                  </p-dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bouton Ajouter -->
+          <div class="add-button" *ngIf="peutAjouterPeriodeModif()">
+            <button pButton type="button" label="Ajouter une partie" icon="pi pi-plus" class="add-partie-btn"
+              (click)="ajouterPeriodeModif()"></button>
+          </div>
+        </div>
+
+
+
+
+
+
+        <!-- Champ Description -->
+        <div class="p-field p-mb-3">
+          <label for="description">Description</label>
+          <textarea pInputTextarea id="description" formControlName="description" rows="5"
+            placeholder="Entrez la description de la formation"></textarea>
+          <br>
+          <small *ngIf="modificationForm.get('description')?.invalid && modificationForm.get('description')?.touched"
+            class="p-error">
+            La description est obligatoire.
+          </small>
+        </div>
+        <br>
+
+        <div class="date-container">
+          <!-- Champ Type de Formation -->
+          <div class="p-field">
+            <label for="typeFormation">Type de Formation</label>
+            <p-dropdown id="typeFormation" formControlName="typeFormation" [options]="typeFormations"
+              placeholder="Sélectionner un type" [showClear]="true" [filter]="true"
+              filterPlaceholder="Rechercher un type"
+              [disabled]="modificationForm.get('typeFormation')?.disabled ?? false"></p-dropdown>
+            <br>
+            <small
+              *ngIf="modificationForm.get('typeFormation')?.invalid && modificationForm.get('typeFormation')?.touched"
+              class="p-error">
+              Le type de formation est obligatoire.
+            </small>
+          </div>
+
+          <!-- Champ Sous-Type de Formation -->
+          <div class="p-field">
+            <label for="sousTypeFormation">Sous-Type de Formation</label>
+            <p-dropdown id="sousTypeFormation" (onChange)="onSousTypeChangeModif($event.value)"
+              formControlName="sousTypeFormation" [options]="getFilteredSousTypes()"
+              placeholder="Sélectionner un sous-type" [showClear]="true" [filter]="true"
+              filterPlaceholder="Rechercher un sous-type"
+              [disabled]="$any(modificationForm.get('sousTypeFormation')).disabled">
+            </p-dropdown>
+            <br>
+            <small
+              *ngIf="modificationForm.get('sousTypeFormation')?.invalid && modificationForm.get('sousTypeFormation')?.touched"
+              class="p-error">
+              Le sous-type de formation est obligatoire.
+            </small>
+          </div>
+        </div>
+        <br>
+
+        <div class="date-container">
+          <!-- Champ Date de début -->
+          <div class="p-field">
+            <label for="dateDebutPrevue">Date de début</label>
+            <p-calendar id="dateDebutPrevue" formControlName="dateDebutPrevue" [showIcon]="true"
+              dateFormat="dd/mm/yy"></p-calendar>
+            <br>
+            <small
+              *ngIf="modificationForm.get('dateDebutPrevue')?.invalid && modificationForm.get('dateDebutPrevue')?.touched"
+              class="p-error">
+              La date de début est obligatoire.
+            </small>
+          </div>
+
+          <!-- Champ Date de fin -->
+          <div class="p-field">
+            <label for="dateFinPrevue">Date de fin</label>
+            <p-calendar id="dateFinPrevue" formControlName="dateFinPrevue" [showIcon]="true"
+              dateFormat="dd/mm/yy"></p-calendar>
+            <br>
+            <ng-container *ngIf="modificationForm.get('dateFinPrevue')?.dirty">
+              <small *ngIf="modificationForm.get('dateFinPrevue')?.hasError('required')" class="p-error">
+                La date de fin est obligatoire.
+              </small>
+              <small
+                *ngIf="modificationForm.get('dateFinPrevue')?.hasError('dateInvalide') && !modificationForm.get('dateFinPrevue')?.hasError('required')"
+                class="p-error">
+                La date de fin doit être après la date de début.
+              </small>
+            </ng-container>
+          </div>
+        </div>
+        <br>
+        <!-- Section Poste et PDF - seulement si ce n'est pas POLYCOMPETENCE -->
+        <div *ngIf="shouldShowPosteSectionModif()">
+          <!-- Champ Poste -->
+          <div class="p-field">
+            <label for="poste">Poste</label>
+            <p-dropdown id="poste" [options]="postes" optionLabel="titre" formControlName="titrePoste"
+              placeholder="Sélectionner un poste" (onChange)="onPosteSelectModification($event)">
+            </p-dropdown>
+            <br>
+            <small *ngIf="modificationForm.get('titrePoste')?.invalid && modificationForm.get('titrePoste')?.touched"
+              class="p-error">
+              Le poste est obligatoire.
+            </small>
+          </div>
+          <br>
+          <!-- Champ Responsable d'évaluation -->
+
+          <br>
+
+          <!-- Section employés pour POLYCOMPETENCE -->
+          <!-- Section employés pour POLYCOMPETENCE -->
+
+
+
+          <!-- Section PDF 
+        <div class="p-field">
+          <h4>Document PDF</h4>
+          <p>Voici le document PDF associé au poste sélectionné :</p>
+          <iframe [src]="pdfUrl" width="100%" height="400px" style="border: 1px solid #ddd; border-radius: 4px;"></iframe>
+        </div>-->
+        </div>
+      </div>
+      <div class="date-container">
+        <div class="p-field">
+          <label for="responsableType">Type de responsable</label>
+          <p-dropdown id="responsableType" formControlName="responsableType" [options]="['INTERNE', 'EXTERNE']"
+            [(ngModel)]="selectedResponsableTypeModif" placeholder="Sélectionner un type de responsable"
+            (onChange)="onResponsableTypeChangeModif($event.value)" [showClear]="true"
+            [disabled]="modificationForm.get('responsableType')?.disabled ?? false">
+          </p-dropdown>
+          <br>
+          <small
+            *ngIf="modificationForm.get('responsableType')?.invalid && modificationForm.get('responsableType')?.touched"
+            class="p-error">
+            Le type de responsable est obligatoire.
+          </small>
+        </div>
+
+        <!-- Responsable Interne -->
+        <div *ngIf="selectedResponsableTypeModif === 'INTERNE'">
+          <div class="p-field">
+            <label for="responsableEvaluationId">Responsable interne</label>
+            <p-dropdown id="responsableEvaluationId" formControlName="responsableEvaluationId" [options]="responsables"
+              optionLabel="nom" optionValue="id" placeholder="Sélectionner un responsable" [showClear]="true"
+              [filter]="true" filterPlaceholder="Rechercher un responsable">
+            </p-dropdown>
+            <br>
+            <small
+              *ngIf="modificationForm.get('responsableEvaluationId')?.invalid && modificationForm.get('responsableEvaluationId')?.touched"
+              class="p-error">
+              Le responsable interne est obligatoire.
+            </small>
+          </div>
+        </div>
+
+        <!-- Responsable Externe -->
+        <div *ngIf="selectedResponsableTypeModif === 'EXTERNE'">
+          <div class="p-field">
+            <label for="responsableEvaluationExterne">Responsable externe</label>
+            <input pInputText id="responsableEvaluationExterne" formControlName="responsableEvaluationExterne"
+              placeholder="Entrez le nom du responsable externe" />
+            <br>
+            <small
+              *ngIf="modificationForm.get('responsableEvaluationExterne')?.invalid && modificationForm.get('responsableEvaluationExterne')?.touched"
+              class="p-error">
+              Le responsable externe est obligatoire.
+            </small>
+          </div>
+        </div>
+      </div>
+      <div class="p-field">
+        <label for="selectedCitiesModif">Participants</label>
+        <p-multiselect [options]="cities" formControlName="selectedCitiesModif" placeholder="Sélectionner des employés"
+          [maxSelectedLabels]="3" [filter]="true" filterPlaceholder="Rechercher un employé" optionLabel="name"
+          optionValue="code" (onChange)="onEmployeSelectionChangeModif($event.value)">
+        </p-multiselect>
+
+        <!-- Liste des employés sélectionnés (tous types) -->
+        <div *ngIf="selectedEmployees.length > 0" class="selected-employees">
+          <h4>Participants sélectionnés ({{selectedEmployees.length}})</h4>
+          <div *ngFor="let employee of selectedEmployees" class="employee-item">
+            <span>{{ employee.name }} - Matricule: {{ employee.matricule }}</span>
+
+            <ng-container *ngIf="isPolycompetenceModif()">
+              <span *ngIf="!selectedRadioModif[employee.id] || editingEmployeeModif[employee.id]; else showResultModif"
+                class="radio-group">
+                <label *ngFor="let option of resultatOptionss">
+                  <input type="radio" [name]="'radio_' + employee.id" [value]="option.value"
+                    [checked]="selectedRadioModif[employee.id] === option.value"
+                    (change)="onRadioChangeModif(employee.id, option.value)">
+                  {{ option.label }}
+                </label>
+              </span>
+
+              <ng-template #showResultModif>
+                <p-tag [severity]="getSeverity(selectedRadioModif[employee.id])"
+                  [value]="getResultatLabel(selectedRadioModif[employee.id])">
+                </p-tag>
+                <button type="button" pButton icon="pi pi-pencil" class="p-button-rounded p-button-text"
+                  (click)="editSelectionModif(employee.id)">
+                </button>
+              </ng-template>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <!-- Boutons -->
+
+    </form>
+    <ng-template pTemplate="footer">
+      <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+        <button pButton label="Annuler" icon="pi pi-times" class="p-button-text" (click)="closeModificationDialog()"
+          severity="danger"></button>
+
+        <button *ngIf="isPolyOrIntegrationModif()" pButton label="Aperçu" icon="pi pi-eye" class="p-button-text"
+          (click)="showPreviewModification()" severity="info">
+        </button>
+
+        <button pButton label="Enregistrer" icon="pi pi-check" class="p-button-text" (click)="submitModificationForm()"
+          type="submit" severity="success"></button>
+      </div>
+    </ng-template>
+    <p-toast></p-toast>
+  </p-dialog>
+  <p-toast position="top-right"></p-toast>
+  <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" [style]="{ width: '450px' }"
+    acceptLabel="Oui" rejectLabel="Non"></p-confirmDialog>
+
+
+
+  <p-dialog header="Créer un Programme Complémentaire" [(visible)]="displayComplementaryProgramDialog" [modal]="true"
+    [style]="{ width: '900px', height: shouldShowPosteSectionComplementary() ? '800px' : '600px' }"
+    [contentStyle]="{ 'max-height': '900px', 'overflow-y': 'auto' }" [responsive]="true">
+    <form [formGroup]="complementaryProgramForm">
+      <div class="p-fluid">
+        <!-- Aperçu de l'entête -->
+        <div class="p-mb-4" *ngIf="complementaryProgramForm.get('enteteId')?.value">
+          <h4>Aperçu de l'entête sélectionnée</h4>
+          <table border="1" class="entete-preview">
+            <tr>
+              <td rowspan="2" class="logo-cell">
+                <img src="assad.png" alt="Logo" class="logo-img">
+              </td>
+              <td rowspan="2" class="title-cell">
+                <table class="inner-table">
+                  <tr>
+                    <td class="document-type">FICHE</td>
+                  </tr>
+                  <tr>
+                    <td class="document-title">{{ selectedEnteteComplementary?.libelle || 'Entête de formation' }}</td>
+                  </tr>
+                </table>
+              </td>
+
+              <td class="label-cell">
+                <table class="inner-table">
+                  <tr>
+                    <td>REF.</td>
+                  </tr>
+                  <tr>
+                    <td>REVISION</td>
+                  </tr>
+                  <tr>
+                    <td>DATE APPL.</td>
+                  </tr>
+                  <tr>
+                    <td>PAGE</td>
+                  </tr>
+                </table>
+              </td>
+
+              <td class="value-cell">
+                <table class="inner-table">
+                  <tr>
+                    <td>{{ selectedEnteteComplementary?.reference || 'REF-001' }}</td>
+                  </tr>
+                  <tr>
+                    <td>{{ selectedEnteteComplementary?.numerorevision || '0' }}</td>
+                  </tr>
+                  <tr>
+                    <td>{{ (selectedEnteteComplementary?.dateApplication | date:'dd/MM/yyyy') || '01/01/2023' }}</td>
+                  </tr>
+                  <tr>
+                    <td>1/2</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- Champ Entête -->
+        <div class="p-field" *ngIf="shouldShowEnteteSectionComplementary()">
+          <label for="enteteComplementary">Entête</label>
+          <p-dropdown [options]="entetes" optionLabel="libelle" formControlName="enteteId"
+            placeholder="Sélectionnez une entête" (onChange)="onEnteteSelectComplementary($event.value)">
+          </p-dropdown>
+        </div>
+        <!-- Champ Titre -->
+        <div class="p-field">
+          <label for="complementaryTitle">Titre</label>
+          <input pInputText id="complementaryTitle" formControlName="titre"
+            placeholder="Entrez le titre du programme complémentaire" readonly />
+        </div>
+
+        <!-- Champ Description -->
+        <div class="p-field">
+          <label for="complementaryDescription">Description</label>
+          <textarea pInputTextarea id="complementaryDescription" formControlName="description" rows="5"
+            placeholder="Entrez la description du programme complémentaire" readonly></textarea>
+        </div>
+
+        <div class="p-grid">
+          <!-- Type de Formation -->
+          <div class="p-field p-col">
+            <label for="complementaryType">Type de Formation</label>
+            <p-dropdown id="complementaryType" formControlName="typeFormation" [options]="typeFormations"
+              placeholder="Sélectionner un type" [disabled]="true"></p-dropdown>
+          </div>
+
+          <!-- Sous-Type de Formation -->
+          <div class="p-field p-col">
+            <label for="complementarySubType">Sous-Type</label>
+            <p-dropdown id="complementarySubType" formControlName="sousTypeFormation" [options]="sousTypeFormations"
+              placeholder="Sélectionner un sous-type" [disabled]="true"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="p-grid">
+          <!-- Date de début -->
+          <div class="p-field p-col">
+            <label for="complementaryStartDate">Date de début</label>
+            <p-calendar id="complementaryStartDate" formControlName="dateDebutPrevue" [showIcon]="true"
+              dateFormat="dd/mm/yy" [readonlyInput]="true" [disabled]="true"></p-calendar>
+          </div>
+
+          <!-- Date de fin (seul champ modifiable) -->
+          <div class="p-field p-col">
+            <label for="complementaryEndDate">Date de fin</label>
+            <p-calendar id="complementaryEndDate" formControlName="dateFinPrevue" [showIcon]="true"
+              dateFormat="dd/mm/yy"></p-calendar>
+          </div>
+        </div>
+        <div class="date-container">
+          <div class="p-field">
+            <label for="responsableType">Type de responsable</label>
+            <p-dropdown id="responsableType" formControlName="responsableType" [options]="['INTERNE']"
+              placeholder="Responsable interne" [disabled]="true">
+            </p-dropdown>
+          </div>
+
+          <!-- Responsable Interne -->
+          <div class="p-field">
+            <label for="responsableEvaluationId">Responsable interne</label>
+            <p-dropdown id="responsableEvaluationId" formControlName="responsableEvaluationId" [options]="responsables"
+              optionLabel="nom" optionValue="id" placeholder="Sélectionner un responsable" [disabled]="true">
+            </p-dropdown>
+          </div>
+        </div>
+        <br>
+        <!-- Participant (affiché en lecture seule) -->
+        <div class="p-field">
+          <label>Participant</label>
+          <div class="p-inputtext" *ngIf="selectedEmployeeForComplementary">
+            {{ selectedEmployeeForComplementary.nom }} {{ selectedEmployeeForComplementary.prenom }}
+            ({{ selectedEmployeeForComplementary.matricule }})
+          </div>
+        </div>
+
+        <!-- Section Poste et PDF -->
+        <div *ngIf="shouldShowPosteSectionComplementary()">
+          <!-- Champ Poste -->
+          <div class="p-field">
+            <label for="complementaryPoste">Poste</label>
+            <p-dropdown id="complementaryPoste" [options]="postes" optionLabel="titre"
+              (onChange)="onPosteSelectcomp($event)" placeholder="Sélectionner un poste" formControlName="titrePoste">
+            </p-dropdown>
+          </div>
+
+          <div *ngIf="isPolyOrIntegrationComplementary() && complementaryProgramForm.get('titrePoste')?.value"
+            class="p-field" style="margin-top: 1rem;">
+            <h4>Périodes de formation</h4>
+
+            <div *ngFor="let periode of periodesComplementary; let idx = index; let last = last"
+              class="p-grid p-formgrid p-fluid"
+              style="position: relative; margin-bottom: 1rem; border: 1px solid #ddd; padding: 1rem; border-radius: 4px;">
+
+              <!-- Bouton Supprimer (sauf pour la première partie) -->
+              <button *ngIf="periodesComplementary.length > 1" pButton icon="pi pi-times"
+                class="p-button-rounded p-button-danger p-button-text"
+                style="position: absolute; right: 0; top: 0; z-index: 1;"
+                (click)="supprimerPeriodeComplementary(idx)"></button>
+
+              <div class="p-col-12">
+                <h5>Période {{ idx + 1 }}</h5>
+              </div>
+
+              <!-- Champ Formateur -->
+              <div class="p-col-12 p-md-4">
+                <label [for]="'formateurComplementary' + idx">Formateur</label>
+                <input type="text" pInputText [id]="'formateurComplementary' + idx" [(ngModel)]="periode.formateur"
+                  [ngModelOptions]="{standalone: true}" placeholder="Nom du formateur" />
+              </div>
+
+              <!-- Champ Date début -->
+              <div class="p-col-12 p-md-4">
+                <label [for]="'dateDebutComplementary' + idx">Date début</label>
+                <p-calendar [id]="'dateDebutComplementary' + idx" [(ngModel)]="periode.dateDebut"
+                  [ngModelOptions]="{standalone: true}" [showIcon]="true" dateFormat="dd/mm/yy"></p-calendar>
+              </div>
+
+              <!-- Champ Date fin -->
+              <div class="p-col-12 p-md-4">
+                <label [for]="'dateFinComplementary' + idx">Date fin</label>
+                <p-calendar [id]="'dateFinComplementary' + idx" [(ngModel)]="periode.dateFin"
+                  [ngModelOptions]="{standalone: true}" [showIcon]="true" dateFormat="dd/mm/yy"></p-calendar>
+              </div>
+
+              <!-- Section Programmes de Formation -->
+              <div class="p-col-12"
+                *ngIf="complementaryProgramForm.get('titrePoste')?.value?.lesProgrammesDeFormation?.length">
+                <label [for]="'programmeComplementary' + idx">Programme</label>
+                <p-dropdown [options]="complementaryProgramForm.get('titrePoste')?.value?.lesProgrammesDeFormation"
+                  [(ngModel)]="periode.programme" [ngModelOptions]="{standalone: true}"
+                  [id]="'programmeComplementary' + idx" placeholder="Sélectionner un programme" [showClear]="true"
+                  [filter]="true" filterPlaceholder="Rechercher un programme">
+                </p-dropdown>
+              </div>
+            </div>
+
+            <!-- Bouton Ajouter une période -->
+            <div class="p-field" *ngIf="peutAjouterPeriodeComplementary()">
+              <button pButton type="button" label="Ajouter une partie" icon="pi pi-plus" class="p-button-secondary"
+                (click)="ajouterPeriodeComplementary()"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </form>
+    <ng-template pTemplate="footer">
+      <button pButton label="Annuler" icon="pi pi-times" (click)="closeComplementaryDialog()"
+        class="p-button-danger"></button>
+      <button pButton label="Créer" icon="pi pi-check" (click)="submitComplementaryProgram()"
+        class="p-button-success"></button>
+    </ng-template>
+  </p-dialog>
+
+
+
+ 
+  <!-- Dialogue pour gérer les entêtes -->
+  <p-dialog header="Gestion des Entêtes" [(visible)]="displayEnteteDialog" [modal]="true"
+    [style]="{ width: '950px', 'max-height': '90vh' }" [draggable]="false" [resizable]="false"
+    styleClass="custom-dialog">
+    <div class="dialog-content p-fluid">
+      <!-- Liste des entêtes existantes -->
+      <div class="p-mb-5">
+        <h4 class="section-title">Liste des entêtes existantes</h4>
+        <p-table [value]="entetes" [paginator]="true" [rows]="5" [responsive]="true"
+          styleClass="p-datatable-striped p-datatable-gridlines">
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 25%">Libellé</th>
+              <th style="width: 20%">Référence</th>
+              <th style="width: 15%">Révision</th>
+              <th style="width: 20%">Date d'application</th>
+              <th style="width: 20%">Modifier</th>
+              <th style="width: 20%">Supprimer</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-entete>
+            <tr>
+              <td>{{entete.libelle}}</td>
+              <td>{{entete.reference}}</td>
+              <td>{{entete.numerorevision}}</td>
+              <td>{{entete.dateApplication | date:'dd/MM/yyyy'}}</td>
+              <td>
+                <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-text  p-mr-2"
+                  (click)="editEntete(entete)"></button>
+
+              </td>
+              <td> <button pButton icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger"
+                  (click)="confirmDeleteEntete(entete)"></button></td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+
+      <!-- Formulaire pour ajouter/modifier une entête -->
+      <div class="p-card p-fluid form-card">
+        <div class="p-card-header form-header">
+          <h4>{{editingEntete ? 'Modifier une entête' : 'Ajouter une nouvelle entête'}}</h4>
+        </div>
+        <div class="p-card-body">
+          <div class="p-grid p-fluid">
+            <div class="p-field p-col-12 p-md-6">
+              <label for="libelle">Libellé *</label>
+              <input pInputText id="libelle" [(ngModel)]="newEntete.libelle" placeholder="Libellé de l'entête" required
+                class="p-inputtext-sm" style="width: 100%" />
+            </div>
+
+            <div class="p-field p-col-12 p-md-6">
+              <label for="reference">Référence</label>
+              <input pInputText id="reference" [(ngModel)]="newEntete.reference" placeholder="Référence"
+                class="p-inputtext-sm" style="width: 100%" />
+            </div>
+
+            <div class="p-field p-col-12 p-md-6">
+              <label for="numerorevision">Numéro de révision</label>
+              <input type="number" pInputText id="numerorevision" [(ngModel)]="newEntete.numerorevision"
+                placeholder="Numéro de révision" class="p-inputtext-sm" style="width: 100%" />
+            </div>
+
+            <div class="p-field p-col-12 p-md-6">
+              <label for="dateApplication">Date d'application</label>
+              <p-calendar [(ngModel)]="newEntete.dateApplication" dateFormat="dd/mm/yy" [showIcon]="true"
+                [readonlyInput]="true" inputId="dateApplication" styleClass="p-calendar-sm"
+                [style]="{width: '100%'}"></p-calendar>
+            </div>
+          </div>
+
+          <div class="p-d-flex p-jc-end p-mt-3">
+            <button pButton [label]="editingEntete ? 'Modifier' : 'Ajouter'"
+              [icon]="editingEntete ? 'pi pi-check' : 'pi pi-plus'" (click)="saveEntete()" class="p-button-primary"
+              style="min-width: 120px;">
+            </button>
+            <button *ngIf="editingEntete" pButton label="Annuler" icon="pi pi-times" (click)="cancelEdit()"
+              class="p-button-text p-button-plain p-ml-2" style="min-width: 120px;">
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Preview Section -->
+      <div class="p-mt-5">
+        <h4 class="section-title">Aperçu de l'entête</h4>
+        <div class="preview-container">
+          <table border="1" style="width: 100%; border-collapse: collapse; text-align: center; margin-bottom: 20px;">
+            <tr>
+              <td rowspan="2" style="width: 15%; border: 1px solid black;">
+                <img src="assad.png" alt="Logo" style="width: 80px; height: auto;">
+              </td>
+
+              <td rowspan="2" style="width: 60%; border: 1px solid black;">
+                <table style="width: 100%; border-collapse: collapse; height: 100%;">
+                  <tr>
+                    <td
+                      style="border: 1px solid black; text-align: center; font-weight: bold; font-size: 16px; padding: 4px;">
+                      FICHE
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="border: 1px solid black; text-align: center; font-size: 18px; padding-top: 10px;">
+                      {{ newEntete.libelle || 'Entête de formation' }}
+                    </td>
+                  </tr>
+                </table>
+              </td>
+
+              <td style="width: 12.5%; border: 1px solid black;">
+                <table style="width: 100%; border-collapse: collapse;">
+                  <tr>
+                    <td style="border: 1px solid black; padding: 4px;">REF.</td>
+                  </tr>
+                  <tr>
+                    <td style="border: 1px solid black; padding: 4px;">REVISION</td>
+                  </tr>
+                  <tr>
+                    <td style="border: 1px solid black; padding: 4px;">DATE APPL.</td>
+                  </tr>
+                  <tr>
+                    <td style="border: 1px solid black; padding: 4px;">PAGE</td>
+                  </tr>
+                </table>
+              </td>
+
+              <td style="width: 12.5%; border: 1px solid black;">
+                <table style="width: 100%; border-collapse: collapse;">
+                  <tr>
+                    <td style="border: 1px solid black; padding: 4px;">{{ newEntete.reference || 'REF-001' }}</td>
+                  </tr>
+                  <tr>
+                    <td style="border: 1px solid black; padding: 4px;">{{ newEntete.numerorevision || '0' }}</td>
+                  </tr>
+                  <tr>
+                    <td style="border: 1px solid black; padding: 4px;">
+                      {{ (newEntete.dateApplication | date:'dd/MM/yyyy') || '01/01/2023' }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="border: 1px solid black; padding: 4px;">1/2</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+      <button pButton label="Fermer" (click)="closeEnteteDialog()" class="p-button-text p-button-plain"></button>
+    </ng-template>
+  </p-dialog>
+
+</body>
+
+</html>

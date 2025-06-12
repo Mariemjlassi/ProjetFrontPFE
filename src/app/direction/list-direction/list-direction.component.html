@@ -1,0 +1,179 @@
+
+    <!-- Header Section -->
+    
+
+    <!-- Card Container -->
+    <div class="card">
+        <div class="professional-container">
+        <div class="card-content">
+            <h1>Gestion des Directions Organisationnelles</h1>
+        
+        <div class="p-card-body">
+            <!-- Toolbar with modern design -->
+            <div class="toolbar">
+                
+                <form class="form">
+                    <button>
+                        <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="search">
+                            <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                    </button>
+                    <input class="input" 
+                           placeholder="Rechercher une direction..." 
+                           required 
+                           type="text"
+                           [(ngModel)]="searchText"
+                           (input)="dt.filterGlobal(searchText, 'contains')"
+                           name="search">
+                    
+                </form>
+                
+                <div class="action-buttons">
+                    <button pButton icon="pi pi-plus" label="Nouvelle Direction" 
+                            class="p-button-secondary add-button" 
+                            (click)="showAddDirectionDialog()"></button>
+                    <button pButton icon="pi pi-file-excel" label="Exporter" 
+                            class="p-button-raised p-button-contrast export-button" 
+                            (click)="exportDirections()"><span *ngIf="selectedDirections.length > 0" class="selection-count">
+                            ({{selectedDirections.length}})
+                        </span></button>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <!-- Enhanced Table inside Card -->
+            <div class="table-container mt-4">
+                <p-table #dt [value]="directions" selectionMode="multiple" [(selection)]="selectedDirections"
+                    [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20, 50]"
+                    [globalFilterFields]="['id', 'nom_direction']"
+                    styleClass="modern-table p-datatable-gridlines" [tableStyle]="{ 'min-width': '100%' }">
+
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width: 1%">Référence</th>
+                            <th style="width: 30%">Direction</th>
+                            <th style="width: 20%">Sites Rattachés</th>
+                            <th style="width: 10%">Options</th>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-direction>
+                        
+                        <tr [pSelectableRow]="direction">
+                            <td>
+                                <span class="id-badge">DIR-{{ direction.id }}</span>
+                            </td>
+                            <td>
+                                <span class="poste-title">{{ direction.nom_direction }}</span>
+                            </td>
+                            <td>
+                                <div class="sites-chips">
+                                  <ul *ngIf="direction.sites && direction.sites.length > 0; else noSites">
+                                    <li *ngFor="let site of direction.sites">
+                                      {{ site.nom_site }}
+                                    </li>
+                                  </ul>
+                                  <ng-template #noSites>
+                                    <span class="no-sites">Aucun site rattaché</span>
+                                  </ng-template>
+                                </div>
+                              </td>
+                            <td>
+                                <div class="action-icons">
+                                    <button pButton icon="pi pi-pencil" 
+                                            class="p-button-rounded p-button-text p-button-primary edit-button" 
+                                            (click)="openEditDialog(direction)" pTooltip="Modifier">
+                                    </button>
+                                    <button pButton icon="pi pi-trash" 
+                                            class="p-button-rounded p-button-text p-button-danger delete-button" 
+                                            (click)="confirmArchive(direction)"  pTooltip="Archiver">
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="4">
+                                <div class="empty-message">
+                                    <i class="pi pi-info-circle"></i>
+                                    Aucune direction trouvée
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Dialog for Edit Direction -->
+<p-dialog header="Modifier la Direction" [(visible)]="visible" [modal]="true"
+          [draggable]="false" [resizable]="false" [closable]="false"
+          [position]="'center'" [style]="{ width: '600px' }"
+          [contentStyle]="{ 'max-height': '500px', 'overflow-y': 'auto', 'padding': '1.5rem' }">
+  
+    <div class="dialog-form-container">
+        <span class="dialog-description">Modifier les informations de la direction.</span>
+
+        <div class="dialog-form-row">
+            <label class="dialog-label">Nom</label>
+            <input pInputText [(ngModel)]="selectedDirection.nom_direction" class="dialog-input">
+        </div>
+
+        <div class="dialog-form-row">
+            <label class="dialog-label">Sites</label>
+            <p-multiselect [options]="sites" optionLabel="nom_site" [(ngModel)]="selectedSites"
+                          [filter]="true" display="chip" class="dialog-multiselect" [maxSelectedLabels]="2">
+            </p-multiselect>
+        </div>
+
+        <div class="dialog-actions">
+            <button pButton label="Annuler" icon="pi pi-times" 
+                    (click)="visible = false" class="p-button-text"></button>
+            <button pButton label="Modifier" icon="pi pi-check" 
+                    (click)="updateDirection()" class="p-button-text"></button>
+        </div>
+    </div>
+</p-dialog>
+<!-- Dialog for Add Direction -->
+<p-dialog header="Ajouter une Direction" [(visible)]="showDialog" [modal]="true"
+          [draggable]="false" [resizable]="false" [closable]="false"
+          [position]="'center'" [style]="{ width: '600px' }"
+          [contentStyle]="{ 'height': '500px', 'overflow-y': 'auto', 'padding': '1.5rem' }">
+    <form [formGroup]="form">
+    <div class="dialog-form-container">
+<div class="p-field">
+  <label for="nom_direction">Nom de la direction</label>
+  <input
+    id="nom_direction"
+    type="text"
+    pInputText
+    formControlName="nom_direction"
+    [ngClass]="{'ng-invalid ng-dirty': form.controls['nom_direction'].invalid && form.controls['nom_direction'].touched}"
+  />
+
+
+
+</div>
+
+
+        <div class="dialog-form-row">
+            <label class="dialog-label">Sites</label>
+            <p-multiselect [options]="sites" optionLabel="nom_site"
+                          [filter]="true" display="chip" formControlName="siteIds" class="dialog-multiselect" [maxSelectedLabels]="2">
+            </p-multiselect>
+        </div>
+
+        <div class="dialog-actions">
+            <button pButton label="Annuler" icon="pi pi-times" 
+                    (click)="showDialog = false" class="p-button-text p-button-danger"></button>
+            <button pButton label="Ajouter" icon="pi pi-check" 
+                    (click)="addDirection()" class="p-button-text p-button-secondary"></button>
+        </div>
+    </div>
+    </form>
+</p-dialog>
+<p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>

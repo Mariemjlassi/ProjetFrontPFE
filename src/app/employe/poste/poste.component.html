@@ -1,0 +1,404 @@
+<div class="poste-management-container">
+  <!-- Toolbar amélioré -->
+  <p-toolbar class="management-toolbar" >
+    <ng-template #start>
+      <h2 class="toolbar-title">Gestion des Postes</h2>
+    </ng-template>
+
+    <ng-template #end>
+      <div class="action-buttons">
+        <p-button 
+          label="Nouveau Poste" 
+          icon="pi pi-plus" 
+          styleClass="p-button-text" 
+          severity="info"
+          (onClick)="openNew()" 
+          [rounded]="true" />
+        
+        
+          
+        
+      </div>
+    </ng-template>
+  </p-toolbar>
+
+  <!-- Tableau amélioré -->
+  <div class="card table-card">
+    <p-table
+      #dt
+      [value]="postesemploye"
+      [rows]="10"
+      [columns]="cols"
+      [paginator]="true"
+      [globalFilterFields]="['posteId', 'dateDebut', 'dateFin']"
+      [(selection)]="selectedPostes"
+      [rowHover]="true"
+      dataKey="posteId"
+      currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} entrées"
+      [showCurrentPageReport]="true"
+      [rowsPerPageOptions]="[5,10,25]"
+      styleClass="p-datatable-striped p-datatable-gridlines"
+    >
+    
+      <ng-template #header>
+        <div class="table-header">
+          <div class="search-container">
+            <span class="p-input-icon-left">
+              
+            </span>
+          </div>
+        </div>
+      </ng-template>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Titre</th>
+      <th>Direction</th>
+      <th>Site</th>
+      <th>Date début</th>
+      <th>Date fin</th>
+      <th>Statut</th>
+      <th>Actions</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-poste>
+    <tr>
+      <td>
+        <div class="poste-title">
+          <i class="pi pi-briefcase"></i>
+          <span>{{ poste.titre }}</span>
+        </div>
+      </td>
+      <td>
+        <div class="poste-info">
+          <i class="pi pi-building"></i>
+          <span>{{ poste.nomDirection }}</span>
+        </div>
+      </td>
+      <td>
+        <div class="poste-info">
+          <i class="pi pi-map-marker"></i>
+          <span>{{ poste.nomSite }}</span>
+        </div>
+      </td>
+      <td>
+        <div class="date-cell">
+          <i class="pi pi-calendar"></i>
+          <span>{{ poste.dateDebut | date:'dd/MM/yyyy' }}</span>
+        </div>
+      </td>
+      <td>
+        <div class="date-cell">
+          <span>{{ poste.dateFin ? (poste.dateFin | date:'dd/MM/yyyy') : '--' }}</span>
+        </div>
+      </td>
+      <td>
+        <p-tag 
+          [value]="getPosteStatus(poste)" 
+          [severity]="getBadgeSeverity(poste)" 
+          icon="{{ getStatusIcon(poste) }}"
+          class="status-tag">
+        </p-tag>
+      </td>
+      <td>
+        <div class="action-buttons">
+          <button 
+            pButton 
+            pRipple 
+            type="button" 
+            icon="pi pi-pencil" 
+            class="p-button-rounded p-button-text p-button-plain"
+            (click)="openupdate(poste)"
+            pTooltip="Modifier" 
+            tooltipPosition="top"></button>
+          
+          <button 
+            pButton 
+            pRipple 
+            type="button" 
+            icon="pi pi-trash" 
+            class="p-button-rounded p-button-text p-button-danger"
+            (click)="deletePoste(poste)"
+            pTooltip="Supprimer" 
+            tooltipPosition="top"></button>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+      <ng-template #emptymessage>
+        <tr>
+          <td colspan="8" class="empty-message">
+            <div class="empty-content">
+              <i class="pi pi-inbox" style="font-size: 2rem"></i>
+              <p>Aucun poste trouvé</p>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    
+  </div>
+
+  <!-- Dialog pour nouveau poste -->
+  <p-dialog 
+    header="Ajouter un nouveau poste" 
+    [(visible)]="posteDialog" 
+    [modal]="true" 
+    [style]="{width: '600px'}"
+    [draggable]="false" 
+    [resizable]="false">
+    
+    <div class="dialog-content">
+      <div class="p-fluid grid">
+        <div class="field col-12">
+          <label for="poste">Poste *</label>
+          <p-dropdown 
+            [options]="postes" 
+            [(ngModel)]="selectedPoste" 
+            optionLabel="titre" 
+            placeholder="Sélectionner un poste"
+            [showClear]="true"
+            (onChange)="onPosteSelect($event)"
+            [filter]="true"
+            filterPlaceholder="Rechercher...">
+            <ng-template let-poste pTemplate="item">
+              <div class="poste-option">
+                <i class="pi pi-briefcase"></i>
+                <span>{{ poste.titre }}</span>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+
+        <div class="field col-12">
+          <label for="direction">Direction *</label>
+          <p-dropdown 
+            [options]="directions" 
+            [(ngModel)]="selectedDirection" 
+            optionLabel="nom_direction" 
+            placeholder="Sélectionner une direction"
+            [showClear]="true"
+            (onChange)="onDirectionSelect($event)"
+            [disabled]="!selectedPoste"
+            [filter]="true"
+            filterPlaceholder="Rechercher...">
+            <ng-template let-direction pTemplate="item">
+              <div class="direction-option">
+                <i class="pi pi-building"></i>
+                <span>{{ direction.nom_direction }}</span>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+
+        <div class="field col-12">
+          <label for="site">Site *</label>
+          <p-dropdown 
+            [options]="sites" 
+            [(ngModel)]="selectedSite" 
+            optionLabel="nom_site" 
+            placeholder="Sélectionner un site"
+            [showClear]="true"
+            [disabled]="!selectedDirection"
+            [filter]="true"
+            filterPlaceholder="Rechercher...">
+            <ng-template let-site pTemplate="item">
+              <div class="site-option">
+                <i class="pi pi-map-marker"></i>
+                <span>{{ site.nom_site }}</span>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+
+        <div class="field col-12 md:col-6">
+          <label for="dateDebut">Date de début *</label>
+          <p-calendar 
+            [(ngModel)]="poste.dateDebut" 
+            id="dateDebut" 
+            [showIcon]="true" 
+            icon="pi pi-calendar"
+            dateFormat="dd/mm/yy"
+            [showButtonBar]="true"
+            [required]="true">
+          </p-calendar>
+        </div>
+
+        <div class="field col-12 md:col-6">
+          <label for="dateFin">Date de fin</label>
+          <p-calendar 
+            [(ngModel)]="poste.dateFin" 
+            id="dateFin" 
+            [showIcon]="true" 
+            icon="pi pi-calendar"
+            dateFormat="dd/mm/yy"
+            [showButtonBar]="true">
+          </p-calendar>
+        </div>
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message p-mt-3">
+        <p-message severity="error" [text]="errorMessage"></p-message>
+      </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+      <button 
+        pButton 
+        pRipple 
+        type="button" 
+        label="Annuler" 
+        icon="pi pi-times" 
+        class="p-button-text"
+        severity="danger"
+        (click)="hideDialog()"></button>
+      <button 
+        pButton 
+        pRipple 
+        type="button" 
+        label="Enregistrer" 
+        icon="pi pi-check" 
+        class="p-button-text"
+        severity="contrast"
+        (click)="savePoste()"
+        [disabled]="!isFormValid()"></button>
+    </ng-template>
+  </p-dialog>
+<!-- Ajoutez ceci dans app.component.html -->
+<p-confirmDialog 
+  [style]="{width: '500px'}" 
+  header="Confirmation" 
+  icon="pi pi-exclamation-triangle"
+  acceptLabel="Oui" 
+  rejectLabel="Non"
+  acceptButtonStyleClass="p-button-danger"
+  rejectButtonStyleClass="p-button-text">
+</p-confirmDialog>
+  <!-- Dialog pour modification -->
+  <p-dialog 
+    header="Modifier le poste" 
+    [(visible)]="updateDialog" 
+    [modal]="true" 
+    [style]="{width: '600px'}"
+    [draggable]="false" 
+    [resizable]="false">
+    
+    <div class="dialog-content">
+      <div class="p-fluid grid">
+        <div class="field col-12">
+          <label for="titre">Poste *</label>
+          <p-dropdown 
+            [options]="postes" 
+            [(ngModel)]="selectedPoste" 
+            optionLabel="titre" 
+            placeholder="Sélectionner un poste"
+            [showClear]="true"
+            (onChange)="onPosteSelect($event)"
+            [filter]="true"
+            filterPlaceholder="Rechercher...">
+            <ng-template let-poste pTemplate="item">
+              <div class="poste-option">
+                <i class="pi pi-briefcase"></i>
+                <span>{{ poste.titre }}</span>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+
+        <div class="field col-12">
+          <label for="nomDirection">Direction *</label>
+          <p-dropdown 
+            [options]="directions" 
+            [(ngModel)]="selectedDirection" 
+            optionLabel="nom_direction" 
+            placeholder="Sélectionner une direction"
+            [showClear]="true"
+            (onChange)="onDirectionSelect($event)"
+            [filter]="true"
+            filterPlaceholder="Rechercher...">
+            <ng-template let-direction pTemplate="item">
+              <div class="direction-option">
+                <i class="pi pi-building"></i>
+                <span>{{ direction.nom_direction }}</span>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+
+        <div class="field col-12">
+          <label for="nomSite">Site *</label>
+          <p-dropdown 
+            [options]="sites" 
+            [(ngModel)]="selectedSite" 
+            optionLabel="nom_site" 
+            placeholder="Sélectionner un site"
+            [showClear]="true"
+            [filter]="true"
+            filterPlaceholder="Rechercher...">
+            <ng-template let-site pTemplate="item">
+              <div class="site-option">
+                <i class="pi pi-map-marker"></i>
+                <span>{{ site.nom_site }}</span>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+
+        <div class="field col-12 md:col-6">
+          <label for="dateDebut">Date de début *</label>
+          <p-calendar 
+            [(ngModel)]="selectedPosteDetails.dateDebut" 
+            id="dateDebut" 
+            [showIcon]="true" 
+            icon="pi pi-calendar"
+            dateFormat="dd/mm/yy"
+            [showButtonBar]="true"
+            [required]="true">
+          </p-calendar>
+        </div>
+
+        <div class="field col-12 md:col-6">
+          <label for="dateFin">Date de fin</label>
+          <p-calendar 
+            [(ngModel)]="selectedPosteDetails.dateFin" 
+            id="dateFin" 
+            [showIcon]="true" 
+            icon="pi pi-calendar"
+            dateFormat="dd/mm/yy"
+            [showButtonBar]="true">
+          </p-calendar>
+        </div>
+      </div>
+
+      <div *ngIf="errorMessageUpdate" class="error-message p-mt-3">
+        <p-message severity="error" [text]="errorMessageUpdate"></p-message>
+      </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+      <button 
+        pButton 
+        pRipple 
+        type="button" 
+        label="Annuler" 
+        icon="pi pi-times" 
+        class="p-button-text"
+        severity="danger"
+        (click)="hideDialogUpdate()"></button>
+        <button 
+        pButton 
+        pRipple 
+        type="button" 
+        label="Mettre à jour" 
+        icon="pi pi-check" 
+        class="p-button-text"
+        severity="contrast"
+        (click)="modifierPoste()"
+        [disabled]="!isUpdateFormValid()"
+        >
+    </button>
+    </ng-template>
+  </p-dialog>
+</div>
